@@ -1,6 +1,7 @@
 import posthog from 'posthog-js'
 
 const enabled = Boolean(__POSTHOG_KEY__ && __POSTHOG_HOST__)
+const feedbackSurveyId = '01a1d173-8f97-0000-50e6-7169f2bdd37f'
 const safely = (fn) => {
   if (!enabled) return
   try { return fn() } catch { /* Telemetry must never interrupt the app. */ }
@@ -17,6 +18,28 @@ const telemetry = {
     if (user?.id) safely(() => posthog.identify(user.id, { email: user.email || undefined, app: 'acme-notes' }))
   },
   reset() { safely(() => posthog.reset()) },
+  openFeedback() {
+    if (!enabled) return Promise.resolve(false)
+    return new Promise((resolve) => {
+      let finished = false
+      const finish = (opened) => { finished = true; clearTimeout(timeout); resolve(opened) }
+      const timeout = setTimeout(() => finish(false), 8000)
+      try {
+        // Fetch before opening: survey initialization can lag behind sign-in.
+        posthog.getSurveys((surveys) => {
+          if (finished) return
+          if (!surveys.some((survey) => survey.id === feedbackSurveyId)) return finish(false)
+          try {
+            // A deliberate click should reopen support even after a prior dismissal.
+            posthog.displaySurvey(feedbackSurveyId, { displayType: 'popover', ignoreConditions: true, ignoreDelay: true })
+            finish(true)
+          } catch { finish(false) }
+        }, true)
+      } catch {
+        finish(false)
+      }
+    })
+  },
   isEnabled(key) { return safely(() => posthog.isFeatureEnabled(key)) === true },
   error(error, properties = {}) {
     safely(() => {

@@ -292,6 +292,7 @@
               <h1 id="title">${esc(note.title)}</h1>
               <button class="btn" id="theme-toggle" aria-label="Toggle theme">${state.theme === 'dark' ? 'Light mode' : 'Dark mode'}</button>
               <button class="btn" id="share-open">Share</button>
+              <button class="btn" id="feedback-open">Feedback</button>
               <button class="btn" id="menu" aria-label="Note menu">&#8943;</button>
             </header>
             ${state.menu ? `<div class="menu" id="menu-list"><button id="pin">${pinned ? 'Unpin' : 'Pin'}</button><button id="export">Export</button><button id="delete">Delete</button></div>` : ''}
@@ -313,6 +314,14 @@
           </main>
         </div>`
         const search = document.getElementById('search')
+        document.getElementById('feedback-open').addEventListener('click', async (event) => {
+          const button = event.currentTarget
+          button.disabled = true; button.textContent = 'Opening…'
+          track('feedback_opened')
+          const opened = await window.acmeTelemetry?.openFeedback()
+          button.disabled = false; button.textContent = 'Feedback'
+          if (!opened) { state.toast = 'Feedback could not load. Please refresh and try again.'; render() }
+        })
         document.getElementById('note-editor')?.addEventListener('submit', (e) => { e.preventDefault(); saveEditing() })
         document.getElementById('edit-title')?.addEventListener('input', (e) => { state.editor.title = e.target.value })
         document.getElementById('edit-content')?.addEventListener('input', (e) => { state.editor.content = e.target.value })

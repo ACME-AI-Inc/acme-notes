@@ -39,7 +39,7 @@ code, one reviews releases, and one looks after customers. I'll be the customer.
 
 1. In Meeting notes, double-click the text two or three times. Look for Edit.
    Say: “I made a note, but now I can't change it.”
-2. Click the right-side **Feedback** tab, select **I need help**, then **Next**.
+2. Click **Feedback** beside **Share** in the top bar, select **I need help**, then **Next**.
    Enter **“I can't edit my notes. There's no Edit button. Can you add one?”**
    and **Send feedback**. Complete both questions; the first answer alone is not a case.
 3. Show Scout receiving the webhook and correlating the response with the UUID,
