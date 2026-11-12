@@ -61,6 +61,26 @@
       .doc h2 { margin: 0 0 14px; font-size: 28px; letter-spacing: -0.01em; }
       .doc p { margin: 0 0 14px; color: var(--text); }
       .doc ul { margin: 0 0 14px; padding-left: 20px; }
+      .editor { width: 100%; display: grid; gap: 18px; }
+      .editor label { display: grid; gap: 6px; font-size: 13px; font-weight: 600; }
+      .editor input, .editor textarea { width: 100%; border: 1px solid var(--line); border-radius: 8px; background: var(--bg); color: var(--text); padding: 10px 12px; font: inherit; font-weight: 400; }
+      .editor textarea { min-height: 280px; resize: vertical; line-height: 1.6; }
+      .editor input:focus-visible, .editor textarea:focus-visible, .btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+      .editor-actions { display: flex; align-items: center; gap: 10px; }
+      .editor-error { margin: 0; color: var(--text); font-size: 14px; }
+      .user .ph-mask { min-width: 0; overflow-wrap: anywhere; }
+      @media (max-width: 680px) {
+        .app { grid-template-columns: 144px minmax(0, 1fr); }
+        .sidebar { padding: 12px 8px; }
+        .note { overflow-wrap: anywhere; }
+        .header { padding: 12px 16px; flex-wrap: wrap; }
+        .header h1 { flex-basis: 100%; overflow-wrap: anywhere; }
+        .doc { padding: 24px 16px; }
+        .editor-actions { flex-wrap: wrap; }
+        .editor-actions .btn { white-space: nowrap; }
+        .user { align-items: flex-start; gap: 6px; }
+        .avatar { flex-shrink: 0; }
+      }
       .menu { position: absolute; right: 28px; top: 58px; background: var(--bg); border: 1px solid var(--line); border-radius: 10px; box-shadow: var(--shadow); padding: 6px; min-width: 190px; z-index: 5; }
       .menu button { display: flex; width: 100%; text-align: left; border: 0; background: transparent; padding: 8px 10px; border-radius: 7px; }
       .menu button:hover { background: var(--chip); }
@@ -94,14 +114,15 @@
       // build=fixed: the chosen theme survives navigation. (Reload always restores the saved theme.)
       const BUILD = new URLSearchParams(location.search).get('build') === 'fixed' ? 'fixed' : 'broken'
       const NOTES = [
-        { id: 'welcome', title: 'Welcome', body: ['Welcome to Acme Notes. Everything you write is saved as you type.', 'Use the sidebar to switch notes, the search box to find one, and the menu to pin, share or export.'], list: ['Create a note', 'Pin the ones you need most', 'Share a read-only link'] },
+        { id: 'welcome', title: 'Welcome', body: ['Welcome to Acme Notes. Keep your notes together in one place.', 'Use the sidebar to switch notes, the search box to find one, and the menu to pin, share or export.'], list: ['Create a note', 'Pin the ones you need most', 'Share a read-only link'] },
         { id: 'meeting', title: 'Meeting notes', body: ['Weekly sync, Tuesday.', 'Decisions: ship the editor refresh behind a flag; revisit billing copy next week.'], list: ['Owner: Priya', 'Next sync: Tuesday 10:00'] },
         { id: 'roadmap', title: 'Roadmap', body: ['Q4 priorities for Acme Notes.', 'The goal is a faster editor, better sharing, and a calmer sidebar.'], list: ['Faster editor', 'Share links with expiry', 'Markdown export'] },
         { id: 'groceries', title: 'Groceries', body: ['Oat milk, coffee, lemons, a loaf of rye.'], list: [] },
       ]
+      const originalNotes = structuredClone(NOTES)
       const store = {
         get(key, fallback) { try { const v = localStorage.getItem(key); return v === null ? fallback : JSON.parse(v) } catch (error) { window.acmeTelemetry?.error(error, { operation: 'storage_read', key }); return fallback } },
-        set(key, value) { try { localStorage.setItem(key, JSON.stringify(value)) } catch (error) { window.acmeTelemetry?.error(error, { operation: 'storage_write', key }) } },
+        set(key, value) { try { localStorage.setItem(key, JSON.stringify(value)); return true } catch (error) { window.acmeTelemetry?.error(error, { operation: 'storage_write', key }); return false } },
       }
       const track = (event, properties = {}) => window.acmeTelemetry?.capture(event, { build: BUILD, ...properties })
       const memoryUsers = new Map()
@@ -129,6 +150,62 @@
         share: false,
         shared: store.get('shared', []),
         toast: null,
+        editor: null,
+      }
+      const noteStorageKey = () => `acme-note-edits:${state.user?.id || 'local'}`
+      function loadSavedNotes() {
+        const saved = store.get(noteStorageKey(), {})
+        originalNotes.forEach((original, i) => {
+          const edit = saved?.[original.id]
+          const valid = edit && typeof edit.title === 'string' && Array.isArray(edit.body) && edit.body.every((x) => typeof x === 'string') && Array.isArray(edit.list) && edit.list.every((x) => typeof x === 'string')
+          Object.assign(NOTES[i], structuredClone(valid ? { ...original, ...edit, id: original.id } : original))
+        })
+      }
+      function noteText(note) {
+        return [...note.body, ...(note.list.length ? [note.list.map((item) => `- ${item}`).join('\n')] : [])].join('\n\n')
+      }
+      function parseNoteText(text) {
+        const body = [], list = [], paragraph = []
+        const flush = () => { if (paragraph.length) { body.push(paragraph.join('\n')); paragraph.length = 0 } }
+        for (const line of text.replace(/\r\n?/g, '\n').split('\n')) {
+          if (/^\s*[-*]\s+/.test(line)) { flush(); list.push(line.replace(/^\s*[-*]\s+/, '')) }
+          else if (!line.trim()) flush()
+          else paragraph.push(line)
+        }
+        flush()
+        return { body, list }
+      }
+      function startEditing() {
+        if (!state.signed || state.view !== 'notes' || state.editor) return
+        const note = current()
+        state.editor = { noteId: note.id, title: note.title, content: noteText(note), error: '' }
+        state.menu = false; state.share = false; state.toast = null
+        track('note_editor_opened', { note_id: note.id })
+        render()
+        document.getElementById('edit-title').focus()
+      }
+      function cancelEditing(reason = 'cancel') {
+        if (!state.editor) return
+        track('note_edit_cancelled', { note_id: state.editor.noteId, reason })
+        state.editor = null
+      }
+      function saveEditing() {
+        const draft = state.editor
+        if (!draft) return
+        const title = draft.title.trim()
+        if (!title) { draft.error = 'Give your note a title before saving.'; render(); return }
+        const edit = { title, ...parseNoteText(draft.content) }
+        const saved = store.get(noteStorageKey(), {})
+        if (!store.set(noteStorageKey(), { ...saved, [draft.noteId]: edit })) {
+          draft.error = 'Your changes could not be saved in this browser. Please try again.'
+          render()
+          return
+        }
+        Object.assign(NOTES.find((note) => note.id === draft.noteId), edit)
+        track('note_saved', { note_id: draft.noteId })
+        state.editor = null; state.toast = 'Changes saved'
+        render()
+        document.getElementById('note-heading')?.focus()
       }
       const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c])
       const current = () => NOTES.find((n) => n.id === state.note)
@@ -168,6 +245,7 @@
             state.user = user; state.signed = true
             sessionStorage.setItem('signed', '1'); sessionStorage.setItem('acme-user', JSON.stringify(user))
             window.acmeTelemetry?.identify(user)
+            loadSavedNotes()
             track('user_signed_in')
             render()
           })
@@ -205,11 +283,25 @@
               ? `<article class="doc" id="trash-view"><h2>Trash</h2>${state.trash.length
                   ? state.trash.map((id) => { const n = NOTES.find((x) => x.id === id); return `<div class="row" style="border-bottom:1px solid var(--line)"><span>${esc(n.title)}</span><button class="btn" data-restore="${id}">Restore</button></div>` }).join('')
                   : '<p style="color:var(--muted)">Nothing in Trash.</p>'}</article>`
-              : `<article class="doc"><h2>${esc(note.title)}</h2>${note.body.map((p) => `<p>${esc(p)}</p>`).join('')}${note.list.length ? `<ul>${note.list.map((i) => `<li>${esc(i)}</li>`).join('')}</ul>` : ''}</article>`}
-            ${state.toast ? `<div class="toast" id="toast">${esc(state.toast)}</div>` : ''}
+              : state.editor ? `<article class="doc"><form class="editor" id="note-editor" aria-label="Edit note">
+                  <label>Title<input class="ph-sensitive" id="edit-title" required maxlength="120" value="${esc(state.editor.title)}" /></label>
+                  <label>Note content<textarea class="ph-sensitive" id="edit-content" maxlength="20000">${esc(state.editor.content)}</textarea></label>
+                  ${state.editor.error ? `<p class="editor-error" role="alert">${esc(state.editor.error)}</p>` : ''}
+                  <div class="editor-actions"><button class="btn primary" type="submit">Save changes</button><button class="btn" id="cancel-edit" type="button">Cancel</button></div>
+                </form></article>`
+              : `<article class="doc" id="note-document" data-note-id="${note.id}"><h2 id="note-heading" tabindex="-1">${esc(note.title)}</h2>${note.body.map((p) => `<p>${esc(p)}</p>`).join('')}${note.list.length ? `<ul>${note.list.map((i) => `<li>${esc(i)}</li>`).join('')}</ul>` : ''}</article>`}
+            ${state.toast ? `<div class="toast" id="toast" role="status">${esc(state.toast)}</div>` : ''}
           </main>
         </div>`
         const search = document.getElementById('search')
+        document.getElementById('note-editor')?.addEventListener('submit', (e) => { e.preventDefault(); saveEditing() })
+        document.getElementById('edit-title')?.addEventListener('input', (e) => { state.editor.title = e.target.value })
+        document.getElementById('edit-content')?.addEventListener('input', (e) => { state.editor.content = e.target.value })
+        document.getElementById('cancel-edit')?.addEventListener('click', () => { cancelEditing(); render(); document.querySelector('[data-action="edit-note"]')?.focus() })
+        document.getElementById('note-document')?.addEventListener('dblclick', () => {
+          track('note_edit_attempted', { note_id: note.id, edit_button_present: Boolean(document.querySelector('[data-action="edit-note"]')) })
+          window.acmeTelemetry?.log('warn', 'User tried to edit a read-only note', { note_id: note.id })
+        })
         search.addEventListener('input', (e) => { state.query = e.target.value; track('notes_searched', { query_length: state.query.length, result_count: visibleNotes().length }); const pos = e.target.selectionStart; render(); const el = document.getElementById('search'); el.focus(); el.setSelectionRange(pos, pos) })
         document.getElementById('notes').addEventListener('click', (e) => { const b = e.target.closest('[data-note]'); if (b) navigate(b.dataset.note) })
         document.getElementById('theme-toggle').addEventListener('click', () => { state.theme = state.theme === 'dark' ? 'light' : 'dark'; store.set('theme', state.theme); track('theme_changed', { theme: state.theme }); render() })
@@ -228,17 +320,19 @@
           store.set('shared', state.shared); render()
         })
         document.getElementById('delete')?.addEventListener('click', () => {
+          cancelEditing('delete')
           state.trash = [...state.trash, note.id]; state.trashBadge = state.trash.length; store.set('trash', state.trash)
           track('note_deleted', { note_id: note.id, trash_count: state.trash.length })
           state.menu = false
           state.note = NOTES.find((n) => !state.trash.includes(n.id)).id
           render()
         })
-        document.getElementById('trash-link').addEventListener('click', () => { state.view = 'trash'; state.menu = false; state.share = false; track('trash_viewed', { trash_count: state.trash.length }); render() })
+        document.getElementById('trash-link').addEventListener('click', () => { cancelEditing('navigation'); state.view = 'trash'; state.menu = false; state.share = false; track('trash_viewed', { trash_count: state.trash.length }); render() })
         document.getElementById('signout').addEventListener('click', () => {
           track('user_signed_out')
           sessionStorage.removeItem('signed'); sessionStorage.removeItem('acme-user')
           store.set('acme-identified-user', null)
+          cancelEditing('signout')
           state.signed = false; state.user = null
           window.acmeTelemetry?.reset()
           render()
@@ -251,6 +345,8 @@
         })
       }
       function navigate(id) {
+        cancelEditing('navigation')
+        state.toast = null
         state.note = id; state.menu = false; state.share = false; state.view = 'notes'
         if (BUILD === 'broken' && !window.acmeTelemetry?.isEnabled('acme-notes-preserve-theme')) {
           // The regression: the note view re-initialises its theme instead of reading the chosen one.
@@ -267,11 +363,15 @@
         const r = document.createElement('span'); r.className = 'ripple'; r.style.left = `${e.clientX}px`; r.style.top = `${e.clientY}px`
         document.body.appendChild(r); setTimeout(() => r.remove(), 600)
       }, true)
-      window.__acme = { state, navigate, BUILD }
+      document.getElementById('root').addEventListener('click', (event) => {
+        if (event.target.closest('[data-action="edit-note"]')) startEditing()
+      })
+      window.__acme = { state, navigate, BUILD, startEditing }
       if (state.signed) {
         state.user ||= demoUser()
         window.acmeTelemetry?.identify(state.user)
       }
+      loadSavedNotes()
       track('app_opened', { signed_in: state.signed, view: state.view, note_id: state.note })
       render()
     </script>

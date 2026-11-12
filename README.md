@@ -16,6 +16,8 @@ Sign-in accepts any email and password; the page shows a demo account (`demo@acm
 
 This standalone copy comes from `demo-apps/acme-notes` in the Vex repository.
 The original demo behavior is preserved, with PostHog instrumentation and sign-out added.
+The prepared note editor is also included; its Edit entry point is intentionally
+absent for the meetup scenario below.
 Vercel serves the static files directly, with a fallback to `index.html` for deep
 links, an `/healthz` endpoint, and the original cache and robots headers.
 
@@ -31,12 +33,31 @@ npm start
 Deploy to production with the Vercel CLI:
 
 ```bash
-vercel --prod
+vercel --prod --scope composal
 ```
 
 The production and preview Vercel environments use `POSTHOG_KEY` and `POSTHOG_HOST`.
 `npm run build` bundles the SDK and copies only public files to `dist/`; env files
 and source configuration are never served. The ingestion token is public by design.
+
+The intended Vercel project is <https://vercel.com/composal/acme-notes>, linked to
+`ACME-AI-Inc/acme-notes` on `main`. This checkout is linked to that team project.
+
+## Meetup baseline: the missing Edit button
+
+The complaint is: **"I can't edit my notes. There's no Edit button."**
+The editor, Save/Cancel, validation, account-scoped browser persistence, and
+editing telemetry are already implemented. The baseline intentionally omits the
+button that opens the editor. The live engineer's source patch is one header control:
+
+```html
+<button class="btn" data-action="edit-note">Edit</button>
+```
+
+The existing delegated click handler opens the editor. No additional event
+listener, persistence implementation, or feature flag is needed. A successful
+repair means editing a note, saving, and reloading to verify the changes persist.
+See [the run of show](demo/run-of-show.md) and [agent instructions](demo/agents/chief-engineer.md).
 
 ## PostHog
 
@@ -45,7 +66,8 @@ Telemetry targets the EU `acme` project, ID `347307`:
 
 - Analytics: pageviews, clicks, page exits, performance, heatmaps, and named events
   for sign-in/out, note navigation, search, theme, pins, sharing, export requests,
-  trash, deletes, and restores. Events are also written as structured logs.
+  trash, deletes, restores, attempted editing, editor open/save/cancel. Events are
+  also written as structured logs; editing events never include note contents.
 - Replay: 100% recording, with input values and account display text masked.
   Passwords are never read by the instrumentation. Console output is attached to replay.
 - Logs: browser console output and structured application logs go to PostHog Logs,
