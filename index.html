@@ -178,7 +178,7 @@
       function exportNote(note) {
         track('note_export_requested', { note_id: note.id })
         try {
-          const markdown = `# ${note.title}\n\n${noteText(note)}\n`
+          const markdown = `# ${note.title}\n\n${noteText(exportNoteData)}\n`
           const url = URL.createObjectURL(new Blob([markdown], { type: 'text/markdown;charset=utf-8' }))
           const link = document.createElement('a')
           link.href = url; link.download = `${note.id}.md`
