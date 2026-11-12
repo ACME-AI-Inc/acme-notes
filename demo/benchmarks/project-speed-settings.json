@@ -1,0 +1,54 @@
+{
+  "before": {
+    "id": "prj_zvcpKZtTKTQPNEmR3ytDBgFSb9IF",
+    "name": "acme-notes",
+    "installCommand": "npm ci",
+    "buildCommand": "npm run build",
+    "nodeVersion": "26.x",
+    "resourceConfig": {
+      "fluid": true,
+      "functionDefaultRegions": [
+        "iad1"
+      ],
+      "elasticConcurrencyEnabled": true,
+      "buildMachineType": "standard",
+      "buildMachineSelection": "elastic",
+      "elasticBuildMachine": {
+        "cores": 4,
+        "memory": 8192,
+        "label": "standard"
+      }
+    }
+  },
+  "after": {
+    "id": "prj_zvcpKZtTKTQPNEmR3ytDBgFSb9IF",
+    "name": "acme-notes",
+    "installCommand": "bun install --frozen-lockfile",
+    "buildCommand": "bun run build",
+    "nodeVersion": "26.x",
+    "resourceConfig": {
+      "fluid": true,
+      "functionDefaultRegions": [
+        "iad1"
+      ],
+      "elasticConcurrencyEnabled": true,
+      "buildMachineType": "turbo",
+      "buildMachineSelection": "fixed",
+      "buildQueue": {
+        "configuration": "SKIP_NAMESPACE_QUEUE"
+      }
+    }
+  },
+  "scope": "Only composal/acme-notes; no team-wide settings or plan changes",
+  "estimated_cost_usd_per_rounded_build_minute": {
+    "standard_4_cpu": 0.014,
+    "turbo_30_cpu": 0.105,
+    "increase": 0.091
+  },
+  "cost_caveat": "Published CPU-minute rate times core count; billable duration rounds up to minute; included credit/discounts may reduce actual charge.",
+  "sources": [
+    "https://vercel.com/docs/builds/managing-builds",
+    "https://vercel.com/docs/package-managers",
+    "https://vercel.com/docs/rest-api/projects/update-an-existing-project"
+  ]
+}

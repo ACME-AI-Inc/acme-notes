@@ -1,0 +1,147 @@
+{
+  "measured_at": "2026-11-12",
+  "environment": "Local macOS arm64, Bun1.3.11; directional only, not Vercel proof",
+  "npm_ci_install_ms": {
+    "cold": 3920.8,
+    "warm": [
+      1297.1,
+      1396.5
+    ]
+  },
+  "npm_ci_no_audit_no_fund_install_ms": {
+    "cold": 2582.7,
+    "warm": [
+      2062.2,
+      2053.3
+    ]
+  },
+  "bun_frozen_install": [
+    {
+      "attempt": 1,
+      "cache": "cold",
+      "install_ms": 3720.9,
+      "builds": [
+        {
+          "command": [
+            "node",
+            "build.mjs"
+          ],
+          "ms": 1513.4,
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "bun",
+            "run",
+            "build"
+          ],
+          "ms": 650.3,
+          "exit_code": 0
+        }
+      ],
+      "bundle_bytes": 544244
+    },
+    {
+      "attempt": 2,
+      "cache": "warm",
+      "install_ms": 238.3,
+      "builds": [
+        {
+          "command": [
+            "node",
+            "build.mjs"
+          ],
+          "ms": 1367.4,
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "bun",
+            "run",
+            "build"
+          ],
+          "ms": 981.0,
+          "exit_code": 0
+        }
+      ],
+      "bundle_bytes": 544244
+    },
+    {
+      "attempt": 3,
+      "cache": "warm",
+      "install_ms": 244.2,
+      "builds": [
+        {
+          "command": [
+            "node",
+            "build.mjs"
+          ],
+          "ms": 1095.6,
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "bun",
+            "run",
+            "build"
+          ],
+          "ms": 591.6,
+          "exit_code": 0
+        }
+      ],
+      "bundle_bytes": 544244
+    }
+  ],
+  "interleaved_node_build": [
+    {
+      "kind": "npm",
+      "round": 1,
+      "build_ms": 607.4,
+      "exit_code": 0
+    },
+    {
+      "kind": "bun",
+      "round": 1,
+      "build_ms": 197.7,
+      "exit_code": 0
+    },
+    {
+      "kind": "npm",
+      "round": 2,
+      "build_ms": 157.6,
+      "exit_code": 0
+    },
+    {
+      "kind": "bun",
+      "round": 2,
+      "build_ms": 165.4,
+      "exit_code": 0
+    },
+    {
+      "kind": "npm",
+      "round": 3,
+      "build_ms": 173.0,
+      "exit_code": 0
+    },
+    {
+      "kind": "bun",
+      "round": 3,
+      "build_ms": 171.9,
+      "exit_code": 0
+    },
+    {
+      "kind": "npm",
+      "round": 4,
+      "build_ms": 183.4,
+      "exit_code": 0
+    },
+    {
+      "kind": "bun",
+      "round": 4,
+      "build_ms": 187.0,
+      "exit_code": 0
+    }
+  ],
+  "bundle_bytes_all": 544244,
+  "bun_runtime_result": "Forcing Bun runtime fails: node:process has no named export loadEnvFile. bun run build preserves existing node build.mjs and succeeds."
+}
