@@ -1,11 +1,11 @@
 # Acme Notes Software Factory Demo PRD
 
 **Status:** In progress
-**Current Stage:** 2 - Prebuild editing baseline
+**Current Stage:** 1 - Demo preparation
 **Owner:** Pandelis and Codex
 **Created:** 2026-11-12
 **Updated:** 2026-11-12
-**Related:** https://github.com/ACME-AI-Inc/acme-notes ; https://acme-notes-inky.vercel.app ; https://eu.posthog.com/project/347307
+**Related:** https://github.com/ACME-AI-Inc/acme-notes ; https://acme-notes-phi.vercel.app ; https://eu.posthog.com/project/347307
 
 ---
 
@@ -61,7 +61,7 @@ Reviewer and Customer Success remain independent owners.
 - `acme-notes-preserve-theme` gates the existing theme bug; it is a backup scenario.
 - The new Composal-team Vercel project is linked to `ACME-AI-Inc/acme-notes` on `main`.
   This checkout now targets `composal/acme-notes`; static build/output and PostHog variables are configured.
-- PostHog messaging readiness is false: sender integration 112077 exists for `Acme Notes <support@demo.composal.ai>`; domain verification, templates, and workflows are pending.
+- PostHog sender setup is ready: sender integration 112077 for `Acme Notes <support@demo.composal.ai>` is verified; templates and workflows are pending. `ready_to_send_email` is true.
 - Project 347307 has zero surveys at discovery time.
 - Replay Vision scanner tools are unavailable through this connector's current scopes.
 - Composal CLI 1.17.108 exposes hosted agents, automations, and draft creation.
@@ -135,8 +135,8 @@ PostHog only after acceptance.
 
 ### Dependency Checks
 
-- Choose the real test recipient and sender domain/address.
-- Complete PostHog channel and domain onboarding, then confirm `ready_to_send_email: true`.
+- Choose the real test recipient; the sender support@demo.composal.ai is already verified.
+- Sender prerequisite met: channel/domain onboarding completed and `ready_to_send_email: true` confirmed.
 - Confirm all four agents' Composal organization and their actual PostHog/GitHub/Vercel tools.
 - Prove native agent-to-agent communication with one harmless, correlated round trip.
 - Prove one authenticated event can start Scout without a person manually pasting its contents.
@@ -215,7 +215,8 @@ Acceptance:
 **Owned Paths:** `demo/`, PostHog sender/survey configuration, Composal draft configuration.
 
 - [ ] Set recipient, sender, Composal organization, and the four final role names.
-- [ ] Verify PostHog sender domain and create/test the two email drafts.
+- [x] Verify PostHog sender domain.
+- [ ] Create/test the two email drafts.
 - [ ] Create a PostHog feedback widget and prove one linked response.
 - [ ] Prove transport and agent handoffs; record real IDs, tools, and trigger types.
 
@@ -232,7 +233,7 @@ Acceptance:
 
 ### Stage 2: Prebuild editing baseline
 
-**Status:** In progress
+**Status:** Complete
 **Owned Paths:** `index.html`, browser regression checks, `demo/` instructions.
 
 - [x] Build the inline editor, title/content editing, Save/Cancel, validation, and user-scoped local persistence.
@@ -240,14 +241,15 @@ Acceptance:
 - [x] Keep the Edit button absent from the baseline; no feature flag enables it.
 - [x] Verify the exact one-button patch opens the prepared editor and saves across reloads.
 - [x] Verify cancellation, storage failures, markup escaping, and account separation.
-- [ ] Push and deploy the prepared baseline to the Composal-team Vercel project.
+- [x] Push and deploy the prepared baseline to the Composal-team Vercel project.
 
 Run:
 
 ```sh
 npm run build
 node --check /tmp/acme-notes-app-check.js
-# Browser prep test inserts the future button only in its isolated test DOM.
+npm run demo:check -- https://acme-notes-phi.vercel.app --prepare
+# During the live repair, run the same command without --prepare against the actual deployment.
 ```
 
 Acceptance:
@@ -344,7 +346,7 @@ Acceptance:
 ## Open Questions
 
 - [ ] Which real inbox receives the demo emails? Owner: Pandelis.
-- [x] Sender: Acme Notes <support@demo.composal.ai>; domain setup in progress.
+- [x] Sender: Acme Notes <support@demo.composal.ai>; sender verified and ready to send.
 - [ ] Confirm recommended four roles and Composal organization. Owner: Pandelis.
 - [ ] What exact presentation length is allocated within the community-demo block? Owner: Pandelis.
 - [ ] Which ingress and handoff mechanism works in the current Composal runtime? Owner: Codex.
@@ -357,3 +359,14 @@ Acceptance:
 - Save/reload, cancellation, storage-failure reporting, HTML escaping, account separation, and restoration of the original account all passed.
 - Desktop and mobile captures were inspected; the mobile form fits without horizontal overflow.
 - No Edit control has been added to the baseline source.
+
+### 2026-11-12 - Hosted baseline and verified sender
+
+- App baseline `236c58c4890c80c6906db31969ed23c54137f31a` pushed to main. GitHub-triggered Vercel production deployment `dpl_HeugcpGv8vzJuTbq33HGqqh7n4Fw` and CLI deployment `dpl_Csm8cr4BKuZkcJc8nRVubKtkjafm` are READY for that SHA.
+- Production URL: https://acme-notes-phi.vercel.app . Hosted synthetic-account verification passed edit/save/reload with an isolated DOM button; after reload the actual baseline still has no Edit button.
+- App, telemetry bundle, health endpoint, and deep links returned HTTP 200; HTML matched source and telemetry bundle contained the correct commit SHA.
+- Terraform DNS PR https://github.com/ComposalAI/vex/pull/4108 merged at f79a89f398e6e6db934097de232e8cc90005726c. Scoped apply: 8 added, 0 changed/destroyed; post-apply plan clean. All records passed 48/48 public DNS comparisons.
+- PostHog integration 112077 reports `verified: true`; messaging setup reports `ready_to_send_email: true`, `email_sending_paused: false`. No customer email was sent.
+- Sender: Acme Notes <support@demo.composal.ai>. Templates/workflows, survey, recipient, credit ledger, and actual Composal agent wiring are not yet complete.
+
+- Repeatable check: `npm run demo:check -- https://acme-notes-phi.vercel.app --prepare` passed. Release mode without `--prepare` correctly rejected the baseline because its actual source has no Edit button.

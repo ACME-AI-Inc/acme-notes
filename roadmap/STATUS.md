@@ -18,7 +18,7 @@ Individual PRDs are the source of truth for tasks and evidence.
 
 | ID | PRD | Status | Current Stage | Updated | Verification | Next Action |
 | --- | --- | --- | --- | --- | --- | --- |
-| 001 | [Software factory demo](001-software-factory-demo.md) | In progress | 2 - Prebuild editing baseline | 2026-11-12 | Editor browser checks passed; deployment in progress | Verify editor baseline; finish Terraform DNS and Composal Vercel setup |
+| 001 | [Software factory demo](001-software-factory-demo.md) | In progress | 1 - Demo preparation | 2026-11-12 | Editor baseline hosted; sender verified; DNS merged/applied | Finish feedback, email templates, and agent transport |
 
 ## Completed PRDs
 

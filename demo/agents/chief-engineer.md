@@ -28,3 +28,7 @@ source repair is adding `<button class="btn" data-action="edit-note">Edit</butto
 to the note header in index.html. Do not redesign or reimplement the editor,
 change persistence, or enable a flag. Validate the actual source button through
 Edit → change title/content → Save → Reload, then request review of that SHA.
+
+Use the existing `npm run demo:check -- <preview-or-production-url>` smoke check.
+Do not pass `--prepare` for release acceptance: that mode is only for testing the
+prebuilt editor while the baseline intentionally has no source button.

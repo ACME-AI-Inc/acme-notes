@@ -59,6 +59,27 @@ listener, persistence implementation, or feature flag is needed. A successful
 repair means editing a note, saving, and reloading to verify the changes persist.
 See [the run of show](demo/run-of-show.md) and [agent instructions](demo/agents/chief-engineer.md).
 
+Preparation check for this intentionally incomplete baseline:
+
+```bash
+npm run demo:check -- https://acme-notes-phi.vercel.app --prepare
+```
+
+After the agent adds the button, verify the real deployed control with:
+
+```bash
+npm run demo:check -- https://acme-notes-phi.vercel.app
+```
+
+The check uses Playwright CLI through npm and an isolated synthetic demo account.
+Preparation mode inserts the future button only into the test browser's DOM.
+Release acceptance requires the real source button and never injects a control.
+
+The verified PostHog sender for project 347307 is
+**Acme Notes <support@demo.composal.ai>**. DNS is Terraform-managed in
+[Vex PR #4108](https://github.com/ComposalAI/vex/pull/4108).
+Email templates and the demo workflows are configured separately.
+
 ## PostHog
 
 Telemetry targets the EU `acme` project, ID `347307`:
