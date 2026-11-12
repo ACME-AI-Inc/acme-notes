@@ -15,6 +15,7 @@
   "rewrites": [
     { "source": "/n-sync/static/:path*", "destination": "https://eu-assets.i.posthog.com/static/:path*" },
     { "source": "/n-sync/array/:path*", "destination": "https://eu-assets.i.posthog.com/array/:path*" },
+    { "source": "/n-sync/:path*/", "destination": "https://eu.i.posthog.com/:path*/" },
     { "source": "/n-sync/:path*", "destination": "https://eu.i.posthog.com/:path*" },
     { "source": "/((?!api/|n-sync/).*)", "destination": "/index.html" }
   ]
