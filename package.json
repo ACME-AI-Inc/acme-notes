@@ -1,0 +1,28 @@
+{
+  "name": "acme-notes",
+  "version": "1.0.0",
+  "description": "The app behind every new signup's demo project. It is one static page (`index.html`) served by Caddy, with no backend: notes, pins, trash and the theme live in the visitor's browser.",
+  "private": true,
+  "scripts": {
+    "build": "node build.mjs",
+    "start": "npm run build && python3 -m http.server 8080 --directory dist"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ACME-AI-Inc/acme-notes.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/ACME-AI-Inc/acme-notes/issues"
+  },
+  "homepage": "https://github.com/ACME-AI-Inc/acme-notes#readme",
+  "dependencies": {
+    "posthog-js": "^1.447.15"
+  },
+  "devDependencies": {
+    "esbuild": "^0.28.2"
+  }
+}

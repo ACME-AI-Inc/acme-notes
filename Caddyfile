@@ -1,0 +1,23 @@
+# Acme Notes, the small app every signup's demo project tests. Plain HTTP on
+# :8080; TLS terminates at the Composal edge.
+:8080 {
+	encode zstd
+
+	handle /healthz {
+		respond "ok" 200
+	}
+
+	handle {
+		root * /srv
+		# One page; every path renders it so deep links and shared-note links load.
+		try_files {path} /index.html
+		file_server
+		header Cache-Control "public, max-age=0, must-revalidate"
+		header X-Robots-Tag "noindex"
+	}
+
+	log {
+		output stdout
+		format console
+	}
+}

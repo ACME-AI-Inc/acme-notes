@@ -1,0 +1,279 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Acme Notes</title>
+    <meta name="robots" content="noindex" />
+    <link rel="icon" type="image/png" href="/logo.png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <script src="/telemetry.js"></script>
+    <style>
+      :root {
+        --bg: #ffffff;
+        --panel: #f6f6f4;
+        --line: #e6e6e1;
+        --text: #1d1d1b;
+        --muted: #6f6f69;
+        --accent: #2f6df6;
+        --accent-soft: #e8efff;
+        --chip: #ecece8;
+        --shadow: 0 8px 28px rgba(0, 0, 0, 0.14);
+        font-family: ui-sans-serif, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      }
+      html[data-theme='dark'] {
+        --bg: #171717;
+        --panel: #1f1f1e;
+        --line: #333331;
+        --text: #f1f1ee;
+        --muted: #a2a29b;
+        --accent: #7aa2ff;
+        --accent-soft: #232c45;
+        --chip: #2a2a28;
+        --shadow: 0 8px 28px rgba(0, 0, 0, 0.5);
+      }
+      * { box-sizing: border-box; }
+      html, body { margin: 0; height: 100%; }
+      body { background: var(--bg); color: var(--text); font-size: 15px; line-height: 1.5; }
+      button { font: inherit; color: inherit; cursor: pointer; }
+      .app { display: grid; grid-template-columns: 264px 1fr; height: 100vh; }
+      .sidebar { background: var(--panel); border-right: 1px solid var(--line); display: flex; flex-direction: column; padding: 14px 12px; gap: 10px; }
+      .brand { display: flex; align-items: center; gap: 10px; font-weight: 650; font-size: 16px; padding: 4px 6px; }
+      .logo { width: 24px; height: 24px; border-radius: 6px; display: block; flex-shrink: 0; }
+      .search { width: 100%; border: 1px solid var(--line); background: var(--bg); color: var(--text); border-radius: 8px; padding: 8px 10px; font: inherit; outline: none; }
+      .search:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+      .section { color: var(--muted); font-size: 12px; text-transform: uppercase; letter-spacing: 0.04em; padding: 8px 8px 2px; }
+      .notes { display: flex; flex-direction: column; gap: 2px; overflow: auto; }
+      .note { text-align: left; border: 0; background: transparent; padding: 8px 10px; border-radius: 8px; display: flex; align-items: center; gap: 8px; }
+      .note:hover { background: var(--chip); }
+      .note[aria-current='true'] { background: var(--accent-soft); font-weight: 600; }
+      .pin { color: var(--accent); font-size: 12px; }
+      .spacer { flex: 1; }
+      .user { display: flex; align-items: center; gap: 10px; padding: 8px; border-top: 1px solid var(--line); color: var(--muted); font-size: 13px; }
+      .avatar { width: 26px; height: 26px; border-radius: 50%; background: linear-gradient(135deg, #f0a35c, #e0567e); }
+      .main { display: flex; flex-direction: column; min-width: 0; }
+      .header { display: flex; align-items: center; gap: 10px; padding: 14px 28px; border-bottom: 1px solid var(--line); }
+      .header h1 { font-size: 18px; margin: 0; flex: 1; font-weight: 650; }
+      .btn { border: 1px solid var(--line); background: var(--bg); border-radius: 8px; padding: 7px 12px; display: inline-flex; align-items: center; gap: 6px; font-size: 14px; }
+      .btn:hover { background: var(--chip); }
+      .btn.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+      .doc { padding: 36px 56px; max-width: 760px; }
+      .doc h2 { margin: 0 0 14px; font-size: 28px; letter-spacing: -0.01em; }
+      .doc p { margin: 0 0 14px; color: var(--text); }
+      .doc ul { margin: 0 0 14px; padding-left: 20px; }
+      .menu { position: absolute; right: 28px; top: 58px; background: var(--bg); border: 1px solid var(--line); border-radius: 10px; box-shadow: var(--shadow); padding: 6px; min-width: 190px; z-index: 5; }
+      .menu button { display: flex; width: 100%; text-align: left; border: 0; background: transparent; padding: 8px 10px; border-radius: 7px; }
+      .menu button:hover { background: var(--chip); }
+      .panel { position: absolute; right: 28px; top: 58px; width: 340px; background: var(--bg); border: 1px solid var(--line); border-radius: 12px; box-shadow: var(--shadow); padding: 16px; z-index: 6; }
+      .panel h3 { margin: 0 0 10px; font-size: 15px; }
+      .row { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 6px 0; }
+      .switch { width: 38px; height: 22px; border-radius: 999px; background: var(--chip); border: 1px solid var(--line); position: relative; }
+      .switch::after { content: ''; position: absolute; top: 2px; left: 2px; width: 16px; height: 16px; border-radius: 50%; background: var(--muted); transition: transform 0.15s; }
+      .switch[aria-checked='true'] { background: var(--accent); border-color: var(--accent); }
+      .switch[aria-checked='true']::after { transform: translateX(16px); background: #fff; }
+      .link { margin-top: 10px; padding: 9px 10px; border: 1px dashed var(--line); border-radius: 8px; font-family: ui-monospace, Menlo, monospace; font-size: 12.5px; color: var(--muted); word-break: break-all; }
+      .toast { position: absolute; left: 50%; bottom: 28px; transform: translateX(-50%); background: var(--text); color: var(--bg); padding: 10px 16px; border-radius: 10px; font-size: 14px; z-index: 8; }
+      .signin { height: 100vh; display: grid; place-items: center; background: var(--panel); }
+      .card { width: 380px; background: var(--bg); border: 1px solid var(--line); border-radius: 14px; box-shadow: var(--shadow); padding: 28px; }
+      .card h1 { font-size: 20px; margin: 14px 0 4px; }
+      .card p { margin: 0 0 18px; color: var(--muted); }
+      .field { display: block; margin-bottom: 12px; font-size: 13px; color: var(--muted); }
+      .field input { margin-top: 4px; width: 100%; border: 1px solid var(--line); background: var(--bg); color: var(--text); border-radius: 8px; padding: 9px 10px; font: inherit; }
+      [hidden] { display: none !important; }
+      /* The agent cursor shown in replays. */
+      #agent-cursor { position: fixed; left: 0; top: 0; width: 22px; height: 22px; z-index: 99; pointer-events: none; transform: translate(-100px, -100px); transition: transform 0.04s linear; filter: drop-shadow(0 1px 2px rgba(0,0,0,.35)); }
+      .ripple { position: fixed; z-index: 98; width: 14px; height: 14px; margin: -7px 0 0 -7px; border-radius: 50%; border: 2px solid var(--accent); pointer-events: none; animation: ripple 0.55s ease-out forwards; }
+      @keyframes ripple { to { transform: scale(3.2); opacity: 0; } }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+    <svg id="agent-cursor" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 2l15 9.5-6.6 1.4L9 19.5z" fill="#111" stroke="#fff" stroke-width="1.5" stroke-linejoin="round" /></svg>
+    <script>
+      // build=broken: the theme is kept in the note view, so opening another note starts from light.
+      // build=fixed: the chosen theme survives navigation. (Reload always restores the saved theme.)
+      const BUILD = new URLSearchParams(location.search).get('build') === 'fixed' ? 'fixed' : 'broken'
+      const NOTES = [
+        { id: 'welcome', title: 'Welcome', body: ['Welcome to Acme Notes. Everything you write is saved as you type.', 'Use the sidebar to switch notes, the search box to find one, and the menu to pin, share or export.'], list: ['Create a note', 'Pin the ones you need most', 'Share a read-only link'] },
+        { id: 'meeting', title: 'Meeting notes', body: ['Weekly sync, Tuesday.', 'Decisions: ship the editor refresh behind a flag; revisit billing copy next week.'], list: ['Owner: Priya', 'Next sync: Tuesday 10:00'] },
+        { id: 'roadmap', title: 'Roadmap', body: ['Q4 priorities for Acme Notes.', 'The goal is a faster editor, better sharing, and a calmer sidebar.'], list: ['Faster editor', 'Share links with expiry', 'Markdown export'] },
+        { id: 'groceries', title: 'Groceries', body: ['Oat milk, coffee, lemons, a loaf of rye.'], list: [] },
+      ]
+      const store = {
+        get(key, fallback) { try { const v = localStorage.getItem(key); return v === null ? fallback : JSON.parse(v) } catch (error) { window.acmeTelemetry?.error(error, { operation: 'storage_read', key }); return fallback } },
+        set(key, value) { try { localStorage.setItem(key, JSON.stringify(value)) } catch (error) { window.acmeTelemetry?.error(error, { operation: 'storage_write', key }) } },
+      }
+      const track = (event, properties = {}) => window.acmeTelemetry?.capture(event, { build: BUILD, ...properties })
+      const memoryUsers = new Map()
+      function demoUser(email = '') {
+        const normalizedEmail = email.trim().toLowerCase()
+        const users = store.get('acme-users', {})
+        const existing = users[normalizedEmail] || memoryUsers.get(normalizedEmail)
+        const user = existing || { id: crypto.randomUUID(), email: normalizedEmail }
+        memoryUsers.set(normalizedEmail, user)
+        store.set('acme-users', { ...users, [normalizedEmail]: user })
+        return user
+      }
+      const params = new URLSearchParams(location.search)
+      const state = {
+        signed: sessionStorage.getItem('signed') === '1',
+        user: (() => { try { return JSON.parse(sessionStorage.getItem('acme-user')) } catch { return null } })(),
+        view: params.get('view') === 'shared' ? 'shared' : 'notes',
+        note: NOTES.some((n) => n.id === params.get('note')) ? params.get('note') : 'welcome',
+        trash: store.get('trash', []),
+        trashBadge: store.get('trash', []).length,
+        theme: store.get('theme', 'light'),
+        query: '',
+        pinned: store.get('pinned', []),
+        menu: false,
+        share: false,
+        shared: store.get('shared', []),
+        toast: null,
+      }
+      const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c])
+      const current = () => NOTES.find((n) => n.id === state.note)
+      function visibleNotes() {
+        const q = (params.get('searchBug') === '1' ? state.query : state.query.trim()).toLowerCase()
+        const list = NOTES.filter((n) => !state.trash.includes(n.id) && (!q || n.title.toLowerCase().includes(q)))
+        return [...list].sort((a, b) => Number(state.pinned.includes(b.id)) - Number(state.pinned.includes(a.id)))
+      }
+      function render() {
+        document.documentElement.dataset.theme = state.theme
+        const root = document.getElementById('root')
+        if (state.view === 'shared') {
+          // The page a signed-out visitor sees. A revoked link keeps working for 60 s (cached).
+          const note = current()
+          const revoked = store.get('revokedAt', {})[note.id]
+          const live = state.shared.includes(note.id) || (revoked && Date.now() - revoked < 60000)
+          root.innerHTML = `<div class="signin"><div class="card" style="width:560px" id="shared-page"><img class="logo" src="/logo.svg" alt="" />
+            ${live
+              ? `<h1>${esc(note.title)}</h1><p>Shared with you &middot; read only</p>${note.body.map((p) => `<p style="color:var(--text)">${esc(p)}</p>`).join('')}`
+              : `<h1>This note is no longer shared</h1><p>Ask the owner for a new link.</p>`}
+            </div></div>`
+          return
+        }
+        if (!state.signed) {
+          root.innerHTML = `<div class="signin"><form class="card ph-no-capture" id="signin-form"><img class="logo" src="/logo.svg" alt="" /><h1>Sign in to Acme Notes</h1><p>Demo account: <b>demo@acme.example</b>, password <b>acme-demo</b>. Any email and password work.</p>
+            <label class="field">Email<input id="email" class="ph-mask" type="email" autocomplete="off" /></label>
+            <label class="field">Password<input id="password" class="ph-sensitive" type="password" autocomplete="off" /></label>
+            <button class="btn primary" id="signin" type="submit" style="width:100%;justify-content:center">Sign in</button></form></div>`
+          const form = document.getElementById('signin-form')
+          form.addEventListener('submit', (e) => {
+            e.preventDefault()
+            const user = demoUser(document.getElementById('email').value)
+            // A different demo account starts a fresh analytics identity/session.
+            const previousUserId = store.get('acme-identified-user', null)
+            if (previousUserId && previousUserId !== user.id) window.acmeTelemetry?.reset()
+            store.set('acme-identified-user', user.id)
+            state.user = user; state.signed = true
+            sessionStorage.setItem('signed', '1'); sessionStorage.setItem('acme-user', JSON.stringify(user))
+            window.acmeTelemetry?.identify(user)
+            track('user_signed_in')
+            render()
+          })
+          return
+        }
+        if (state.trash.includes(state.note)) state.note = NOTES.find((n) => !state.trash.includes(n.id)).id
+        const note = current()
+        const pinned = state.pinned.includes(note.id)
+        const sharedOn = state.shared.includes(note.id)
+        root.innerHTML = `<div class="app">
+          <aside class="sidebar">
+            <div class="brand"><img class="logo" src="/logo.svg" alt="" />Acme Notes</div>
+            <input id="search" class="search" placeholder="Search notes" value="${esc(state.query)}" />
+            <div class="section">Notes</div>
+            <nav class="notes" id="notes">
+              ${visibleNotes().map((n) => `<button class="note" data-note="${n.id}" aria-current="${n.id === state.note}">${state.pinned.includes(n.id) ? '<span class="pin" aria-label="Pinned">&#9679;</span>' : ''}${esc(n.title)}</button>`).join('')}
+            </nav>
+            <div class="spacer"></div>
+            <button class="note" id="trash-link" aria-current="${state.view === 'trash'}">Trash${state.trashBadge ? `<span class="pin" id="trash-count" style="margin-left:auto;background:var(--chip);color:var(--text);border-radius:999px;padding:0 8px">${state.trashBadge}</span>` : ''}</button>
+            <div class="user"><span class="avatar"></span><span class="ph-mask">${esc(state.user?.email || 'Alex Rivera')}</span></div>
+            <button class="note" id="signout">Sign out</button>
+          </aside>
+          <main class="main">
+            <header class="header">
+              <h1 id="title">${esc(note.title)}</h1>
+              <button class="btn" id="theme-toggle" aria-label="Toggle theme">${state.theme === 'dark' ? 'Light mode' : 'Dark mode'}</button>
+              <button class="btn" id="share-open">Share</button>
+              <button class="btn" id="menu" aria-label="Note menu">&#8943;</button>
+            </header>
+            ${state.menu ? `<div class="menu" id="menu-list"><button id="pin">${pinned ? 'Unpin' : 'Pin'}</button><button id="export">Export</button><button id="delete">Delete</button></div>` : ''}
+            ${state.share ? `<div class="panel" id="share-panel"><h3>Share "${esc(note.title)}"</h3>
+              <div class="row"><span>Anyone with the link can view</span><button class="switch" id="share-toggle" role="switch" aria-checked="${sharedOn}"></button></div>
+              ${sharedOn ? `<div class="link" id="share-link">https://notes.acme.example/s/${note.id}-4f9a</div>` : ''}</div>` : ''}
+            ${state.view === 'trash'
+              ? `<article class="doc" id="trash-view"><h2>Trash</h2>${state.trash.length
+                  ? state.trash.map((id) => { const n = NOTES.find((x) => x.id === id); return `<div class="row" style="border-bottom:1px solid var(--line)"><span>${esc(n.title)}</span><button class="btn" data-restore="${id}">Restore</button></div>` }).join('')
+                  : '<p style="color:var(--muted)">Nothing in Trash.</p>'}</article>`
+              : `<article class="doc"><h2>${esc(note.title)}</h2>${note.body.map((p) => `<p>${esc(p)}</p>`).join('')}${note.list.length ? `<ul>${note.list.map((i) => `<li>${esc(i)}</li>`).join('')}</ul>` : ''}</article>`}
+            ${state.toast ? `<div class="toast" id="toast">${esc(state.toast)}</div>` : ''}
+          </main>
+        </div>`
+        const search = document.getElementById('search')
+        search.addEventListener('input', (e) => { state.query = e.target.value; track('notes_searched', { query_length: state.query.length, result_count: visibleNotes().length }); const pos = e.target.selectionStart; render(); const el = document.getElementById('search'); el.focus(); el.setSelectionRange(pos, pos) })
+        document.getElementById('notes').addEventListener('click', (e) => { const b = e.target.closest('[data-note]'); if (b) navigate(b.dataset.note) })
+        document.getElementById('theme-toggle').addEventListener('click', () => { state.theme = state.theme === 'dark' ? 'light' : 'dark'; store.set('theme', state.theme); track('theme_changed', { theme: state.theme }); render() })
+        document.getElementById('share-open').addEventListener('click', () => { state.share = !state.share; state.menu = false; if (state.share) track('share_opened', { note_id: note.id }); render() })
+        document.getElementById('menu').addEventListener('click', () => { state.menu = !state.menu; state.share = false; render() })
+        document.getElementById('pin')?.addEventListener('click', () => {
+          state.pinned = pinned ? state.pinned.filter((id) => id !== note.id) : [...state.pinned, note.id]
+          track(pinned ? 'note_unpinned' : 'note_pinned', { note_id: note.id })
+          store.set('pinned', state.pinned); state.menu = false; render()
+        })
+        document.getElementById('export')?.addEventListener('click', () => { track('note_export_requested', { note_id: note.id }); state.toast = `${note.id}.md exported as Markdown`; state.menu = false; render(); setTimeout(() => { state.toast = null; render() }, 2400) })
+        document.getElementById('share-toggle')?.addEventListener('click', () => {
+          if (sharedOn) store.set('revokedAt', { ...store.get('revokedAt', {}), [note.id]: Date.now() })
+          state.shared = sharedOn ? state.shared.filter((id) => id !== note.id) : [...state.shared, note.id]
+          track(sharedOn ? 'note_share_revoked' : 'note_shared', { note_id: note.id })
+          store.set('shared', state.shared); render()
+        })
+        document.getElementById('delete')?.addEventListener('click', () => {
+          state.trash = [...state.trash, note.id]; state.trashBadge = state.trash.length; store.set('trash', state.trash)
+          track('note_deleted', { note_id: note.id, trash_count: state.trash.length })
+          state.menu = false
+          state.note = NOTES.find((n) => !state.trash.includes(n.id)).id
+          render()
+        })
+        document.getElementById('trash-link').addEventListener('click', () => { state.view = 'trash'; state.menu = false; state.share = false; track('trash_viewed', { trash_count: state.trash.length }); render() })
+        document.getElementById('signout').addEventListener('click', () => {
+          track('user_signed_out')
+          sessionStorage.removeItem('signed'); sessionStorage.removeItem('acme-user')
+          store.set('acme-identified-user', null)
+          state.signed = false; state.user = null
+          window.acmeTelemetry?.reset()
+          render()
+        })
+        document.getElementById('trash-view')?.addEventListener('click', (e) => {
+          const b = e.target.closest('[data-restore]'); if (!b) return
+          track('note_restored', { note_id: b.dataset.restore })
+          // The bug: the list updates but the badge keeps its old count until the page is reloaded.
+          state.trash = state.trash.filter((id) => id !== b.dataset.restore); store.set('trash', state.trash); render()
+        })
+      }
+      function navigate(id) {
+        state.note = id; state.menu = false; state.share = false; state.view = 'notes'
+        if (BUILD === 'broken' && !window.acmeTelemetry?.isEnabled('acme-notes-preserve-theme')) {
+          // The regression: the note view re-initialises its theme instead of reading the chosen one.
+          console.warn('theme: no saved preference found for this route, using light')
+          state.theme = 'light'
+        }
+        track('note_opened', { note_id: id, theme: state.theme })
+        render()
+      }
+      // Cursor overlay for replays.
+      const cursor = document.getElementById('agent-cursor')
+      window.addEventListener('mousemove', (e) => { cursor.style.transform = `translate(${e.clientX - 4}px, ${e.clientY - 2}px)` }, true)
+      window.addEventListener('mousedown', (e) => {
+        const r = document.createElement('span'); r.className = 'ripple'; r.style.left = `${e.clientX}px`; r.style.top = `${e.clientY}px`
+        document.body.appendChild(r); setTimeout(() => r.remove(), 600)
+      }, true)
+      window.__acme = { state, navigate, BUILD }
+      if (state.signed) {
+        state.user ||= demoUser()
+        window.acmeTelemetry?.identify(state.user)
+      }
+      track('app_opened', { signed_in: state.signed, view: state.view, note_id: state.note })
+      render()
+    </script>
+  </body>
+</html>

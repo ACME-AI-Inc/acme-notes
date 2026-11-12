@@ -1,0 +1,10 @@
+.git
+.env
+.env.*
+node_modules
+README.md
+Dockerfile
+Caddyfile
+dist
+.playwright-cli
+output
