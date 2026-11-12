@@ -99,6 +99,19 @@
       .card p { margin: 0 0 18px; color: var(--muted); }
       .field { display: block; margin-bottom: 12px; font-size: 13px; color: var(--muted); }
       .field input { margin-top: 4px; width: 100%; border: 1px solid var(--line); background: var(--bg); color: var(--text); border-radius: 8px; padding: 9px 10px; font: inherit; }
+      .crash-page { min-height: 100dvh; display: flex; flex-direction: column; padding: 24px; }
+      .crash-page .brand { align-self: flex-start; }
+      .crash-content { width: min(100%, 600px); margin: auto; padding: 56px 0; text-align: center; }
+      .crash-icon { width: 80px; height: 80px; color: var(--accent); transform: rotate(-8deg); }
+      .crash-code { margin: 12px 0 18px; font-size: 96px; font-weight: 750; line-height: 1; letter-spacing: -0.04em; color: #b42318; }
+      html[data-theme='dark'] .crash-code { color: #ff9a8b; }
+      .crash-content h1 { margin: 0 0 18px; font-size: clamp(30px, 4vw, 44px); line-height: 1.12; letter-spacing: -0.02em; font-weight: 650; }
+      .crash-content h1:focus { outline: none; }
+      .crash-content p { max-width: 430px; margin: 0 auto 12px; color: var(--muted); font-size: 16px; }
+      .crash-content .crash-safe { color: var(--text); font-weight: 600; }
+      .crash-actions { display: flex; justify-content: center; flex-wrap: wrap; gap: 10px; margin: 28px 0; }
+      .crash-reference { display: block; margin-top: 32px; color: var(--muted); font-size: 12px; overflow-wrap: anywhere; }
+      .btn:disabled { cursor: wait; opacity: 0.65; }
       [hidden] { display: none !important; }
       /* The agent cursor shown in replays. */
       #agent-cursor { position: fixed; left: 0; top: 0; width: 22px; height: 22px; z-index: 99; pointer-events: none; transform: translate(-100px, -100px); transition: transform 0.04s linear; filter: drop-shadow(0 1px 2px rgba(0,0,0,.35)); }
@@ -151,6 +164,8 @@
         shared: store.get('shared', []),
         toast: null,
         editor: null,
+        crash: null,
+        deleting: false,
       }
       const noteStorageKey = () => `acme-note-edits:${state.user?.id || 'local'}`
       function loadSavedNotes() {
@@ -178,7 +193,7 @@
       function exportNote(note) {
         track('note_export_requested', { note_id: note.id })
         try {
-          const markdown = `# ${note.title}\n\n${noteText(exportNoteData)}\n`
+          const markdown = `# ${note.title}\n\n${noteText(note)}\n`
           const url = URL.createObjectURL(new Blob([markdown], { type: 'text/markdown;charset=utf-8' }))
           const link = document.createElement('a')
           link.href = url; link.download = `${note.id}.md`
@@ -193,6 +208,42 @@
           state.toast = 'Export failed. Please try again.'
         }
         state.menu = false; render()
+      }
+      async function deleteNote(note) {
+        if (state.deleting || !state.signed) return
+        state.deleting = true; state.menu = false
+        track('note_delete_requested', { note_id: note.id })
+        render()
+        try {
+          const response = await fetch('/api/notes/delete', {
+            method: 'POST', headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ note_id: note.id, distinct_id: state.user.id, ...window.acmeTelemetry?.requestContext() }),
+            signal: AbortSignal.timeout(15000),
+          })
+          const result = await response.json()
+          if (!response.ok || result.deleted !== true || result.note_id !== note.id) {
+            const error = new Error(result.error_message || 'The note deletion request failed')
+            error.name = result.error_type || 'NoteDeleteError'
+            error.httpStatus = response.status; error.requestId = result.request_id || response.headers.get('X-Request-Id')
+            throw error
+          }
+          const nextTrash = [...new Set([...state.trash, note.id])]
+          if (!store.set('trash', nextTrash)) throw new Error('The note could not be moved to Trash in this browser')
+          cancelEditing('delete')
+          state.trash = nextTrash; state.trashBadge = nextTrash.length
+          state.note = NOTES.find((n) => !nextTrash.includes(n.id))?.id || NOTES[0].id
+          state.view = NOTES.every((n) => nextTrash.includes(n.id)) ? 'trash' : 'notes'
+          state.crash = null; state.toast = 'Note moved to Trash'
+          track('note_deleted', { note_id: note.id, request_id: result.request_id, trash_count: nextTrash.length })
+        } catch (error) {
+          const details = { operation: 'note_delete', note_id: note.id, http_status: error.httpStatus || 0, request_id: error.requestId || null,
+            failure_fingerprint: 'note-delete-reference-error', error_type: error.name, error_message: error.message }
+          window.acmeTelemetry?.error(error, details)
+          track('note_delete_failed', details)
+          state.crash = { noteId: note.id, status: error.httpStatus || 0, requestId: error.requestId || null }
+        } finally {
+          state.deleting = false; render()
+        }
       }
       function startEditing() {
         if (!state.signed || state.view !== 'notes' || state.editor) return
@@ -236,6 +287,24 @@
       function render() {
         document.documentElement.dataset.theme = state.theme
         const root = document.getElementById('root')
+        if (state.crash && state.signed) {
+          const failure = state.crash
+          root.innerHTML = `<div class="crash-page">
+            <div class="brand"><img class="logo" src="/logo.svg" alt="" />Acme Notes</div>
+            <main class="crash-content" role="alert">
+              <svg class="crash-icon" viewBox="0 0 48 48" fill="none" aria-hidden="true"><path d="M13 5h17l9 9v27H9V9a4 4 0 0 1 4-4Z" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round"/><path d="M29 5v11h10M16 23l5 5m0-5-5 5m11-5 5 5m0-5-5 5M18 36c3-4 9-4 12 0" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <div class="crash-code" aria-label="${failure.status ? `HTTP ${failure.status}` : 'Connection error'}">${failure.status || 'Oops'}</div>
+              <h1 id="crash-title" tabindex="-1">The shredder shredded itself.</h1>
+              <p class="crash-safe">Your note wasn’t deleted.</p>
+              <p>${failure.status === 500 ? 'The server had a paper jam on the way to the bin.' : 'The delete request couldn’t finish.'} Let’s give it another go.</p>
+              <div class="crash-actions"><button class="btn primary" id="crash-back">Back to notes</button><button class="btn" id="crash-retry" ${state.deleting ? 'disabled' : ''}>${state.deleting ? 'Trying…' : 'Try deleting again'}</button></div>
+              ${failure.requestId ? `<small class="crash-reference">Request ${esc(failure.requestId)}</small>` : ''}
+            </main></div>`
+          document.getElementById('crash-back').addEventListener('click', () => { state.crash = null; render() })
+          document.getElementById('crash-retry').addEventListener('click', () => deleteNote(NOTES.find((n) => n.id === failure.noteId)))
+          document.getElementById('crash-title').focus()
+          return
+        }
         if (state.view === 'shared') {
           // The page a signed-out visitor sees. A revoked link keeps working for 60 s (cached).
           const note = current()
@@ -270,7 +339,7 @@
           })
           return
         }
-        if (state.trash.includes(state.note)) state.note = NOTES.find((n) => !state.trash.includes(n.id)).id
+        if (state.trash.includes(state.note)) state.note = NOTES.find((n) => !state.trash.includes(n.id))?.id || NOTES[0].id
         const note = current()
         const pinned = state.pinned.includes(note.id)
         const sharedOn = state.shared.includes(note.id)
@@ -293,7 +362,7 @@
               <button class="btn" id="theme-toggle" aria-label="Toggle theme">${state.theme === 'dark' ? 'Light mode' : 'Dark mode'}</button>
               <button class="btn" id="share-open">Share</button>
               <button class="btn" id="feedback-open">Feedback</button>
-              <button class="btn" id="menu" aria-label="Note menu">&#8943;</button>
+              <button class="btn" id="menu" aria-label="Note menu" ${state.deleting ? 'disabled' : ''}>${state.deleting ? 'Deleting…' : '&#8943;'}</button>
             </header>
             ${state.menu ? `<div class="menu" id="menu-list"><button id="pin">${pinned ? 'Unpin' : 'Pin'}</button><button id="export">Export</button><button id="delete">Delete</button></div>` : ''}
             ${state.share ? `<div class="panel" id="share-panel"><h3>Share "${esc(note.title)}"</h3>
@@ -347,14 +416,7 @@
           track(sharedOn ? 'note_share_revoked' : 'note_shared', { note_id: note.id })
           store.set('shared', state.shared); render()
         })
-        document.getElementById('delete')?.addEventListener('click', () => {
-          cancelEditing('delete')
-          state.trash = [...state.trash, note.id]; state.trashBadge = state.trash.length; store.set('trash', state.trash)
-          track('note_deleted', { note_id: note.id, trash_count: state.trash.length })
-          state.menu = false
-          state.note = NOTES.find((n) => !state.trash.includes(n.id)).id
-          render()
-        })
+        document.getElementById('delete')?.addEventListener('click', () => deleteNote(note))
         document.getElementById('trash-link').addEventListener('click', () => { cancelEditing('navigation'); state.view = 'trash'; state.menu = false; state.share = false; track('trash_viewed', { trash_count: state.trash.length }); render() })
         document.getElementById('signout').addEventListener('click', () => {
           track('user_signed_out')

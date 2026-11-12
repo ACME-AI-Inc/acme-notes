@@ -18,6 +18,9 @@ const telemetry = {
     if (user?.id) safely(() => posthog.identify(user.id, { email: user.email || undefined, app: 'acme-notes' }))
   },
   reset() { safely(() => posthog.reset()) },
+  requestContext() {
+    return { session_id: safely(() => posthog.get_session_id()), is_test_run: safely(() => posthog.get_property('is_test_run')) === true }
+  },
   openFeedback() {
     if (!enabled) return Promise.resolve(false)
     return new Promise((resolve) => {
