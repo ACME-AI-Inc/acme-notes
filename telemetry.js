@@ -90,7 +90,7 @@ if (enabled) {
         captureConsoleLogs: true,
       },
       loaded(client) {
-        client.register({ app: 'acme-notes', environment: __APP_ENV__, app_version: __APP_VERSION__ })
+        client.register({ app: 'acme-notes', environment: __APP_ENV__, app_version: __APP_VERSION__, is_test_run: false })
         client.startSessionRecording()
         client.logger.info('Acme Notes telemetry initialized', { app: 'acme-notes' })
       },
