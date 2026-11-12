@@ -1,0 +1,54 @@
+{
+  "scenario": "note-delete-reference-error",
+  "baseline_sha": "cc06a24b4470da851a84dc7fc12124688b980b88",
+  "deployment": "dpl_DnieF5KsuS8xspMh84PLhVyMMBHE",
+  "production_url": "https://acme-notes-phi.vercel.app",
+  "ready_state": "READY",
+  "created_at_ms": 1794527102624,
+  "building_at_ms": 1794527103701,
+  "ready_at_ms": 1794527112635,
+  "push_to_ready_seconds": 10.011,
+  "build_to_ready_seconds": 8.934,
+  "local_baseline_check": {
+    "http_status": 500,
+    "crash_screen": true,
+    "note_preserved_after_reload": true
+  },
+  "production_baseline_check": {
+    "http_status": 500,
+    "crash_screen": true,
+    "note_preserved_after_reload": true,
+    "request_id": "5c933a0a-cdf1-4a5e-a085-6c254fae5df9",
+    "posthog_error_event_uuid": "01a1d227-0531-7af2-87bf-e2c35ec1313e",
+    "posthog_server_exception_uuid": "01a1d227-0530-75c2-befa-21bded197a34",
+    "posthog_server_log_uuid": "01a1d227-0623-78a0-a5b5-1efc40821422",
+    "posthog_log_service": "acme-notes-api",
+    "vercel_server_log_id": "nwftg-1794527134851-27e592c4e8fa",
+    "qa": true
+  },
+  "visual_checks": {
+    "desktop": "1280x720",
+    "mobile": "390x844",
+    "horizontal_overflow": false
+  },
+  "native_prearm_test": {
+    "source_uuid": "01a1d227-e648-7214-9a4f-644a1f9538c6",
+    "source_timestamp": "2026-11-12T23:46:32.860Z",
+    "request_id": "bd6d9506-fa59-4e3c-9bb2-e096d23caddd",
+    "recipient": "info@pandelis.me",
+    "source_is_test_run": false,
+    "note_preserved": true,
+    "destination_completed_at": "2026-11-12T23:46:38.111Z",
+    "destination_duration_ms": 490,
+    "intake_armed": false,
+    "repair_requested": false
+  },
+  "destination_preflight": {
+    "mocked_valid_delivery": true,
+    "qa_rejected": true,
+    "non500_rejected": true
+  },
+  "full_delete_repair_rehearsal_completed": false,
+  "delete_customer_email_enabled": false,
+  "monitor_workflow_digest": "bd7e4235ce1886f5011b3f86b5fc6fc300bb442b06cdcad82702a87b25f48d3f"
+}

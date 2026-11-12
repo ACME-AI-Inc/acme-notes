@@ -18,7 +18,7 @@ detect customer pain, diagnose it, write and review a fix, deploy, verify the
 customer's original action, and close the loop through PostHog email.
 
 The customer complaint is: "I can't edit my notes." The editor, persistence,
-cancel/save controls, and telemetry are built before the presentation. The first live source change is adding the missing Edit button. The user also requested a separate proactive Export exception case with a one-token repair.
+cancel/save controls, and telemetry are built before the presentation. The first live source change is adding the missing Edit button. The second scene is now a proactive Delete HTTP500 crash, replacing Export. Its server ReferenceError needs a one-token repair.
 
 Five proposed jobs need four owners. The recommended team combines Vercel and
 PostHog monitoring in one Signal Scout. Only the Chief Engineer writes code.
@@ -53,14 +53,14 @@ Reviewer and Customer Success remain independent owners.
 ## Current Repo State
 
 - Production is https://acme-notes-phi.vercel.app in Vercel composal/acme-notes, automatically deployed from ACME-AI-Inc/acme-notes main.
-- Prepared baseline a92700f keeps Edit absent and seeds the Export ReferenceError. cc52571 adds first-party replay ingestion and recorder assets through /n-sync.
+- Current baseline cc06a24 keeps Edit absent and seeds a real Delete HTTP500 with the full-page paper-jam screen. Export works. Failed Delete preserves the note; its server fix is deleteRequest → deletionRequest. cc52571 added first-party replay ingestion through /n-sync.
 - Four active ACME agents have real instructions, assigned repository access and PostHog MCP connections. Engineer, Scout and Reviewer also have Vercel MCP. Native legacy teammate pings and acknowledgments passed.
 - Native PostHog webhooks now drive an event-triggered monitor; minute polling is disabled. Intake is disarmed after the first admitted rehearsal case.
 - Native destination01a1d1e2-07aa-0000-a866-8384eaa56d09 is enabled for Scout endpointwebhook_19d0119fdd890304b81a3948f23de015; the old relay destination is disabled. Actual completed feedback reached this endpoint, workflow and all four role handoffs.
 - Feedback widget is launched only for info@pandelis.me on production. Rendering is verified in an isolated normal-UA browser; no real complaint was submitted.
 - Acme Notes <support@demo.composal.ai>, integration112077, is verified. Two tested editing-support workflows were explicitly approved and enabled, with zero executions at setup.
-- Customer Success has empty durable incident/email/synthetic-credit ledgers. No billing integration or visible credit entitlement exists.
-- Export PR1 and Edit PR2 were reviewed, merged and production-verified. Both editing-support email actions were logged as sent, with one synthetic USD20 ledger entry. Actual inbox delivery remains unconfirmed. The first native Edit run needed configuration corrections and exceeded the six-minute target.
+- Customer Success preserves the completed rehearsal incident/email/synthetic-credit ledgers. No billing integration or visible credit entitlement exists.
+- Export PR1 and Edit PR2 were reviewed, merged and production-verified. Both editing-support email actions were logged as sent, with one synthetic USD20 ledger entry. Acknowledgment inbox delivery was confirmed by the user; resolution inbox delivery remains unconfirmed. The first native Edit run needed configuration corrections and exceeded the six-minute target.
 - Replay metadata confirms stored production recordings. Replay Vision is not provisioned and must not be claimed.
 - Public IDs and operator instructions are in demo/team-setup.json and demo/run-of-show.md. Secrets remain server-only; the dedicated webhook credential expires 2026-11-13T20:40:23Z.
 
@@ -395,3 +395,30 @@ Acceptance:
 - New compact current-control block lives at the top of the existing allowed daily memory; original history is archived below it. No new memory paths or expanded permissions. Optimized monitor84d1b2d0da5425634e1bef3b6da8cbc49391120857aa07dd1dd17b23df099bfd uses one scalar source lookup before handoff and enriches replay/logs afterward. Both Edit and proactive Export branches are retained.
 - All13 current native team conversations confirmed /fast ultrafast; Sol low is the model default and implementation delegation explicitly requests ultrafast. Native workflow runner forwards model/thinking but not fastMode; step speed must not be claimed verified. A new uninterrupted timing remains pending.
 - Ordinary baseline reset1281be4 removed only the Edit control for the next rehearsal; Feedback and the working Export were preserved. Final onstage reset must restore both requested seeded bugs after tests, then leave intake disarmed.
+
+### Delete500 scenario replaces Export (2026-11-12)
+
+- User requested a visible crash on normal Delete. Baseline cc06a24 implements
+  POST /api/notes/delete with a genuine ReferenceError and500; no note moves to
+  Trash until the server acknowledges200. Full-page “The shredder shredded itself.”
+  includes recovery/retry and request ID. Export restored working; Edit absent.
+- Browser baseline check passes actual500, crash rendering and preservation after
+  reload. Desktop/mobile visually checked, no horizontal overflow. Build and
+  frozen Bun install pass. The future repair changes one identifier in the helper.
+- Native PostHog destination now filters completed survey or note_delete_failed,
+  rejecting QA, wrong operation/status/fingerprint and missing request ID. New
+  http_status/request_id/error_type body fields preserve request correlation.
+  Mocked-delivery preflight passes; QA and200 cases make no fetch.
+- Scout saved/read back digest
+  bd7e4235ce1886f5011b3f86b5fc6fc300bb442b06cdcad82702a87b25f48d3f;
+  same active event trigger, no stale binding; intake remains disarmed. Four
+  roles updated and Reviewer branch grant demo/fix-delete added. Delete email
+  and credit remain off pending accurate dedicated copy. Full Delete repair
+  rehearsal remains unmeasured. Historical Export/Edit results above are retained.
+
+- Production baseline cc06a24 deployed READY as dpl_DnieF5KsuS8xspMh84PLhVyMMBHE
+  in10.011seconds from deployment creation (8.934seconds building-to-ready).
+  Hosted actual500/crash/preservation passed. Exact QA request correlated in
+  PostHog browser failure, server exception, acme-notes-api log and genuine Vercel
+  serverless500 log. Normal customer pre-arm Delete also reached the native
+  destination successfully; no repair requested. See demo/benchmarks/delete-500-baseline.json.

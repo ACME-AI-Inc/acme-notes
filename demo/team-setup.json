@@ -20,7 +20,7 @@
   },
   "monitor": {
     "workflow": "workflows/acme-demo-monitor.lobster",
-    "digest": "84d1b2d0da5425634e1bef3b6da8cbc49391120857aa07dd1dd17b23df099bfd",
+    "digest": "bd7e4235ce1886f5011b3f86b5fc6fc300bb442b06cdcad82702a87b25f48d3f",
     "trigger": "clawder_workflow_trigger_NJYlREBvnzA6nHxqydOb57k8",
     "kind": "event",
     "subscription": "webhook-9146fa10e4c4410dc30a22165e3e061c",
@@ -30,7 +30,11 @@
     "run_budget_tokens": 150000,
     "run_budget_seconds": 300,
     "minute_polling_enabled": false,
-    "armed_at_setup": false
+    "armed_at_setup": false,
+    "cases": [
+      "missing-edit-button",
+      "note-delete-reference-error"
+    ]
   },
   "posthog": {
     "feedback_survey": "01a1d173-8f97-0000-50e6-7169f2bdd37f",
@@ -74,7 +78,22 @@
       "acknowledgment_sent": true,
       "resolution_sent": true,
       "inbox_delivery_confirmed": false,
-      "synthetic_credit_count": 1
+      "synthetic_credit_count": 1,
+      "acknowledgment_inbox_confirmed": true,
+      "resolution_inbox_confirmed": false
     }
+  },
+  "seeded_delete": {
+    "baseline_sha": "cc06a24b4470da851a84dc7fc12124688b980b88",
+    "trigger": "Meeting notes > Note menu > Delete",
+    "endpoint": "POST /api/notes/delete",
+    "event": "note_delete_failed",
+    "operation": "note_delete",
+    "http_status": 500,
+    "failure_fingerprint": "note-delete-reference-error",
+    "repair": "api/notes/delete.js: deleteRequest -> deletionRequest",
+    "branch": "demo/fix-delete",
+    "full_repair_rehearsal_completed": false,
+    "customer_emails_enabled": false
   }
 }

@@ -1,0 +1,29 @@
+{
+  "run_id": "acme-warm-edit-20261112",
+  "conversation_id": "native.YWdlbnQ6dmV4LTNmMDAwNjRmNjM3M2E3YmUzYmQ2MjMzOTpleHBsaWNpdDo2MTcwNmFjN2NmM2Y0MWY5NDRjYTliMjVlYzZjZjFlMQ",
+  "expires_at": "2026-11-12T23:51:13.776446+00:00",
+  "baseline_sha": "1cb2909b511c940fd5bc534e974836ba4cb53222",
+  "response": {
+    "run_id": "2fa5cb9b2aac7445f4a348a91a009c131599b58ce9bb139d35e6883da4bfe44b",
+    "conversation_id": "native.YWdlbnQ6dmV4LTNmMDAwNjRmNjM3M2E3YmUzYmQ2MjMzOTpleHBsaWNpdDo2MTcwNmFjN2NmM2Y0MWY5NDRjYTliMjVlYzZjZjFlMQ",
+    "status": "accepted",
+    "delivery_id": "clawder_input_delivery_8526dKxBlMRJi3n4zMWq1Q7O",
+    "delivery_status": "accepted"
+  },
+  "session_id": "01a1d1fa-8e23-70b5-b5f3-de55286c6859",
+  "distinct_id": "a751542b-3a83-498f-8cc4-1c840c7a0d83",
+  "armed_at": "2026-11-12T23:26:30.453178041Z",
+  "submit_started_at": "2026-11-12T23:27:41.828714+00:00",
+  "submit_returned_at": "2026-11-12T23:27:43.637107+00:00",
+  "source_event_id": "01a1d216-a7c7-7121-9f97-75d915d75cc2",
+  "native_received_at": "2026-11-12T23:27:48Z",
+  "classification": "Failed before admission: duplicate transport proof prerequisite not supplied by native runner",
+  "workflow_run": "clawder_workflow_run_L6oGEOyNBgQDfddJMR2rqgJ5",
+  "provider_lookup_performed": false,
+  "source_change": false,
+  "customer_email_sent": false,
+  "synthetic_credit_issued": false,
+  "workflow_agent_started_at": "2026-11-12T23:28:28Z",
+  "workflow_blocked_at": "2026-11-12T23:28:45Z",
+  "spent_tokens": 75217
+}

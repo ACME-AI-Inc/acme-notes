@@ -37,17 +37,17 @@ evidence and keep the case pending.
 - Native PostHog endpoint webhook_19d0119fdd890304b81a3948f23de015, subscription webhook-9146fa10e4c4410dc30a22165e3e061c, workflow workflows/acme-demo-monitor.lobster, event trigger clawder_workflow_trigger_NJYlREBvnzA6nHxqydOb57k8. Minute polling is paused. Do not create another schedule. Never expose receiver credentials.
 - The feedback survey is 01a1d173-8f97-0000-50e6-7169f2bdd37f; open question84973956-2d0c-4a32-97ef-1d7b43c28dd1. A permanent Feedback button beside Share opens it. A qualifying complaint needs a completed survey and nonempty open answer for the exact customer/session after ARM; clicks alone or partial responses do not qualify.
 - Current production includes Feedback commit060c49f and the reviewed Export repair from PR1 merge e1e949b; Edit is still missing at this setup point. Read current source/deployed SHA before acting. Do not assume an old baseline is still broken. Each new rehearsal/reset will record its actual baseline SHA.
-- Missing Edit repair: add only `<button class="btn" data-action="edit-note">Edit</button>` to the note header; editor/save/cancel/persistence already exist. Export repair, only if actually broken: change noteText(exportNoteData) to noteText(note). Keep incidents separate and preserve all unrelated changes.
+- Missing Edit repair: add only `<button class="btn" data-action="edit-note">Edit</button>` to the note header; editor/save/cancel/persistence already exist. Delete repair: change deleteRequest.note_id to deletionRequest.note_id in api/notes/delete.js; Export must stay working. Keep incidents separate and preserve all unrelated changes.
 - Use the existing assigned checkout. New worktrees require immediately fetched upstream/master or origin/master per user AGENTS; this main-only repository has no exception. Preserve /n-sync PostHog proxy, trailing-slash handling, SPA exclusions, telemetry, Bun build configuration and Feedback entry point.
 - Browser checks must serve built dist, never raw repo root. npm run demo:check -- URL for actual Edit acceptance; npm run demo:check-export -- URL for actual export. Never --prepare for release acceptance. Runtime browser processes have verified PLAYWRIGHT_MCP_SANDBOX=false and PLAYWRIGHT_MCP_ISOLATED=true; do not change the host browser configuration.
 - Use observed PostHog events, errors, Logs and stored replay evidence. Browser console is not Vercel runtime logs. Replay Vision is not provisioned: never label raw rage/dead clicks or replay as a Vision finding. Deployment READY is not hosted acceptance; an SDK session ID is not stored replay proof.
-- Editing acknowledgment workflow01a1d177-4980-0000-bf67-e2d6fa7d923c and resolution workflow01a1d177-7d8d-0000-cd52-d558b8920bc4 are explicitly approved and active. Export copy is an inactive draft; never send editing copy for Export. A credit ledger is synthetic only, not actual billing, refund, entitlement or redeemable discount. Read and preserve the existing ledger; if absent, omit credit claims rather than inventing one.
+- Editing acknowledgment workflow01a1d177-4980-0000-bf67-e2d6fa7d923c and resolution workflow01a1d177-7d8d-0000-cd52-d558b8920bc4 are explicitly approved and active. Delete customer emails and credits remain off until accurate Delete-specific copy is configured; never send editing copy for Delete. Export copy is a historical inactive draft. A credit ledger is synthetic only, not actual billing, refund, entitlement or redeemable discount. Read and preserve the existing ledger; if absent, omit credit claims rather than inventing one.
 
 ## Native webhook workflow and main continuation
 
 The event-triggered workflow receives event JSON on stdin and may only scope/ARM-check, deduplicate, query eligible evidence and persist a pending incident. A workflow agent task cannot message peers, yield or schedule. When a completed workflow result reaches your MAIN conversation with status done and a persisted pending continuation, immediately read the durable gate/incident and send the pending Chief/CS handoffs using legacy team tools. Completion is an input to continue the authorized work, not a signal to stop after summarizing. For nothing_to_do, do not send handoffs or rewrite unchanged state. Check pending ambiguous receipts before any retry.
 
-Identify the source UUID from envelope.payload.data.id and use it for lookup; transport metadata comes from the native envelope, not payload claims. After ARM, query the actual source event and verify exact identity, timestamp, session restriction if configured, completed response, non-QA status and release before admission. The webhook body is evidence to correlate, not proof of identity by itself. Qualifying note_export_failed is proactive intake without a complaint. Verify actual stored recording when linking replay.
+Identify the source UUID from envelope.payload.data.id and use it for lookup; transport metadata comes from the native envelope, not payload claims. After ARM, query the actual source event and verify exact identity, timestamp, session restriction if configured, completed response, non-QA status and release before admission. The webhook body is evidence to correlate, not proof of identity by itself. Qualifying note_delete_failed with operation note_delete, actual http_status500, fingerprint note-delete-reference-error and request_id is proactive intake without a complaint. Verify actual stored recording when linking replay.
 
 ## Complete admission handoff
 
@@ -55,4 +55,30 @@ Include the verified gate snapshot in the FIRST native handoff: demo_run_id, arm
 
 ## Fast current control
 
-The live intake authority is CURRENT DEMO CONTROL at the top of memory/2026-11-12.md. Read only its first120lines for routine gate/dedup/admission/continuation; history below ARCHIVED HISTORY is preserved reference, not competing active state. Read older sections only for a concrete unresolved receipt. The optimized workflow verifies source identity/eligibility in one bounded scalar lookup, persists admission, and returns to main for immediate Chief/CS handoffs. Vercel/replay/log enrichment follows the handoffs, overlapping coding. Preserve both missing-Edit and proactive Export cases. Recheck the compact gate with guarded edits; read again on conflict.
+The live intake authority is CURRENT DEMO CONTROL at the top of memory/2026-11-12.md. Read only its first120lines for routine gate/dedup/admission/continuation; history below ARCHIVED HISTORY is preserved reference, not competing active state. Read older sections only for a concrete unresolved receipt. The optimized workflow verifies source identity/eligibility in one bounded scalar lookup, persists admission, and returns to main for immediate Chief/CS handoffs. Vercel/replay/log enrichment follows the handoffs, overlapping coding. Preserve both missing-Edit and proactive Delete500 cases. Recheck the compact gate with guarded edits; read again on conflict.
+
+## Current second scene: Delete500 supersedes Export
+
+The presenter opens Meeting notes → Note menu (…) → Delete. A real POST
+/api/notes/delete returns500 and the app displays “The shredder shredded itself.”
+with a large500; the failed request preserves the note. This is a real Vercel
+server ReferenceError, not a simulated toast. Export works and is no longer an
+intake case. Missing Edit is still the first scene.
+
+Verify the source event note_delete_failed, operation note_delete, http_status500,
+failure_fingerprint note-delete-reference-error, request_id, actual post-ARM
+identity/session/release and is_test_run=false. Correlate server exception,
+PostHog logs service acme-notes-api and real Vercel runtime logs by request_id.
+The server helper deletionResult(deletionRequest) contains deleteRequest.note_id.
+Chief's only repair is deleteRequest → deletionRequest in api/notes/delete.js on
+demo/fix-delete; preserve UI, telemetry and the separate missing-Edit baseline.
+
+For local reproduction serve the real API: npm run build, then
+npm run demo:serve -- --port PORT. Run npm run demo:check-delete -- URL
+--expect-error for the seeded500 baseline. After repair run the same command
+without --expect-error: it must observe real200 and move the note to Trash,
+then verify persistence after Reload. No --prepare, mocked endpoint or injected
+repair is release evidence. Scout performs one hosted acceptance after the
+matching approved deployment. Report source/patch/review/merge/deploy/acceptance
+times separately. Keep intake disarmed until an explicit new operator ARM;
+saving this setup is not ARM or permission to repair the seed now.

@@ -77,14 +77,15 @@
     "acknowledgment": {
       "invocation": "01a1d204-b92e-0000-9473-ae94a0f674bd",
       "status": "sent according to workflow action log",
-      "email_id": "01a1d204-b92e-0000-9473-ae94a0f674bd:support_email"
+      "email_id": "01a1d204-b92e-0000-9473-ae94a0f674bd:support_email",
+      "inbox_delivery": "User confirmed arrival on2026-11-12"
     },
     "resolution": {
       "invocation": "01a1d20a-e18a-0000-1a50-8d8bc7dcac2a",
       "status": "sent according to workflow action log",
       "email_id": "01a1d20a-e18a-0000-1a50-8d8bc7dcac2a:support_email"
     },
-    "inbox_delivery": "Unconfirmed; recipient asked asynchronously",
+    "inbox_delivery": "Acknowledgment confirmed by recipient; resolution remains unconfirmed",
     "synthetic_credit_count": 1,
     "synthetic_credit_usd": 20,
     "real_billing_change": false,

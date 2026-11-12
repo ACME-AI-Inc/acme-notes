@@ -18,7 +18,7 @@ Hard-refresh production after the latest deployment. Sign in as info@pandelis.me
 and open Meeting notes. Keep the same browser profile throughout the demo so the
 app UUID, session, feedback and email identity stay linked.
 
-The final onstage baseline must have **no Edit button**, and **Export fails**.
+The final onstage baseline must have **no Edit button**, and **Delete returns500 with the crash screen**. Export works.
 During rehearsal, check the current source/release before expecting either bug. Both working behaviors
 are prepared; each incident needs a tiny source fix. Native PostHog webhooks drive the monitor; minute polling is disabled.
 Its durable gate remains `armed=false` until the operator arms it.
@@ -27,7 +27,7 @@ Its durable gate remains `armed=false` until the operator arms it.
 
 Send this to **Signal Scout** only when ready for the real repair:
 
-> ARM DEMO acme-meetup-20261112. Set the durable armed timestamp to now. Monitor only fresh non-QA evidence for info@pandelis.me in EU PostHog project 347307 and composal/acme-notes. Handle missing Edit feedback and note_export errors as distinct incidents. Chief Engineer may make the minimal patch, request independent exact-SHA review, open a PR, merge after approval and successful checks, and verify the matching production deployment. Customer Success may use the approved editing-support workflows only for the editing case after its identity and resolution gates pass. Never process historical QA or preflight evidence.
+> ARM DEMO acme-meetup-20261112. Set the durable armed timestamp to now. Monitor only fresh non-QA evidence for info@pandelis.me in EU PostHog project 347307 and composal/acme-notes. Resolve the customer's current non-QA production session. Handle missing Edit feedback and note_delete_failed with operation note_delete, actual http_status500 and fingerprint note-delete-reference-error as distinct incidents. Allow both sequential scenes for45minutes, auto_disarm_after_admission=false, baseline_sha=null so the approved first fix does not block the second scene. Chief Engineer may make the minimal patch, request independent exact-SHA review, open a PR, merge after approval and successful checks, and verify the matching production deployment. Customer Success may use the approved editing-support workflows only for the editing case after its identity and resolution gates pass. Never process historical QA or preflight evidence.
 
 Do not arm while preparing or before the audience should see the broken baseline.
 
@@ -66,25 +66,30 @@ separate agent reviews what ships. Then we retry the customer's original action.
 
 ## Scene 2: an error fixed before I complain
 
-1. Keep the demo armed. Open Meeting notes, then **… → Export**.
-2. The app shows **Export failed. Please try again.** There is no special error button.
-   Say: “This time I won't file feedback. The product reports the exception itself.”
-3. Show the real PostHog `ReferenceError`, structured error log and replay:
-   `exportNoteData is not defined`, operation `note_export`.
-4. PostHog's `note_export_failed` event invokes Scout's native webhook. Scout
-   correlates the exception/Logs and opens one separate incident without a complaint.
-5. Engineer changes **`noteText(exportNoteData)` → `noteText(note)`** on
-   `demo/fix-export`. Reviewer approves that SHA; Engineer opens the PR, merges
-   after review/checks, and waits for the matching production deployment.
-6. Refresh and retry **… → Export**. A real **meeting.md** download must contain
-   the selected note's title, paragraphs and list. Show the downloaded file.
-7. Scout marks acceptance after the actual download succeeds and no new export
-   failure appears for the retried action. Editing-support emails are not reused
-   for Export; separate export copy exists only as an inactive draft.
+1. Keep the demo armed. Open **Meeting notes → … → Delete**.
+2. The actual server request fails with **HTTP500**. The entire app changes to a
+   large red500 and **“The shredder shredded itself.”** Your note remains safe.
+   Say: “This time I won't file feedback. The product reports the crash itself.”
+3. Show PostHog's `note_delete_failed` and `ReferenceError`:
+   `deleteRequest is not defined`, operation `note_delete`, http_status500.
+   The browser event, server exception, PostHog log (`acme-notes-api`) and real
+   Vercel function log share a request ID. Open the recording for the visible crash.
+4. PostHog invokes Scout's native webhook. Scout admits one proactive incident
+   without a complaint and hands it to Chief. Repeated retries remain one case.
+5. Engineer changes **`deleteRequest` → `deletionRequest`** in
+   `api/notes/delete.js`, on `demo/fix-delete`. Reviewer approves that exact SHA;
+   Engineer opens/merges its PR after review/checks and verifies the matching deployment.
+6. Refresh and retry **Meeting notes → … → Delete**. The actual API must return200,
+   the note moves to **Trash**, and it stays there after reload. Show Trash.
+7. Scout records hosted acceptance of Delete → Trash → Reload. Delete emails and
+   credits are off until separate accurate copy is configured; editing-support copy
+   is never reused for this case.
 
-This is a browser exception and application error log, not a Vercel server 500.
-Vercel runtime logs cover server-side functions. Native webhook intake runs in Composal;
-its receipt and workflow are the evidence for that handoff.
+The monitor is **Signal Scout**. It uses the existing native webhook, not another
+poller. ARM is required before onstage clicks can start repairs. The platform
+currently admits native deliveries on a roughly one-minute sweep; do not promise
+instant dispatch. This new Delete path has baseline checks; full review/repair
+loop timing is not yet measured for Delete.
 
 ## If something stalls
 
@@ -101,9 +106,13 @@ Native handoffs use `team_agent_send` / `team_agent_read`. The newer
 
 ## Checks, limits and reset
 
-- Preparation: `npm run demo:check -- <url> --prepare` and
-  `npm run demo:check-export -- <url> --prepare`. These apply future tiny fixes
-  inside isolated browsers and leave the real baseline broken.
+- Seeded Delete check: `npm run demo:check-delete -- <url> --expect-error` verifies
+  actual500, the crash screen and note preservation. Local API: build, then
+  `npm run demo:serve -- --port 8792`.
+- Delete release acceptance: `npm run demo:check-delete -- <url>` requires actual200
+  and Trash persistence. No injected or mocked fix.
+- Edit preparation only: `npm run demo:check -- <url> --prepare` checks the
+  prebuilt editor in an isolated browser and leaves the source button absent.
 - Release acceptance: run the relevant command **without `--prepare`**.
   Engineer's isolated Linux test process uses `PLAYWRIGHT_MCP_SANDBOX=false` and
   `PLAYWRIGHT_MCP_ISOLATED=true`; host Chrome settings are unchanged.
@@ -111,7 +120,7 @@ Native handoffs use `team_agent_send` / `team_agent_read`. The newer
   project, clear duration/activity/playlist filters, or open a verified direct replay link.
   A session ID alone does not prove a stored recording exists.
 - The sender is verified; both editing-support workflows are active. Activation
-  sent no emails. Actual inbox delivery still needs the real demo run.
+  sent no emails. The acknowledgment arrived in the customer inbox during rehearsal; resolution is logged sent but inbox arrival remains unconfirmed.
 - Replay Vision is separate from replay and rage clicks. No Vision scanner is
   provisioned by this setup; claim a finding only with a real scanner observation.
 - Native webhook credentials remain in encrypted PostHog inputs and Composal.
