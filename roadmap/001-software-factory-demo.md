@@ -1,7 +1,7 @@
 # Acme Notes Software Factory Demo PRD
 
 **Status:** In progress
-**Current Stage:** 1 - Demo preparation
+**Current Stage:** 3 - Agent wiring verification
 **Owner:** Pandelis and Codex
 **Created:** 2026-11-12
 **Updated:** 2026-11-12
@@ -18,8 +18,7 @@ detect customer pain, diagnose it, write and review a fix, deploy, verify the
 customer's original action, and close the loop through PostHog email.
 
 The customer complaint is: "I can't edit my notes." The editor, persistence,
-cancel/save controls, and telemetry are built before the presentation. The only
-live source change is adding the missing Edit button.
+cancel/save controls, and telemetry are built before the presentation. The first live source change is adding the missing Edit button. The user also requested a separate proactive Export exception case with a one-token repair.
 
 Five proposed jobs need four owners. The recommended team combines Vercel and
 PostHog monitoring in one Signal Scout. Only the Chief Engineer writes code.
@@ -39,7 +38,7 @@ Reviewer and Customer Success remain independent owners.
 - A general production support platform or autonomous changes to other repositories.
 - Separate autonomous coders in the monitoring and customer-success roles.
 - Real charges, refunds, payment-provider integration, or discounts to real customers.
-- A second live incident before the main loop is reliable.
+- Unrelated feature work beyond the two explicitly requested seeded incidents.
 - Claiming raw rage clicks are a Replay Vision observation.
 
 ### Success Metrics
@@ -53,20 +52,17 @@ Reviewer and Customer Success remain independent owners.
 
 ## Current Repo State
 
-- `main` at `c00d827` is pushed to GitHub and has no unrelated local changes.
-- `index.html` is a static app with read-only note rendering. The existing unrelated Export action still shows a toast only.
-- There is no server API, real account backend, feedback survey, incident store, or credit system. Editing is being prebuilt in this stage.
-- `telemetry.js` sends browser analytics, replay, structured logs, and exceptions to EU project 347307.
-- UUID identity persists per browser/email. Keep the same UUID throughout the incident and email flow.
-- `acme-notes-preserve-theme` gates the existing theme bug; it is a backup scenario.
-- The new Composal-team Vercel project is linked to `ACME-AI-Inc/acme-notes` on `main`.
-  This checkout now targets `composal/acme-notes`; static build/output and PostHog variables are configured.
-- PostHog sender setup is ready: sender integration 112077 for `Acme Notes <support@demo.composal.ai>` is verified; templates and workflows are pending. `ready_to_send_email` is true.
-- Project 347307 has zero surveys at discovery time.
-- Replay Vision scanner tools are unavailable through this connector's current scopes.
-- Composal CLI 1.17.108 exposes hosted agents, automations, and draft creation.
-  Discovery in Vex confirms agents can be listed and creation is enabled.
-  A supported external webhook ingress and agent-to-agent handoff still need proof.
+- Production is https://acme-notes-phi.vercel.app in Vercel composal/acme-notes, automatically deployed from ACME-AI-Inc/acme-notes main.
+- Prepared baseline a92700f keeps Edit absent and seeds the Export ReferenceError. cc52571 adds first-party replay ingestion and recorder assets through /n-sync.
+- Four active ACME agents have real instructions, assigned repository access and PostHog MCP connections. Engineer, Scout and Reviewer also have Vercel MCP. Native legacy teammate pings and acknowledgments passed.
+- A one-minute native monitor is enabled; an actual unarmed invocation passed. State remains armed=false.
+- The scoped PostHog webhook destination is enabled. Real PostHog HTTP delivery reached Scout; replaying the source event returned the same Composal delivery receipt.
+- Feedback widget is launched only for info@pandelis.me on production. Rendering is verified in an isolated normal-UA browser; no real complaint was submitted.
+- Acme Notes <support@demo.composal.ai>, integration112077, is verified. Two tested editing-support workflows were explicitly approved and enabled, with zero executions at setup.
+- Customer Success has empty durable incident/email/synthetic-credit ledgers. No billing integration or visible credit entitlement exists.
+- Hosted preparation checks for editor and Export passed locally and in the Engineer's isolated runtime. Real source repairs and customer inbox delivery remain unrehearsed.
+- Replay metadata confirms stored production recordings. Replay Vision is not provisioned and must not be claimed.
+- Public IDs and operator instructions are in demo/team-setup.json and demo/run-of-show.md. Secrets remain server-only; the dedicated webhook credential expires 2026-11-13T20:40:23Z.
 
 ## Product Requirements
 
@@ -262,13 +258,13 @@ Acceptance:
 
 ### Stage 3: Connect the four agents
 
-**Status:** Ready
+**Status:** Verifying
 **Owned Paths:** `demo/agents/`, Composal agent/automation configurations and PostHog workflows.
 
-- [ ] Instantiate the reviewed instructions with real repository/project/deployment selectors.
-- [ ] Configure one Scout admission path and duplicate-event handling.
+- [x] Instantiate the reviewed instructions with real repository/project/deployment selectors.
+- [x] Configure Scout webhook admission, one-minute backup monitor and duplicate-event receipts.
 - [ ] Wire diagnosis, coding, independent review, release, live acceptance, and CS handoffs.
-- [ ] Prevent CS from announcing a local fix, open PR, or merely green deployment as resolved.
+- [x] Configure and test CS gates; actual live resolution remains untested.
 
 Run:
 
@@ -345,11 +341,11 @@ Acceptance:
 
 ## Open Questions
 
-- [ ] Which real inbox receives the demo emails? Owner: Pandelis.
+- [x] Customer inbox: info@pandelis.me.
 - [x] Sender: Acme Notes <support@demo.composal.ai>; sender verified and ready to send.
-- [ ] Confirm recommended four roles and Composal organization. Owner: Pandelis.
+- [x] Four roles are active in ACME; exact IDs are recorded in demo/team-setup.json.
 - [ ] What exact presentation length is allocated within the community-demo block? Owner: Pandelis.
-- [ ] Which ingress and handoff mechanism works in the current Composal runtime? Owner: Codex.
+- [x] Authenticated PostHog → Vercel → Composal input relay and legacy native teammate messages verified.
 - [ ] Is Replay Vision required live, or acceptable as clearly labeled rehearsal enrichment? Owner: Pandelis.
 
 ### 2026-11-12 - Editor preparation checks
@@ -370,3 +366,20 @@ Acceptance:
 - Sender: Acme Notes <support@demo.composal.ai>. Templates/workflows, survey, recipient, credit ledger, and actual Composal agent wiring are not yet complete.
 
 - Repeatable check: `npm run demo:check -- https://acme-notes-phi.vercel.app --prepare` passed. Release mode without `--prepare` correctly rejected the baseline because its actual source has no Edit button.
+
+### 2026-11-12 - Agent team and event transport
+
+- Four active ACME agents and PostHog/Vercel MCP reads verified. Legacy native teammate handoffs passed; newer thread messaging and briefing publication are gated off.
+- Monitor trigger clawder_workflow_trigger_wZ1WbXkaMqopWC32AO3PLGmY runs every60seconds. User approved saving/enabling it; a real unarmed run returned normally without provider queries or handoffs.
+- PostHog survey01a1d173-8f97-0000-50e6-7169f2bdd37f is launched, targeted to the named customer, and rendered on production. No response was submitted during setup.
+- HTTP destination01a1d17f-6a18-0000-2510-ae0a699dbe85 is enabled after mocked and real invocation tests. Duplicate relay requests returned the same deliveryID.
+- User approved both tested editing-support email workflows, now active. No actual emails, credits, repair PRs or customer fixes were issued during setup.
+- Build, relay authorization/audience/retry tests and hosted browser-only Export repair checks passed. Full autonomous repair and inbox rehearsal remains open.
+
+### 2026-11-12 - Production replay verification
+
+- User reported recordings not visible. session-recording-get confirmed pre-existing production replay01a1d184-da89-75e3-b88c-ee18666c364d (24seconds,36,880bytes,17events) and list queries returned recordings; missing capture was not established for every visitor.
+- cc52571 introduced first-party capture and explicit SDK recording start. Hosted checks caught fallback/trailing-slash routing errors; 6de84f2 and2c412e7 corrected them. Final browser verification on2c412e7: recorder/config assets304, flags/events/logs/surveys/replay uploads200, zerofailedrequests, recordingStarted=true. No claim is based only on deployment-ready status.
+- New production session01a1d18d-0dea-7636-817c-1508e3618650 uploaded through /n-sync/s/ successfully.
+
+- session-recording-get confirmed new first-party production replay01a1d18d-0dea-7636-817c-1508e3618650:55seconds,62,463bytes,58events, fourclicks, identifiedinfo@pandelis.me. This is stored replay evidence, not merely an SDK session ID.

@@ -18,7 +18,7 @@ Individual PRDs are the source of truth for tasks and evidence.
 
 | ID | PRD | Status | Current Stage | Updated | Verification | Next Action |
 | --- | --- | --- | --- | --- | --- | --- |
-| 001 | [Software factory demo](001-software-factory-demo.md) | In progress | 1 - Demo preparation | 2026-11-12 | Editor baseline hosted; sender verified; DNS merged/applied | Finish feedback, email templates, and agent transport |
+| 001 | [Software factory demo](001-software-factory-demo.md) | In progress | 3 - Agent wiring verification | 2026-11-12 | Four active agents; MCP/handoffs, webhook retries, widget and support workflows verified; replay stored | Rehearse the real armed repair and inbox loop |
 
 ## Completed PRDs
 

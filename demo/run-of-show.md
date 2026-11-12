@@ -1,107 +1,122 @@
-# Tonight: the customer-to-fix loop
+# Acme Notes: tonight's operating script
 
-The editor is being prepared; the baseline intentionally has no Edit button. Agent and email automation still need rehearsal. See
-[the implementation plan](../roadmap/001-software-factory-demo.md) for readiness.
+Production: https://acme-notes-phi.vercel.app
+Customer: **info@pandelis.me**. Any password works; this is a browser-local demo account.
+Sender: **Acme Notes <support@demo.composal.ai>**, PostHog EU project **347307**.
 
-## The opening
+## Open these tabs
 
-"This is Acme Notes. Four agents operate it: one watches the product, one writes
-code, one reviews releases, and one looks after customers. I'm going to be the
-customer having a bad day."
+- [Acme Notes](https://acme-notes-phi.vercel.app)
+- [Signal Scout](https://composal.com/acme/agent/acme-signal-scout)
+- [Chief Engineer](https://composal.com/acme/agent/e2e-github-discovery-20261112)
+- [Release Reviewer](https://composal.com/acme/agent/acme-release-reviewer)
+- [Customer Success](https://composal.com/acme/agent/acme-customer-success)
+- PostHog [recordings](https://eu.posthog.com/project/347307/replay), [feedback](https://eu.posthog.com/project/347307/surveys/01a1d173-8f97-0000-50e6-7169f2bdd37f), [logs](https://eu.posthog.com/project/347307/logs), and [errors](https://eu.posthog.com/project/347307/error-tracking).
+- [GitHub PRs](https://github.com/ACME-AI-Inc/acme-notes/pulls), [Vercel](https://vercel.com/composal/acme-notes), and the customer's inbox.
 
-## One story, four agents
+Hard-refresh production after the latest deployment. Sign in as info@pandelis.me
+and open Meeting notes. Keep the same browser profile throughout the demo so the
+app UUID, session, feedback and email identity stay linked.
 
-1. Sign into Acme Notes using the demo inbox. Open Meeting notes.
-2. Click/double-click the note text and look for an Edit button. The note stays read-only.
-   Native rage/dead clicks may arrive; the complaint itself is the deterministic trigger.
-3. Open the PostHog feedback widget. Submit:
-   "I can't edit my notes. There's no Edit button. Can you add one?"
-4. Show Signal Scout's case: user UUID, session/replay, feedback, and attempted-edit application logs. Do not imply a missing button creates a server exception.
-5. Show Scout handing the issue to Chief Engineer and Customer Success.
-6. The inbox receives an acknowledgment from Customer Success through PostHog.
-7. Chief Engineer adds the missing Edit button and sends that minimal patch to Reviewer. The editor, Save/Cancel, persistence, and telemetry are already built.
-8. Reviewer approves the exact SHA or requests corrections. Show the review evidence.
-9. Chief Engineer deploys that approved SHA. Scout opens Edit, changes the note, saves, and reloads to verify persistence. A green deployment alone does not close the case.
-10. Customer Success records one demo credit and requests the resolution email through PostHog.
-11. Refresh the app, show the edited note, and show the credit and inbox message.
+The baseline has **no Edit button**, and **Export fails**. Both working behaviors
+are prepared; each incident needs a tiny source fix. The minute monitor is enabled,
+but its durable gate remains `armed=false` until the operator arms it.
 
-## Narration at the handoffs
+## Arm the team
 
-- Detection: "PostHog ties the complaint to the person's actual session and attempted editing."
-- Coding: "The monitoring agent doesn't patch it. It hands evidence to the engineer."
-- Review: "A separate agent reviews the commit that will actually ship."
-- Release: "We retry the customer's failed action on the deployed version."
-- Customer: "The team closes the loop with the person who hit the bug."
+Send this to **Signal Scout** only when ready for the real repair:
 
-Use "Replay Vision found this" only when a real scanner observation exists. A raw
-rage-click event and a playable recording are useful evidence, but are distinct
-from a Replay Vision observation.
+> ARM DEMO acme-meetup-20261112. Set the durable armed timestamp to now. Monitor only fresh non-QA evidence for info@pandelis.me in EU PostHog project 347307 and composal/acme-notes. Handle missing Edit feedback and note_export errors as distinct incidents. Chief Engineer may make the minimal patch, request independent exact-SHA review, open a PR, merge after approval and successful checks, and verify the matching production deployment. Customer Success may use the approved editing-support workflows only for the editing case after its identity and resolution gates pass. Never process historical QA or preflight evidence.
 
-## Suggested presentation budget
+Do not arm while preparing or before the audience should see the broken baseline.
 
-- 0:00-0:30: introduce the product and four agent roles.
-- 0:30-1:15: experience the missing Edit button and submit feedback.
-- 1:15-2:00: show the correlated case and acknowledgment.
-- 2:00-4:30: show the engineering/review/release work already in progress.
-- 4:30-5:30: save a note, reload, and show the credit and resolution email.
-- 5:30-6:00: show the complete trace and explain the division of responsibilities.
+## Opening narration
 
-These are presentation targets, not verified runtime estimates. If the full loop
-takes longer in rehearsal, start the real customer run shortly before presenting,
-then show its timestamped work as it finishes. Keep a labeled rehearsal recording
-for a slow build, model, network, scanner, or inbox.
+“This is Acme Notes. Four agents operate it: one watches the product, one writes
+code, one reviews releases, and one looks after customers. I'll be the customer.”
 
-## Draft customer messages
+## Scene 1: I cannot edit my notes
 
-Acknowledgment subject: **We're looking into your missing Edit button**
+1. In Meeting notes, double-click the text two or three times. Look for Edit.
+   Say: “I made a note, but now I can't change it.”
+2. Click the right-side **Feedback** tab, select **I need help**, then **Next**.
+   Enter **“I can't edit my notes. There's no Edit button. Can you add one?”**
+   and **Send feedback**. Complete both questions; the first answer alone is not a case.
+3. Show Scout receiving the webhook and correlating the response with the UUID,
+   session, attempted-edit event, application log and recording. The minute poll is backup.
+4. Show native handoffs to Engineer and Customer Success. The inbox receives one
+   PostHog acknowledgment; that does not mean the fix has shipped.
+5. Engineer adds only this control to the note header:
 
-"Thanks for reporting this. We can see that you could not open an editor in your session and our
-engineering team is investigating. We'll update you when we've verified a fix."
+   ```html
+   <button class="btn" data-action="edit-note">Edit</button>
+   ```
 
-Resolution subject: **You can now edit your Acme Notes**
+6. Reviewer reads the diff and tests and approves the exact head SHA. Engineer
+   opens/merges the PR after that decision and checks. GitHub main deploys to Vercel.
+7. Show the deployed SHA. Refresh, reopen Meeting notes, **Edit**, change title
+   and content, **Save changes**, then reload and reopen the same note.
+8. Scout records hosted acceptance; only then may Customer Success request the
+   resolution email. A synthetic $20 demo credit may be recorded in its ledger.
+   It is not real money, a billing discount or an entitlement shown in this app.
 
-"We've added the Edit button and verified that changes save correctly. Please
-refresh Acme Notes, click Edit, change your note, and save. We've also added one month of Acme Pro
-as a demo credit. Thanks for helping us catch this."
+Narration: “The monitor supplies evidence. The engineer writes the patch. A
+separate agent reviews what ships. Then we retry the customer's original action.”
 
-The credit sentence is sent only when the entitlement is actually recorded.
-Use a support update and a separate discount message if the final sending rules
-require different categories. The sender is Acme Notes <support@demo.composal.ai>; the demo recipient remains to be supplied.
+## Scene 2: an error fixed before I complain
 
-## Before going on stage
+1. Keep the demo armed. Open Meeting notes, then **… → Export**.
+2. The app shows **Export failed. Please try again.** There is no special error button.
+   Say: “This time I won't file feedback. The product reports the exception itself.”
+3. Show the real PostHog `ReferenceError`, structured error log and replay:
+   `exportNoteData is not defined`, operation `note_export`.
+4. PostHog's `note_export_failed` event invokes the authenticated webhook. Scout
+   correlates the exception/Logs and opens one separate incident without a complaint.
+5. Engineer changes **`noteText(exportNoteData)` → `noteText(note)`** on
+   `demo/fix-export`. Reviewer approves that SHA; Engineer opens the PR, merges
+   after review/checks, and waits for the matching production deployment.
+6. Refresh and retry **… → Export**. A real **meeting.md** download must contain
+   the selected note's title, paragraphs and list. Show the downloaded file.
+7. Scout marks acceptance after the actual download succeeds and no new export
+   failure appears for the retried action. Editing-support emails are not reused
+   for Export; separate export copy exists only as an inactive draft.
 
-- One named test inbox, one verified sender, four active agents with correct tool access.
-- A working PostHog feedback widget; first response linked to the same UUID/session.
-- The prepared editor baseline with no Edit button; a one-line source button patch opens it.
-- Real browser events/replay/logs in PostHog and a proven automatic Scout trigger or clearly labeled poll.
-- A deploy action connected to the approved SHA; the Composal Vercel project now has the GitHub link.
-- Two full rehearsals and a duplicate-trigger test.
-- Record the baseline deployment, event/workflow/agent IDs, and reset procedure.
-- Pre-open app, agents, PostHog evidence, GitHub diff/review, Vercel deployment, and inbox.
+This is a browser exception and application error log, not a Vercel server 500.
+Vercel runtime logs apply to the server-side webhook relay.
 
-## Alternate stories
+## If something stalls
 
-- **Backup:** the existing dark-mode reset bug is easy to reproduce and already
-  has a feature flag. It demonstrates feedback/replay, but does not create Vercel
-  server error logs on this static app.
-- **Later:** inbound support email. Add this only after the native PostHog survey
-  path works; it needs a separate real mailbox trigger and identity mapping.
+Send Scout:
 
-## Things the audience should see
+> Check the armed incident, deduplicate source events and reconcile the last native teammate delivery. Report the missing evidence or receipt. Continue the existing case; do not duplicate incidents or resend an uncertain email.
 
-A real customer action, real telemetry, explicit agent handoffs, an actual source
-patch, an independent review, the exact deployed commit, the successful Edit → Save → Reload journey, and an email in the customer's inbox. Keep all synthetic discounts labeled.
+Send Engineer:
 
-## The prepared repair
+> Continue Scout's incident in the existing assigned checkout. Make the smallest fix, send the actual diff, tests and head SHA to Reviewer, and merge only the reviewed SHA after checks pass. Report the exact production deployment to Scout; do not close the case yourself.
 
-The entire live code change is adding this control to the note header:
+Native handoffs use `team_agent_send` / `team_agent_read`. The newer
+`send_thread_message` and `work_publish` routes are gated off in ACME.
 
-```html
-<button class="btn" data-action="edit-note">Edit</button>
-```
+## Checks, limits and reset
 
-The baseline already has the editor, delegated event handling, Save/Cancel,
-validation, user-scoped local persistence, and telemetry. Do not change those
-during the live repair. This is a real missing UI affordance, not a hidden feature
-flag or a manufactured server failure. Tests may inject the button in an isolated
-DOM during preparation; the actual demo must deploy a source change.
+- Preparation: `npm run demo:check -- <url> --prepare` and
+  `npm run demo:check-export -- <url> --prepare`. These apply future tiny fixes
+  inside isolated browsers and leave the real baseline broken.
+- Release acceptance: run the relevant command **without `--prepare`**.
+  Engineer's isolated Linux test process uses `PLAYWRIGHT_MCP_SANDBOX=false` and
+  `PLAYWRIGHT_MCP_ISOLATED=true`; host Chrome settings are unchanged.
+- Production replay capture uses `/n-sync`. If the list looks empty, use the EU
+  project, clear duration/activity/playlist filters, or open a verified direct replay link.
+  A session ID alone does not prove a stored recording exists.
+- The sender is verified; both editing-support workflows are active. Activation
+  sent no emails. Actual inbox delivery still needs the real demo run.
+- Replay Vision is separate from replay and rage clicks. No Vision scanner is
+  provisioned by this setup; claim a finding only with a real scanner observation.
+- The dedicated webhook credential expires **2026-11-13 20:40 UTC**. Renew it
+  for later demos. The agents' MCP accounts are separate from this credential.
+- Disarm before resetting. Revert only demo repair commits through ordinary
+  reviewed commits; never force-push or reset unrelated changes. A fresh browser
+  creates a new mock identity and clean notes; never blindly reuse an old email request.
+- The full autonomous repair/inbox loop has not been rehearsed end to end while
+  preserving this baseline. Report actual timings and pending states. Use an
+  explicitly labeled rehearsal recording if live services are slow.

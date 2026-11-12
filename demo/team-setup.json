@@ -1,0 +1,41 @@
+{
+  "organization": "acme",
+  "customer_email": "info@pandelis.me",
+  "sender": "Acme Notes <support@demo.composal.ai>",
+  "production_url": "https://acme-notes-phi.vercel.app",
+  "repository": "ACME-AI-Inc/acme-notes",
+  "posthog_project": 347307,
+  "vercel_project": "prj_zvcpKZtTKTQPNEmR3ytDBgFSb9IF",
+  "agents": {
+    "chief_engineer": "agent_Z2Ae1r7pPaV0Fz83x6obLvzE",
+    "signal_scout": "agent_Bg9oRDbV56JLseB5wqKneLvx",
+    "release_reviewer": "agent_zLdo7682kNbOTmvkrxWZnAEl",
+    "customer_success": "agent_A2yrZOxY5DYlS0ykXV9qeBEp"
+  },
+  "connections": {
+    "posthog": "agent_connection_7y01nG4LeBjpdFK5bZVXRPYK",
+    "vercel": "agent_connection_JLr6D8Y1eB1Y1H3BXxqMlpd2",
+    "generation": 2,
+    "teammate_transport": "team_agent_send/team_agent_read"
+  },
+  "monitor": {
+    "workflow": "workflows/acme-demo-monitor.lobster",
+    "digest": "25146271c987e485e7fe7481c1d4cea51c98c499a6c30c84ca68a1e0e45b3044",
+    "trigger": "clawder_workflow_trigger_wZ1WbXkaMqopWC32AO3PLGmY",
+    "interval_seconds": 60,
+    "enabled": true,
+    "armed_at_setup": false
+  },
+  "posthog": {
+    "feedback_survey": "01a1d173-8f97-0000-50e6-7169f2bdd37f",
+    "feedback_question": "84973956-2d0c-4a32-97ef-1d7b43c28dd1",
+    "webhook_destination": "01a1d17f-6a18-0000-2510-ae0a699dbe85",
+    "email_integration": 112077,
+    "acknowledgment_workflow": "01a1d177-4980-0000-bf67-e2d6fa7d923c",
+    "resolution_workflow": "01a1d177-7d8d-0000-cd52-d558b8920bc4",
+    "support_emails_enabled": true,
+    "customer_emails_sent_during_setup": false
+  },
+  "webhook_credential_expires_at": "2026-11-13T20:40:23Z",
+  "full_live_repair_rehearsal_completed": false
+}
