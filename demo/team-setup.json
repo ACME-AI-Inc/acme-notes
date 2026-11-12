@@ -95,5 +95,11 @@
     "branch": "demo/fix-delete",
     "full_repair_rehearsal_completed": false,
     "customer_emails_enabled": false
+  },
+  "agent_names": {
+    "chief_engineer": "Patch McFix",
+    "signal_scout": "Sherlock Logs",
+    "release_reviewer": "Captain Nitpick",
+    "customer_success": "Penny Perks"
   }
 }

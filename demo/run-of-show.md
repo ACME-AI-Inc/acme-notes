@@ -4,13 +4,16 @@ Production: https://acme-notes-phi.vercel.app
 Customer: **info@pandelis.me**. Any password works; this is a browser-local demo account.
 Sender: **Acme Notes <support@demo.composal.ai>**, PostHog EU project **347307**.
 
+The team: **Sherlock Logs** monitors product signals; **Patch McFix** writes code;
+**Captain Nitpick** reviews releases; **Penny Perks** handles customer support.
+
 ## Open these tabs
 
 - [Acme Notes](https://acme-notes-phi.vercel.app)
-- [Signal Scout](https://composal.com/acme/agent/acme-signal-scout)
-- [Chief Engineer](https://composal.com/acme/agent/e2e-github-discovery-20261112)
-- [Release Reviewer](https://composal.com/acme/agent/acme-release-reviewer)
-- [Customer Success](https://composal.com/acme/agent/acme-customer-success)
+- [Sherlock Logs](https://composal.com/acme/agent/acme-signal-scout)
+- [Patch McFix](https://composal.com/acme/agent/e2e-github-discovery-20261112)
+- [Captain Nitpick](https://composal.com/acme/agent/acme-release-reviewer)
+- [Penny Perks](https://composal.com/acme/agent/acme-customer-success)
 - PostHog [recordings](https://eu.posthog.com/project/347307/replay), [feedback](https://eu.posthog.com/project/347307/surveys/01a1d173-8f97-0000-50e6-7169f2bdd37f), [logs](https://eu.posthog.com/project/347307/logs), and [errors](https://eu.posthog.com/project/347307/error-tracking).
 - [GitHub PRs](https://github.com/ACME-AI-Inc/acme-notes/pulls), [Vercel](https://vercel.com/composal/acme-notes), and the customer's inbox.
 
@@ -25,9 +28,9 @@ Its durable gate remains `armed=false` until the operator arms it.
 
 ## Arm the team
 
-Send this to **Signal Scout** only when ready for the real repair:
+Send this to **Sherlock Logs** only when ready for the real repair:
 
-> ARM DEMO acme-meetup-20261112. Set the durable armed timestamp to now. Monitor only fresh non-QA evidence for info@pandelis.me in EU PostHog project 347307 and composal/acme-notes. Resolve the customer's current non-QA production session. Handle missing Edit feedback and note_delete_failed with operation note_delete, actual http_status500 and fingerprint note-delete-reference-error as distinct incidents. Allow both sequential scenes for45minutes, auto_disarm_after_admission=false, baseline_sha=null so the approved first fix does not block the second scene. Chief Engineer may make the minimal patch, request independent exact-SHA review, open a PR, merge after approval and successful checks, and verify the matching production deployment. Customer Success may use the approved editing-support workflows only for the editing case after its identity and resolution gates pass. Never process historical QA or preflight evidence.
+> ARM DEMO acme-meetup-20261112. Set the durable armed timestamp to now. Monitor only fresh non-QA evidence for info@pandelis.me in EU PostHog project 347307 and composal/acme-notes. Resolve the customer's current non-QA production session. Handle missing Edit feedback and note_delete_failed with operation note_delete, actual http_status500 and fingerprint note-delete-reference-error as distinct incidents. Allow both sequential scenes for45minutes, auto_disarm_after_admission=false, baseline_sha=null so the approved first fix does not block the second scene. Patch McFix may make the minimal patch, request independent exact-SHA review, open a PR, merge after approval and successful checks, and verify the matching production deployment. Penny Perks may use the approved editing-support workflows only for the editing case after its identity and resolution gates pass. Never process historical QA or preflight evidence.
 
 Do not arm while preparing or before the audience should see the broken baseline.
 
@@ -45,7 +48,7 @@ code, one reviews releases, and one looks after customers. I'll be the customer.
    and **Send feedback**. Complete both questions; the first answer alone is not a case.
 3. Show Scout receiving the webhook and correlating the response with the UUID,
    session, attempted-edit event, application log and recording. There is no minute poll.
-4. Show native handoffs to Engineer and Customer Success. The inbox receives one
+4. Show native handoffs to Engineer and Penny Perks. The inbox receives one
    PostHog acknowledgment; that does not mean the fix has shipped.
 5. Engineer adds only this control to the note header:
 
@@ -57,7 +60,7 @@ code, one reviews releases, and one looks after customers. I'll be the customer.
    opens/merges the PR after that decision and checks. GitHub main deploys to Vercel.
 7. Show the deployed SHA. Refresh, reopen Meeting notes, **Edit**, change title
    and content, **Save changes**, then reload and reopen the same note.
-8. Scout records hosted acceptance; only then may Customer Success request the
+8. Scout records hosted acceptance; only then may Penny Perks request the
    resolution email. A synthetic $20 demo credit may be recorded in its ledger.
    It is not real money, a billing discount or an entitlement shown in this app.
 
@@ -85,7 +88,7 @@ separate agent reviews what ships. Then we retry the customer's original action.
    credits are off until separate accurate copy is configured; editing-support copy
    is never reused for this case.
 
-The monitor is **Signal Scout**. It uses the existing native webhook, not another
+The monitor is **Sherlock Logs**. It uses the existing native webhook, not another
 poller. ARM is required before onstage clicks can start repairs. The platform
 currently admits native deliveries on a roughly one-minute sweep; do not promise
 instant dispatch. This new Delete path has baseline checks; full review/repair
