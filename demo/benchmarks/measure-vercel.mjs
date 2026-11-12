@@ -37,6 +37,7 @@ const phase = {
   clone_start: find(/^Cloning /),
   clone_end: find(/^Cloning completed/),
   install_start: find(/^Running "install" command:/),
+  package_manager: find(/^bun install v/),
   app_build_start: find(/^(> |\$ )node build\.mjs/),
   build_complete: find(/^Build Completed in /),
   publish_start: find(/^Deploying outputs/),
@@ -45,7 +46,7 @@ const phase = {
   cache_end: find(/^Build cache uploaded/),
 }
 const machine = deployment.resourceConfig?.buildMachine
-const pushedAt = Number(deployment.meta?.repoPushedAt) || null
+const pushedAt = deployment.source === 'git' ? Number(deployment.meta?.repoPushedAt) || null : null
 const report = {
   measured_at: new Date().toISOString(),
   project: `${scope}/acme-notes`,
@@ -55,6 +56,8 @@ const report = {
   api_durations_seconds: {
     push_to_admission: elapsed(pushedAt, deployment.createdAt),
     admission_and_provisioning: elapsed(deployment.createdAt, deployment.buildingAt),
+    created_to_ready: elapsed(deployment.createdAt, deployment.ready),
+    created_to_alias: elapsed(deployment.createdAt, deployment.aliasAssignedAt),
     build_to_ready: elapsed(deployment.buildingAt, deployment.ready),
     push_to_ready: elapsed(pushedAt, deployment.ready),
     push_to_alias: elapsed(pushedAt, deployment.aliasAssignedAt),

@@ -1,5 +1,5 @@
 {
-  "measured_at": "2026-11-12T22:03:47.967Z",
+  "measured_at": "2026-11-12T22:13:15.345Z",
   "project": "composal/acme-notes",
   "deployment": {
     "id": "dpl_5zDNU7QD66R617B7gSs1tuLMrMxw",
@@ -27,6 +27,8 @@
   "api_durations_seconds": {
     "push_to_admission": 4.408,
     "admission_and_provisioning": 1.024,
+    "created_to_ready": 9.136,
+    "created_to_alias": 9.328,
     "build_to_ready": 8.112,
     "push_to_ready": 13.544,
     "push_to_alias": 13.736,
@@ -49,6 +51,7 @@
       "timestamp": "2026-11-12T21:02:26.535Z",
       "marker": "Running \"install\" command: `npm ci`..."
     },
+    "package_manager": null,
     "app_build_start": {
       "timestamp": "2026-11-12T21:02:28.905Z",
       "marker": "> node build.mjs"

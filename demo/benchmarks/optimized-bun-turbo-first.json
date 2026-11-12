@@ -1,0 +1,96 @@
+{
+  "measured_at": "2026-11-12T22:13:15.448Z",
+  "project": "composal/acme-notes",
+  "deployment": {
+    "id": "dpl_3g1b6Rkgbu7kgSGzbXbhYQ2RqPid",
+    "url": "https://acme-notes-i4pf7akrq-composal.vercel.app",
+    "sha": "bb78f3e4d45a51a8640a1f4226f474ed32dc933f",
+    "source": "git",
+    "target": "production",
+    "status": "READY"
+  },
+  "machine": {
+    "cores": 30,
+    "memory_mb": 61440,
+    "purchase_type": "turbo",
+    "selection": "fixed",
+    "selection_source": "project-setting"
+  },
+  "api_timestamps_ms": {
+    "pushed": 1794521445000,
+    "created": 1794521447419,
+    "building": 1794521448193,
+    "ready": 1794521454395,
+    "alias_assigned": 1794521454590,
+    "container_finished": 1794521461707
+  },
+  "api_durations_seconds": {
+    "push_to_admission": 2.419,
+    "admission_and_provisioning": 0.774,
+    "created_to_ready": 6.976,
+    "created_to_alias": 7.171,
+    "build_to_ready": 6.202,
+    "push_to_ready": 9.395,
+    "push_to_alias": 9.59,
+    "build_to_container_finished": 13.514
+  },
+  "build_log_phases": {
+    "runner_start": {
+      "timestamp": "2026-11-12T22:10:47.902Z",
+      "marker": "Running build in Washington, D.C., USA (East) – iad1"
+    },
+    "clone_start": {
+      "timestamp": "2026-11-12T22:10:48.013Z",
+      "marker": "Cloning github.com/ACME-AI-Inc/acme-notes (Branch: main, Commit: bb78f3e)"
+    },
+    "clone_end": {
+      "timestamp": "2026-11-12T22:10:48.313Z",
+      "marker": "Cloning completed: 300.000ms"
+    },
+    "install_start": {
+      "timestamp": "2026-11-12T22:10:49.250Z",
+      "marker": "Running \"install\" command: `bun install --frozen-lockfile`..."
+    },
+    "package_manager": {
+      "timestamp": "2026-11-12T22:10:49.290Z",
+      "marker": "bun install v1.3.14 (0d9b296a)"
+    },
+    "app_build_start": {
+      "timestamp": "2026-11-12T22:10:49.426Z",
+      "marker": "$ node build.mjs"
+    },
+    "build_complete": {
+      "timestamp": "2026-11-12T22:10:50.260Z",
+      "marker": "Build Completed in /vercel/output [1s]"
+    },
+    "publish_start": {
+      "timestamp": "2026-11-12T22:10:50.276Z",
+      "marker": "Deploying outputs..."
+    },
+    "publish_end": {
+      "timestamp": "2026-11-12T22:10:54.472Z",
+      "marker": "Deployment completed"
+    },
+    "cache_start": {
+      "timestamp": "2026-11-12T22:10:54.474Z",
+      "marker": "Creating build cache..."
+    },
+    "cache_end": {
+      "timestamp": "2026-11-12T22:10:57.122Z",
+      "marker": "Build cache uploaded: 436.000ms"
+    }
+  },
+  "build_log_durations_seconds": {
+    "clone": 0.3,
+    "install_and_command_startup": 0.176,
+    "application_build_and_function_packaging": 0.834,
+    "output_publication": 4.196,
+    "cache_after_publication": 2.648
+  },
+  "caveats": [
+    "Git repoPushedAt may have one-second granularity.",
+    "Admission/provisioning is not pure queue time.",
+    "Build log phase times include infrastructure work between markers.",
+    "Cache creation can finish after production is already ready."
+  ]
+}
