@@ -19,6 +19,7 @@ await build({
   define: {
     __POSTHOG_KEY__: JSON.stringify(process.env.POSTHOG_KEY || ''),
     __POSTHOG_HOST__: JSON.stringify(process.env.POSTHOG_HOST || ''),
+    __POSTHOG_UI_HOST__: JSON.stringify(process.env.POSTHOG_UI_HOST || ''),
     __APP_ENV__: JSON.stringify(process.env.VERCEL_ENV || 'development'),
     __APP_VERSION__: JSON.stringify(process.env.VERCEL_GIT_COMMIT_SHA || '1.0.0'),
   },

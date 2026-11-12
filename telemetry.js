@@ -34,6 +34,7 @@ if (enabled) {
   try {
     posthog.init(__POSTHOG_KEY__, {
       api_host: __POSTHOG_HOST__,
+      ui_host: __POSTHOG_UI_HOST__ || undefined,
       defaults: '2026-08-30',
       person_profiles: 'identified_only',
       // This demo is also exercised by browser agents; keep their sessions visible.
@@ -55,6 +56,7 @@ if (enabled) {
         maskAllInputs: true,
         maskTextSelector: '.ph-mask',
         sampleRate: 1,
+        strictMinimumDuration: false,
         recordHeaders: false,
         recordBody: false,
       },
@@ -66,6 +68,7 @@ if (enabled) {
       },
       loaded(client) {
         client.register({ app: 'acme-notes', environment: __APP_ENV__, app_version: __APP_VERSION__ })
+        client.startSessionRecording()
         client.logger.info('Acme Notes telemetry initialized', { app: 'acme-notes' })
       },
     })
