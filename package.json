@@ -6,6 +6,8 @@
   "scripts": {
     "build": "node build.mjs",
     "demo:check": "node demo/check-editor.mjs",
+    "demo:check-webhook": "node --test demo/webhook.test.mjs",
+    "demo:check-export": "node demo/check-export.mjs",
     "start": "npm run build && python3 -m http.server 8080 --directory dist"
   },
   "repository": {

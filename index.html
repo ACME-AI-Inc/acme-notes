@@ -175,6 +175,25 @@
         flush()
         return { body, list }
       }
+      function exportNote(note) {
+        track('note_export_requested', { note_id: note.id })
+        try {
+          const markdown = `# ${note.title}\n\n${noteText(exportNoteData)}\n`
+          const url = URL.createObjectURL(new Blob([markdown], { type: 'text/markdown;charset=utf-8' }))
+          const link = document.createElement('a')
+          link.href = url; link.download = `${note.id}.md`
+          document.body.appendChild(link); link.click(); link.remove()
+          setTimeout(() => URL.revokeObjectURL(url), 1000)
+          track('note_exported', { note_id: note.id })
+          state.toast = 'Markdown downloaded'
+        } catch (error) {
+          const context = { operation: 'note_export', note_id: note.id, failure_fingerprint: 'note-export-reference-error' }
+          window.acmeTelemetry?.error(error, context)
+          track('note_export_failed', { ...context, error_type: error.name, error_message: error.message })
+          state.toast = 'Export failed. Please try again.'
+        }
+        state.menu = false; render()
+      }
       function startEditing() {
         if (!state.signed || state.view !== 'notes' || state.editor) return
         const note = current()
@@ -312,7 +331,7 @@
           track(pinned ? 'note_unpinned' : 'note_pinned', { note_id: note.id })
           store.set('pinned', state.pinned); state.menu = false; render()
         })
-        document.getElementById('export')?.addEventListener('click', () => { track('note_export_requested', { note_id: note.id }); state.toast = `${note.id}.md exported as Markdown`; state.menu = false; render(); setTimeout(() => { state.toast = null; render() }, 2400) })
+        document.getElementById('export')?.addEventListener('click', () => exportNote(note))
         document.getElementById('share-toggle')?.addEventListener('click', () => {
           if (sharedOn) store.set('revokedAt', { ...store.get('revokedAt', {}), [note.id]: Date.now() })
           state.shared = sharedOn ? state.shared.filter((id) => id !== note.id) : [...state.shared, note.id]
