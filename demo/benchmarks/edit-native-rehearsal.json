@@ -1,0 +1,100 @@
+{
+  "date": "2026-11-12",
+  "classification": "First native-webhook integration rehearsal with operator configuration corrections; not uninterrupted autonomous benchmark",
+  "run_id": "acme-rehearsal-edit-20261112",
+  "incident_id": "acme-edit-20261112-01a1d1fd67c5",
+  "source_event_id": "01a1d1fd-67c5-7f12-aad1-aee3a7bb2437",
+  "workflow_run": "clawder_workflow_run_NKdyp2GkBG6mHppYe69w5z7m",
+  "baseline": "060c49ff9e64b9830516082c34e5d39229c77ff6",
+  "reviewed_head": "1de0d8629fbbc7afb8b6b8c55a30ebaffb754752",
+  "merge_sha": "15b0299d47c7642b69c54a282629e984d5a79994",
+  "pull_request": "https://github.com/ACME-AI-Inc/acme-notes/pull/2",
+  "source_change": "One Edit button in index.html; existing editor unchanged",
+  "milestones_utc": {
+    "complaint": "2026-11-12T23:00:07.855+00:00",
+    "native_received": "2026-11-12T23:00:15+00:00",
+    "workflow_started": "2026-11-12T23:01:02+00:00",
+    "workflow_agent_started": "2026-11-12T23:01:29+00:00",
+    "workflow_admitted_report": "2026-11-12T23:05:11+00:00",
+    "chief_handoff": "2026-11-12T23:05:43.233+00:00",
+    "coder_started": "2026-11-12T23:06:56.358+00:00",
+    "coder_local_check_passed": "2026-11-12T23:07:51+00:00",
+    "coder_finished": "2026-11-12T23:08:06.544+00:00",
+    "acknowledgment_sent": "2026-11-12T23:08:08.145+00:00",
+    "pr_created": "2026-11-12T23:08:23+00:00",
+    "review_recorded": "2026-11-12T23:10:19+00:00",
+    "review_reported": "2026-11-12T23:10:59.145+00:00",
+    "merged": "2026-11-12T23:11:17+00:00",
+    "production_ready": "2026-11-12T23:11:27.898+00:00",
+    "hosted_check_started": "2026-11-12T23:12:45+00:00",
+    "hosted_check_passed": "2026-11-12T23:12:51+00:00",
+    "hosted_reported": "2026-11-12T23:14:09.083+00:00",
+    "resolution_sent": "2026-11-12T23:14:51.417+00:00"
+  },
+  "seconds_after_complaint": {
+    "complaint": 0.0,
+    "native_received": 7.145,
+    "workflow_started": 54.145,
+    "workflow_agent_started": 81.145,
+    "workflow_admitted_report": 303.145,
+    "chief_handoff": 335.378,
+    "coder_started": 408.503,
+    "coder_local_check_passed": 463.145,
+    "coder_finished": 478.689,
+    "acknowledgment_sent": 480.29,
+    "pr_created": 495.145,
+    "review_recorded": 611.145,
+    "review_reported": 651.29,
+    "merged": 669.145,
+    "production_ready": 680.043,
+    "hosted_check_started": 757.145,
+    "hosted_check_passed": 763.145,
+    "hosted_reported": 841.228,
+    "resolution_sent": 883.562
+  },
+  "model": {
+    "coder": "openai/gpt-6.1-sol",
+    "reasoning": "low",
+    "fast_mode_requested": "ultrafast",
+    "resolved_fast_mode": "Not exposed in this coder report; prior separate probe confirmed support"
+  },
+  "corrections": [
+    "Updated role instructions: Scout alone owns intake ARM, other agents accept authenticated admitted-case handoffs rather than their stale local hold. Scout also independently reconciled this through native messages.",
+    "Explicitly clarified the existing admitted-case scope to permit one conditional synthetic USD20 ledger entry, aligning the approved resolution workflow.",
+    "Reconciled acknowledgment using normal HogFlow invocation/action logs; transactional email send listing did not cover this send. No retry emitted."
+  ],
+  "acceptance": {
+    "production_ready": true,
+    "edit_save_reload": true,
+    "cancel": true,
+    "source_button": true,
+    "preparation_mode": false,
+    "posthog_note_saved_on_merge_sha": true,
+    "stored_customer_replay": "https://eu.posthog.com/project/347307/replay/01a1d1fa-8e23-70b5-b5f3-de55286c6859",
+    "qa_acceptance_replay_caveat": "Stored segment ends before Save; not full save/reload replay proof."
+  },
+  "support": {
+    "acknowledgment": {
+      "invocation": "01a1d204-b92e-0000-9473-ae94a0f674bd",
+      "status": "sent according to workflow action log",
+      "email_id": "01a1d204-b92e-0000-9473-ae94a0f674bd:support_email"
+    },
+    "resolution": {
+      "invocation": "01a1d20a-e18a-0000-1a50-8d8bc7dcac2a",
+      "status": "sent according to workflow action log",
+      "email_id": "01a1d20a-e18a-0000-1a50-8d8bc7dcac2a:support_email"
+    },
+    "inbox_delivery": "Unconfirmed; recipient asked asynchronously",
+    "synthetic_credit_count": 1,
+    "synthetic_credit_usd": 20,
+    "real_billing_change": false,
+    "duplicate_emails": false
+  },
+  "intake_state_after_admission": "disarmed",
+  "workflow_usage": {
+    "aggregate_tokens": 2015366,
+    "cost_usd": 0.485914,
+    "agent_seconds": 221
+  },
+  "latency_caveat": "Source/transport timestamps have mixed millisecond and second precision. Role handoffs accepted do not equal completed work. Hosted pass time is actual command end, not the later report."
+}

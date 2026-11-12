@@ -18,9 +18,10 @@ Hard-refresh production after the latest deployment. Sign in as info@pandelis.me
 and open Meeting notes. Keep the same browser profile throughout the demo so the
 app UUID, session, feedback and email identity stay linked.
 
-The baseline has **no Edit button**, and **Export fails**. Both working behaviors
-are prepared; each incident needs a tiny source fix. The minute monitor is enabled,
-but its durable gate remains `armed=false` until the operator arms it.
+The final onstage baseline must have **no Edit button**, and **Export fails**.
+During rehearsal, check the current source/release before expecting either bug. Both working behaviors
+are prepared; each incident needs a tiny source fix. Native PostHog webhooks drive the monitor; minute polling is disabled.
+Its durable gate remains `armed=false` until the operator arms it.
 
 ## Arm the team
 
@@ -43,7 +44,7 @@ code, one reviews releases, and one looks after customers. I'll be the customer.
    Enter **“I can't edit my notes. There's no Edit button. Can you add one?”**
    and **Send feedback**. Complete both questions; the first answer alone is not a case.
 3. Show Scout receiving the webhook and correlating the response with the UUID,
-   session, attempted-edit event, application log and recording. The minute poll is backup.
+   session, attempted-edit event, application log and recording. There is no minute poll.
 4. Show native handoffs to Engineer and Customer Success. The inbox receives one
    PostHog acknowledgment; that does not mean the fix has shipped.
 5. Engineer adds only this control to the note header:
@@ -70,7 +71,7 @@ separate agent reviews what ships. Then we retry the customer's original action.
    Say: “This time I won't file feedback. The product reports the exception itself.”
 3. Show the real PostHog `ReferenceError`, structured error log and replay:
    `exportNoteData is not defined`, operation `note_export`.
-4. PostHog's `note_export_failed` event invokes the authenticated webhook. Scout
+4. PostHog's `note_export_failed` event invokes Scout's native webhook. Scout
    correlates the exception/Logs and opens one separate incident without a complaint.
 5. Engineer changes **`noteText(exportNoteData)` → `noteText(note)`** on
    `demo/fix-export`. Reviewer approves that SHA; Engineer opens the PR, merges
@@ -82,7 +83,8 @@ separate agent reviews what ships. Then we retry the customer's original action.
    for Export; separate export copy exists only as an inactive draft.
 
 This is a browser exception and application error log, not a Vercel server 500.
-Vercel runtime logs apply to the server-side webhook relay.
+Vercel runtime logs cover server-side functions. Native webhook intake runs in Composal;
+its receipt and workflow are the evidence for that handoff.
 
 ## If something stalls
 
@@ -112,11 +114,13 @@ Native handoffs use `team_agent_send` / `team_agent_read`. The newer
   sent no emails. Actual inbox delivery still needs the real demo run.
 - Replay Vision is separate from replay and rage clicks. No Vision scanner is
   provisioned by this setup; claim a finding only with a real scanner observation.
-- The dedicated webhook credential expires **2026-11-13 20:40 UTC**. Renew it
-  for later demos. The agents' MCP accounts are separate from this credential.
+- Native webhook credentials remain in encrypted PostHog inputs and Composal.
+  The old relay destination is disabled; its separate credential expires
+  **2026-11-13 20:40 UTC** and is retained only until cutover acceptance.
 - Disarm before resetting. Revert only demo repair commits through ordinary
   reviewed commits; never force-push or reset unrelated changes. A fresh browser
   creates a new mock identity and clean notes; never blindly reuse an old email request.
-- The full autonomous repair/inbox loop has not been rehearsed end to end while
-  preserving this baseline. Report actual timings and pending states. Use an
-  explicitly labeled rehearsal recording if live services are slow.
+- The first native feedback rehearsal reached reviewed/deployed Edit acceptance
+  and both PostHog support sends. It needed configuration corrections and took
+  longer than the six-minute target. Inbox delivery remains unconfirmed. Use the
+  benchmark receipts and clearly label rehearsal evidence if live services are slow.

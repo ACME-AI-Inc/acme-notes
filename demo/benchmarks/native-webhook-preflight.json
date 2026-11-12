@@ -1,0 +1,27 @@
+{
+  "date": "2026-11-12",
+  "endpoint": "webhook_19d0119fdd890304b81a3948f23de015",
+  "posthog_destination": "01a1d1e2-07aa-0000-a866-8384eaa56d09",
+  "subscription": "webhook-9146fa10e4c4410dc30a22165e3e061c",
+  "trigger": "clawder_workflow_trigger_NJYlREBvnzA6nHxqydOb57k8",
+  "source_event_id": "acme-native-workflow-preflight-20261112-2",
+  "workflow_run": "clawder_workflow_run_dm5j43vpMN7jippoe1DALJkg",
+  "workflow_digest_at_test": "f199d7711d2ad3b06e9696722a8db874072c9c359c8f7528484e4e32753daeaf",
+  "milestones_utc": {
+    "received": "2026-11-12T22:44:01Z",
+    "workflow_started": "2026-11-12T22:45:01Z",
+    "agent_step_started": "2026-11-12T22:45:26Z",
+    "workflow_finished": "2026-11-12T22:45:36Z",
+    "main_continuation_reported": "2026-11-12T22:45:45Z"
+  },
+  "elapsed_seconds": {
+    "callback_to_workflow_start": 60,
+    "workflow_to_agent_step": 25,
+    "agent_step": 10,
+    "callback_to_workflow_finished": 95,
+    "callback_to_main_report": 104
+  },
+  "guard_result": "nothing_to_do: durable armed=false; no provider queries, incident, handoffs, emails or credits",
+  "duplicate_transport_preflight": "Repeated acme-native-preflight-20261112-1 produced only one native receipt. QA and incomplete survey test invocations produced no additional receipt.",
+  "caveat": "Native event delivery is verified but not instant. Actual complete armed incident handoff and customer email loop require separate rehearsal. Auth secrets omitted."
+}

@@ -1,0 +1,60 @@
+{
+  "date": "2026-11-12",
+  "classification": "Assisted integration rehearsal, not uninterrupted autonomous benchmark",
+  "model": {
+    "coder": "openai/gpt-6.1-sol",
+    "thinking": "low",
+    "fastMode": "ultrafast"
+  },
+  "repository": "ACME-AI-Inc/acme-notes",
+  "pr": "https://github.com/ACME-AI-Inc/acme-notes/pull/1",
+  "base_sha": "cc26d83fb545df3dcba1e6663eb7ecdf2ebd6367",
+  "reviewed_head_sha": "67420f747278fbd0208c3365291e52eb2b5e463a",
+  "merge_sha": "e1e949bf2d1fecfebc89677730be8b8fd315daba",
+  "source_change": "noteText(exportNoteData) -> noteText(note)",
+  "milestones_utc": {
+    "dispatch": "2026-11-12T22:23:26.398459+00:00",
+    "admitted": "2026-11-12T22:23:27.203785+00:00",
+    "coder_started": "2026-11-12T22:23:40.910+00:00",
+    "patch_applied": "2026-11-12T22:23:53+00:00",
+    "local_download_passed": "2026-11-12T22:24:33+00:00",
+    "branch_pushed": "2026-11-12T22:24:39+00:00",
+    "pr_created": "2026-11-12T22:29:32+00:00",
+    "review_approved": "2026-11-12T22:36:50+00:00",
+    "merged": "2026-11-12T22:37:25+00:00",
+    "production_ready": "2026-11-12T22:37:35.150+00:00",
+    "hosted_acceptance_reported": "2026-11-12T22:41:54.400+00:00"
+  },
+  "elapsed_from_dispatch_seconds": {
+    "dispatch": 0.0,
+    "admitted": 0.805,
+    "coder_started": 14.512,
+    "patch_applied": 26.602,
+    "local_download_passed": 66.602,
+    "branch_pushed": 72.602,
+    "pr_created": 365.602,
+    "review_approved": 803.602,
+    "merged": 838.602,
+    "production_ready": 848.752,
+    "hosted_acceptance_reported": 1108.002
+  },
+  "interventions": [
+    "Initial separate attempt spawned Terra and was stopped; excluded from this Sol measurement.",
+    "Sol helper shell gh could push but PR creation returned403 Resource not accessible by integration. Parent continuation failed; operator resumed Chief to use native github_cli, which created PR.",
+    "Reviewer requested operator authorization despite existing approved scope; explicit direct owner confirmation and durable role clarification resolved it.",
+    "Duplicate local/preview browser checks and runtime browser setup increased review latency."
+  ],
+  "acceptance": {
+    "owner": "Signal Scout",
+    "production_url": "https://acme-notes-phi.vercel.app",
+    "reported_at": "2026-11-12T22:41:54.400+00:00",
+    "result": "Actual meeting.md downloaded; independent file read confirmed165 bytes match note title, body and list. No --prepare or injected repair. PostHog note_exported on merge SHA; no note_export_failed/$exception in tested session/window; no matching error/fatal Vercel runtime logs.",
+    "customer_email_sent": false,
+    "global_demo_armed": false
+  },
+  "precision_notes": [
+    "Some tool milestones rounded to seconds.",
+    "Hosted acceptance time is report completion; includes independent file and telemetry checks, not only browser duration.",
+    "Vercel source push timestamp has one-second granularity."
+  ]
+}

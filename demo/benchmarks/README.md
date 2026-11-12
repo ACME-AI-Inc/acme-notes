@@ -75,3 +75,21 @@ node demo/benchmarks/measure-vercel.mjs <deployment-id-or-hostname> --output /tm
 The collector uses existing Vercel CLI authentication and excludes environment
 values and billing/account details from its output. The full agent-to-review-to-
 merge time must be measured separately; it is not included in this build table.
+
+## Agent repair rehearsal
+
+The [Sol Export rehearsal](export-sol-rehearsal.md) separates 72.6 seconds to a
+tested pushed patch from integration/review delays. Its real production release
+took 11.15 seconds push to ready and6.531 seconds build to ready. This was an
+assisted integration rehearsal, not an uninterrupted autonomous timing claim.
+
+[Native webhook preflight](native-webhook-preflight.json) records actual delivery,
+guard and main-continuation timestamps. PostHog HTTP delivery is fast, but native
+workflow admission currently adds measurable delay; no instant processing claim.
+
+The [first complete native Edit integration rehearsal](edit-native-rehearsal.json)
+passed hosted editing12m43s after the complaint and logged the resolution email
+as sent at14m44s. It included scope/credit configuration corrections. This misses
+the six-minute presentation target; intake and review are being shortened and a
+fresh uninterrupted timing is required. The actual Vercel release took10.898s.
+Both support emails were logged as sent, with inbox delivery still unconfirmed.

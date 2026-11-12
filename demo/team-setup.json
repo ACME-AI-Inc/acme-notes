@@ -20,22 +20,61 @@
   },
   "monitor": {
     "workflow": "workflows/acme-demo-monitor.lobster",
-    "digest": "25146271c987e485e7fe7481c1d4cea51c98c499a6c30c84ca68a1e0e45b3044",
-    "trigger": "clawder_workflow_trigger_wZ1WbXkaMqopWC32AO3PLGmY",
-    "interval_seconds": 60,
+    "digest": "84d1b2d0da5425634e1bef3b6da8cbc49391120857aa07dd1dd17b23df099bfd",
+    "trigger": "clawder_workflow_trigger_NJYlREBvnzA6nHxqydOb57k8",
+    "kind": "event",
+    "subscription": "webhook-9146fa10e4c4410dc30a22165e3e061c",
+    "native_webhook": "webhook_19d0119fdd890304b81a3948f23de015",
     "enabled": true,
+    "daily_limit": 100,
+    "run_budget_tokens": 150000,
+    "run_budget_seconds": 300,
+    "minute_polling_enabled": false,
     "armed_at_setup": false
   },
   "posthog": {
     "feedback_survey": "01a1d173-8f97-0000-50e6-7169f2bdd37f",
     "feedback_question": "84973956-2d0c-4a32-97ef-1d7b43c28dd1",
-    "webhook_destination": "01a1d17f-6a18-0000-2510-ae0a699dbe85",
+    "webhook_destination": "01a1d1e2-07aa-0000-a866-8384eaa56d09",
     "email_integration": 112077,
     "acknowledgment_workflow": "01a1d177-4980-0000-bf67-e2d6fa7d923c",
     "resolution_workflow": "01a1d177-7d8d-0000-cd52-d558b8920bc4",
     "support_emails_enabled": true,
-    "customer_emails_sent_during_setup": false
+    "customer_emails_sent_during_setup": false,
+    "legacy_relay_destination": "01a1d17f-6a18-0000-2510-ae0a699dbe85",
+    "legacy_relay_enabled": false
   },
-  "webhook_credential_expires_at": "2026-11-13T20:40:23Z",
-  "full_live_repair_rehearsal_completed": false
+  "webhook_credential_expires_at": null,
+  "full_live_repair_rehearsal_completed": true,
+  "legacy_relay_credential_expires_at": "2026-11-13T20:40:23Z",
+  "model": {
+    "implementation": "openai/gpt-6.1-sol",
+    "reasoning": "low",
+    "speed": "ultrafast",
+    "pr_publication": "Chief native github_cli, not helper shell gh",
+    "native_team_sessions_ultrafast_confirmed": 13,
+    "workflow_step_fast_mode": "Runner forwards model/thinking only; ultrafast unverified"
+  },
+  "rehearsals": {
+    "export_assisted": {
+      "pull_request": "https://github.com/ACME-AI-Inc/acme-notes/pull/1",
+      "merge_sha": "e1e949bf2d1fecfebc89677730be8b8fd315daba",
+      "hosted_acceptance": true,
+      "coder_dispatch_to_push_seconds": 72.602,
+      "vercel_push_to_ready_seconds": 11.15,
+      "full_autonomous_loop": false,
+      "customer_email_sent": false
+    },
+    "missing_edit_native": {
+      "status": "completed_with_configuration_corrections",
+      "run_id": "acme-rehearsal-edit-20261112",
+      "pull_request": "https://github.com/ACME-AI-Inc/acme-notes/pull/2",
+      "merge_sha": "15b0299d47c7642b69c54a282629e984d5a79994",
+      "hosted_acceptance": true,
+      "acknowledgment_sent": true,
+      "resolution_sent": true,
+      "inbox_delivery_confirmed": false,
+      "synthetic_credit_count": 1
+    }
+  }
 }

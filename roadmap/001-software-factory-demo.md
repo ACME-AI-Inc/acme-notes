@@ -1,7 +1,7 @@
 # Acme Notes Software Factory Demo PRD
 
 **Status:** In progress
-**Current Stage:** 3 - Agent wiring verification
+**Current Stage:** 4 - Hosted rehearsal and timing optimization
 **Owner:** Pandelis and Codex
 **Created:** 2026-11-12
 **Updated:** 2026-11-12
@@ -26,9 +26,9 @@ Reviewer and Customer Success remain independent owners.
 
 ### Goals
 
-- [ ] Demonstrate one real incident from customer action to verified resolution.
+- [x] Demonstrate one real incident from customer action to verified resolution (native Edit rehearsal PR2; assisted configuration run).
 - [ ] Correlate missing-edit feedback, real replay/click evidence, application logs, code, and release.
-- [ ] Show explicit agent handoffs and an independent review of the deployed SHA.
+- [x] Show explicit agent handoffs and an independent review of the deployed SHA.
 - [ ] Deliver an acknowledgment and a resolution email through PostHog to the demo inbox.
 - [ ] Issue one clearly labeled demo credit after resolution; no real billing change.
 - [ ] Rehearse the complete loop twice and record the actual elapsed time.
@@ -55,12 +55,12 @@ Reviewer and Customer Success remain independent owners.
 - Production is https://acme-notes-phi.vercel.app in Vercel composal/acme-notes, automatically deployed from ACME-AI-Inc/acme-notes main.
 - Prepared baseline a92700f keeps Edit absent and seeds the Export ReferenceError. cc52571 adds first-party replay ingestion and recorder assets through /n-sync.
 - Four active ACME agents have real instructions, assigned repository access and PostHog MCP connections. Engineer, Scout and Reviewer also have Vercel MCP. Native legacy teammate pings and acknowledgments passed.
-- A one-minute native monitor is enabled; an actual unarmed invocation passed. State remains armed=false.
-- The scoped PostHog webhook destination is enabled. Real PostHog HTTP delivery reached Scout; replaying the source event returned the same Composal delivery receipt.
+- Native PostHog webhooks now drive an event-triggered monitor; minute polling is disabled. Intake is disarmed after the first admitted rehearsal case.
+- Native destination01a1d1e2-07aa-0000-a866-8384eaa56d09 is enabled for Scout endpointwebhook_19d0119fdd890304b81a3948f23de015; the old relay destination is disabled. Actual completed feedback reached this endpoint, workflow and all four role handoffs.
 - Feedback widget is launched only for info@pandelis.me on production. Rendering is verified in an isolated normal-UA browser; no real complaint was submitted.
 - Acme Notes <support@demo.composal.ai>, integration112077, is verified. Two tested editing-support workflows were explicitly approved and enabled, with zero executions at setup.
 - Customer Success has empty durable incident/email/synthetic-credit ledgers. No billing integration or visible credit entitlement exists.
-- Hosted preparation checks for editor and Export passed locally and in the Engineer's isolated runtime. Real source repairs and customer inbox delivery remain unrehearsed.
+- Export PR1 and Edit PR2 were reviewed, merged and production-verified. Both editing-support email actions were logged as sent, with one synthetic USD20 ledger entry. Actual inbox delivery remains unconfirmed. The first native Edit run needed configuration corrections and exceeded the six-minute target.
 - Replay metadata confirms stored production recordings. Replay Vision is not provisioned and must not be claimed.
 - Public IDs and operator instructions are in demo/team-setup.json and demo/run-of-show.md. Secrets remain server-only; the dedicated webhook credential expires 2026-11-13T20:40:23Z.
 
@@ -383,3 +383,15 @@ Acceptance:
 - New production session01a1d18d-0dea-7636-817c-1508e3618650 uploaded through /n-sync/s/ successfully.
 
 - session-recording-get confirmed new first-party production replay01a1d18d-0dea-7636-817c-1508e3618650:55seconds,62,463bytes,58events, fourclicks, identifiedinfo@pandelis.me. This is stored replay evidence, not merely an SDK session ID.
+
+### 2026-11-12 - Full native feedback rehearsal and faster intake
+
+- Actual complete feedback01a1d1fd-67c5-7f12-aad1-aee3a7bb2437 at23:00:07.855UTC reached native endpoint23:00:15; its partial predecessor was ignored.
+- Workflowclawder_workflow_run_NKdyp2GkBG6mHppYe69w5z7m admitted one verified missing-Edit incident, then disarmed further intake. Stored customer replay and real source identity/session/release were verified. The initial evidence step took222s before coding handoff.
+- Actual Sol low coder added one button in1de0d8629fbbc7afb8b6b8c55a30ebaffb754752. PR2 merged15b0299d47c7642b69c54a282629e984d5a79994 after independent native exact-head approval. Vercel productiondpl_Cy6cHhfbdRrvf4F8rTe4by7GAdNV took10.898s push-to-ready.
+- Scout actual-source hosted Edit/Save/Reload/Cancel passed23:12:45–51, no preparation mode. PostHog note_saved matched the deployed SHA; the available QA replay segment ends before Save, so it is not full save/reload replay proof.
+- Acknowledgment invocation01a1d204-b92e-0000-9473-ae94a0f674bd logged sent23:08:08.145. Resolution01a1d20a-e18a-0000-1a50-8d8bc7dcac2a logged sent23:14:51.417. CS records one synthetic USD20 entry, no actual billing change. Inbox delivery is unconfirmed.
+- Corrected stale per-agent setup holds: Scout owns intake authority; other agents accept its authenticated admitted-case scope. Clarified synthetic-credit scope to match the already-approved resolution workflow. Normal HogFlow action logs cover these emails; transactional-only send logs did not. This first run is explicitly assisted.
+- New compact current-control block lives at the top of the existing allowed daily memory; original history is archived below it. No new memory paths or expanded permissions. Optimized monitor84d1b2d0da5425634e1bef3b6da8cbc49391120857aa07dd1dd17b23df099bfd uses one scalar source lookup before handoff and enriches replay/logs afterward. Both Edit and proactive Export branches are retained.
+- All13 current native team conversations confirmed /fast ultrafast; Sol low is the model default and implementation delegation explicitly requests ultrafast. Native workflow runner forwards model/thinking but not fastMode; step speed must not be claimed verified. A new uninterrupted timing remains pending.
+- Ordinary baseline reset1281be4 removed only the Edit control for the next rehearsal; Feedback and the working Export were preserved. Final onstage reset must restore both requested seeded bugs after tests, then leave intake disarmed.
