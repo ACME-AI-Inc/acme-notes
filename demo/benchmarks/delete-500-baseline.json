@@ -41,7 +41,16 @@
     "destination_completed_at": "2026-11-12T23:46:38.111Z",
     "destination_duration_ms": 490,
     "intake_armed": false,
-    "repair_requested": false
+    "repair_requested": false,
+    "workflow_run": "clawder_workflow_run_KRx50P82edvzS337bA4a3OJj",
+    "workflow_started_at": "2026-11-12T23:47:00Z",
+    "step_started_at": "2026-11-12T23:47:32Z",
+    "workflow_finished_at": "2026-11-12T23:47:45Z",
+    "status": "succeeded",
+    "result": "nothing_to_do: authoritative intake disarmed",
+    "no_incident_or_handoff_or_repair": true,
+    "source_to_workflow_seconds": 27.14,
+    "source_to_noop_seconds": 72.14
   },
   "destination_preflight": {
     "mocked_valid_delivery": true,
