@@ -38,7 +38,7 @@ const browserCheck = `async page => {
     await page.getByRole('button', { name: 'Edit', exact: true }).click();
   };
   await login();
-  await page.getByRole('button', { name: 'Meeting notes', exact: true }).click();
+  await page.locator('[data-note="meeting"]').click();
   if (expectUnresponsive) {
     if (prepare) throw new Error('Baseline check cannot inject a repair');
     await page.evaluate(() => {
