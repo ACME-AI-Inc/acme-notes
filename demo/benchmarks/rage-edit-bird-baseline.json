@@ -68,7 +68,16 @@
     "source_timestamp": "2026-11-13T00:44:02.786Z",
     "source_event_uuid": "01a1d25c-8ae6-7430-b4bc-ecaac5f85bca",
     "source_to_destination_completed_seconds": 5.878,
-    "intake_armed": false
+    "intake_armed": false,
+    "native_workflow": {
+      "id": "clawder_workflow_run_NwW7lvq9BVo9sYXOb0ZrV6kD",
+      "started_at": "2026-11-13T00:45:01Z",
+      "step_started_at": "2026-11-13T00:45:43Z",
+      "finished_at": "2026-11-13T00:45:57Z",
+      "status": "succeeded",
+      "result": "nothing_to_do: preparation hold=true, armed=false",
+      "no_admission_handoff_or_customer_action": true
+    }
   },
   "destination_mocked_tests": {
     "edit_rageclick_delivered": true,
@@ -108,5 +117,11 @@
     "metadata_verified": true,
     "url": "https://eu.posthog.com/project/347307/replay/01a1d25c-43c0-72ce-8c00-a1f36e88a9f2",
     "rage_frame_reviewed": false
+  },
+  "bird_delete_baseline": {
+    "actual_http_status": 500,
+    "crash_screen": true,
+    "note_preserved_after_reload": true,
+    "request_id": "c492a53d-1dc3-42cb-96fa-7305c370057b"
   }
 }
