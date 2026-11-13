@@ -30,7 +30,7 @@ The final rehearsal is complete; the operator restores both seeds and confirms t
 
 Send this to **Sherlock Logs** only when ready for the real repair:
 
-> ARM DEMO acme-meetup-20261112 through 2026-11-13T03:30:00Z (7:30 p.m. Pacific). Clear the preparation hold and set armed=true with armed_at=now. Monitor fresh non-QA info@pandelis.me activity on https://bird.composal.com. Do not pin intake to the isolated rehearsal person/session; resolve and verify the actual source person/session for each incident, then bind it to that case. Enable edit-button-unresponsive and note-delete-reference-error, auto_disarm_after_admission=false, baseline_sha=null. Diagnose Edit only from actual native $rageclick on #edit-note, at least3 correlated Edit attempts and zero editor-open outcomes through source+5seconds; no survey required. Patch McFix may reproduce, make the minimal binding or Delete repair, obtain Captain Nitpick’s exact-head review, create/merge the PR after approval/checks, then verify matching production. Sherlock owns hosted acceptance. Penny may use the approved editing-support emails for verified Edit admission/resolution only. Delete emails/credits remain off. Ignore historical, QA and preflight signals. Confirm the armed state and expiry before I click.
+> ARM DEMO acme-meetup-20261112 through 2026-11-13T03:30:00Z (7:30 p.m. Pacific). Clear the preparation hold and set armed=true with armed_at=now. Monitor fresh non-QA info@pandelis.me activity on https://bird.composal.com. Do not pin intake to the isolated rehearsal person/session; resolve and verify the actual source person/session for each incident, then bind it to that case. Enable edit-button-unresponsive and note-delete-reference-error, auto_disarm_after_admission=false, baseline_sha=null. Diagnose Edit only from actual native $rageclick on #edit-note, at least3 correlated Edit attempts and zero editor-open outcomes through source+5seconds; no survey required. Patch McFix may use Sherlock’s verified evidence directly, make the minimal binding or Delete repair, obtain Captain Nitpick’s exact-head review, create/merge the PR after approval/checks, then verify matching production. Sherlock owns hosted acceptance. Penny may use the approved editing-support emails for verified Edit admission/resolution only. Delete emails/credits remain off. Ignore historical, QA and preflight signals. Confirm the armed state and expiry before I click.
 
 Do not arm while preparing or before the audience should see the broken baseline.
 
@@ -52,7 +52,7 @@ code, one reviews releases, and one looks after customers. I'll be the customer.
    not a claimed population anomaly or Replay Vision result.
 4. Show handoffs to Patch McFix and Penny Perks. Penny sends a proactive acknowledgment:
    **“We noticed an issue with editing your notes and are investigating.”**
-5. Patch reproduces the behavior and fixes only the existing button’s action:
+5. Patch uses Sherlock’s verified evidence and fixes only the existing button’s action:
 
    ```diff
    - data-action="edit-note-pending"

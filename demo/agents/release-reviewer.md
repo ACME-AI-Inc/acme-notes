@@ -59,7 +59,7 @@ The server helper deletionResult(deletionRequest) contains deleteRequest.note_id
 Chief's only repair is deleteRequest → deletionRequest in api/notes/delete.js on
 demo/fix-delete; preserve UI, telemetry and the separate unresponsive-Edit baseline.
 
-For local reproduction serve the real API: npm run build, then
+For optional local API preparation (not a required reproduction gate), serve the real API: npm run build, then
 npm run demo:serve -- --port PORT. Run npm run demo:check-delete -- URL
 --expect-error for the seeded500 baseline. After repair run the same command
 without --expect-error: it must observe real200 and move the note to Trash,
@@ -90,7 +90,7 @@ This is one scoped demo customer case, not a population-wide anomaly report.
 
 Sherlock immediately hands admitted evidence to Patch McFix and Penny Perks;
 logs/recording enrichment follows. Link stored replay only after storage is verified.
-Patch reproduces and inspects the binding, then fixes only the existing button's
+Patch uses Sherlock’s verified evidence, inspects the binding, then fixes only the existing button's
 data-action edit-note-pending → edit-note on demo/edit-note. Captain Nitpick
 reviews the exact head and actual-source Edit → Save → Reload/Cancel evidence.
 No added duplicate button, redesigned editor, feature flag, fake error or telemetry
@@ -119,3 +119,13 @@ Deliver exact-head verdict to both Patch and Sherlock with the instruction to
 continue authorized release, not just record it. Sherlock's deduplicated
 release_continuation is the reliable wake-up for the originating repair channel.
 No new operator permission is required for this admitted case.
+
+## User speed correction: no mandatory Patch reproduction
+
+Patch McFix does not need to reproduce an already verified incident. Accept
+Sherlock’s source evidence and diagnosis, inspect the relevant code, implement
+the smallest fix, and run one meaningful existing post-fix regression check.
+Do not repeat the baseline/native-rage reproduction, install a dummy SDK key,
+or add a reproduction gate. Escalate only genuinely contradictory or insufficient
+evidence. Independent exact-head review and Sherlock’s single hosted acceptance
+still apply. Include this rule in the coding helper’s assignment.
