@@ -16,7 +16,8 @@ try {
     await page.getByRole('textbox', { name: 'Password', exact: true }).fill('acme-demo');
     await page.getByRole('button', { name: 'Sign in', exact: true }).click();
     await page.evaluate(() => window.posthog?.register({ is_test_run: true, verification_run: 'delete-smoke-check' }));
-    await page.getByRole('button', { name: 'Meeting notes', exact: true }).click();
+    await page.locator('[data-note="meeting"]').click();
+    const selectedTitle=await page.locator('#title').innerText();
     await page.getByRole('button', { name: 'Note menu', exact: true }).click();
     const pending = page.waitForResponse(r => new URL(r.url()).pathname === '/api/notes/delete' && r.request().method() === 'POST');
     await page.getByRole('button', { name: 'Delete', exact: true }).click();
@@ -30,15 +31,16 @@ try {
       if (await page.evaluate(() => window.__acme.state.trash.includes('meeting'))) throw new Error('Failed request deleted the note');
       await page.getByRole('button', { name: 'Back to notes', exact: true }).click();
       await page.reload();
-      await page.getByRole('button', { name: 'Meeting notes', exact: true }).waitFor({ state: 'visible' });
+      await page.locator('[data-note="meeting"]').waitFor({ state: 'visible' });
+      if (await page.locator('[data-note="meeting"]').innerText() !== selectedTitle) throw new Error('Failed request changed the note title');
       return { actualStatus: 500, crashScreen: true, failedNotePreservedAfterReload: true, requestId: body.request_id };
     }
     if (body.deleted !== true || body.note_id !== 'meeting') throw new Error('Invalid server deletion acknowledgment');
     await page.getByText('Note moved to Trash', { exact: true }).waitFor({ state: 'visible' });
     await page.reload();
-    if (await page.getByRole('button', { name: 'Meeting notes', exact: true }).count()) throw new Error('Deleted note returned after reload');
+    if (await page.locator('[data-note="meeting"]').count()) throw new Error('Deleted note returned after reload');
     await page.getByRole('button', { name: /^Trash/ }).click();
-    await page.getByText('Meeting notes', { exact: true }).waitFor({ state: 'visible' });
+    await page.getByText(selectedTitle, { exact: true }).waitFor({ state: 'visible' });
     return { actualStatus: 200, deletedAfterAcknowledgment: true, persistedInTrashAfterReload: true, requestId: body.request_id };
   }`))
   console.log(expectError ? 'Baseline Delete500 crash and note-preservation check passed.' : 'Hosted Delete → Trash → Reload acceptance passed.')

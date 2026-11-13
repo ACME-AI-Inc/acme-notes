@@ -12,6 +12,22 @@ try {
   await page.goto(url)
   await page.getByLabel('Email', { exact: true }).fill('bird-test@example.invalid')
   await page.getByLabel('Password', { exact: true }).fill('test')
+  // WCAG normal-text contrast for the actual primary button in both themes.
+  const contrast = await page.evaluate(() => {
+    const linear = value => { const x = value / 255; return x <= .04045 ? x / 12.92 : ((x + .055) / 1.055) ** 2.4 }
+    const luminance = color => { const rgb = color.match(/[\d.]+/g).slice(0, 3).map(Number).map(linear); return rgb[0] * .2126 + rgb[1] * .7152 + rgb[2] * .0722 }
+    const ratios = {}
+    for (const theme of ['light', 'dark']) {
+      document.documentElement.dataset.theme = theme
+      const style = getComputedStyle(document.querySelector('.btn.primary'))
+      const a = luminance(style.color), b = luminance(style.backgroundColor)
+      ratios[theme] = (Math.max(a, b) + .05) / (Math.min(a, b) + .05)
+    }
+    document.documentElement.dataset.theme = 'light'
+    return ratios
+  })
+  for (const [theme, ratio] of Object.entries(contrast)) assert.ok(ratio >= 4.5, `${theme} primary contrast ${ratio} < 4.5`)
+  console.log('Primary button contrast:', contrast)
   await page.getByRole('button', { name: 'Sign in', exact: true }).click()
   await page.getByRole('heading', { name: 'A little closer to the wild', exact: true, level: 2 }).waitFor()
   assert.equal(await page.locator('.field-bird').count(), 1)

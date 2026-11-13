@@ -16,6 +16,7 @@
         --text: #273c30;
         --muted: #64725f;
         --accent: #38664b;
+        --on-accent: #ffffff;
         --accent-soft: #dce8ce;
         --chip: #e3e7d7;
         --shadow: 0 8px 28px rgba(0, 0, 0, 0.14);
@@ -28,6 +29,7 @@
         --text: #f0f2e5;
         --muted: #b3c3ae;
         --accent: #a5d297;
+        --on-accent: #17261f;
         --accent-soft: #304b38;
         --chip: #2c4033;
         --shadow: 0 8px 28px rgba(0, 0, 0, 0.5);
@@ -56,7 +58,7 @@
       .header h1 { font-size: 18px; margin: 0; flex: 1; font-weight: 650; }
       .btn { border: 1px solid var(--line); background: var(--bg); border-radius: 8px; padding: 7px 12px; display: inline-flex; align-items: center; gap: 6px; font-size: 14px; }
       .btn:hover { background: var(--chip); }
-      .btn.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+      .btn.primary { background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
       .doc { padding: 36px 56px; max-width: 760px; }
       .doc h2 { margin: 0 0 14px; font-size: 28px; letter-spacing: -0.01em; }
       .doc p { margin: 0 0 14px; color: var(--text); }
