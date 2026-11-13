@@ -2,7 +2,7 @@
   "organization": "acme",
   "customer_email": "info@pandelis.me",
   "sender": "Acme Notes <support@demo.composal.ai>",
-  "production_url": "https://acme-notes-phi.vercel.app",
+  "production_url": "https://bird.composal.com",
   "repository": "ACME-AI-Inc/acme-notes",
   "posthog_project": 347307,
   "vercel_project": "prj_zvcpKZtTKTQPNEmR3ytDBgFSb9IF",
@@ -20,7 +20,7 @@
   },
   "monitor": {
     "workflow": "workflows/acme-demo-monitor.lobster",
-    "digest": "bd7e4235ce1886f5011b3f86b5fc6fc300bb442b06cdcad82702a87b25f48d3f",
+    "digest": "55a576b0b0f9f12eeee5d753daf07012c3dac9f4edd0e390094cd605b079f4ec",
     "trigger": "clawder_workflow_trigger_NJYlREBvnzA6nHxqydOb57k8",
     "kind": "event",
     "subscription": "webhook-9146fa10e4c4410dc30a22165e3e061c",
@@ -32,7 +32,7 @@
     "minute_polling_enabled": false,
     "armed_at_setup": false,
     "cases": [
-      "missing-edit-button",
+      "edit-button-unresponsive",
       "note-delete-reference-error"
     ]
   },
@@ -101,5 +101,26 @@
     "signal_scout": "Sherlock Logs",
     "release_reviewer": "Captain Nitpick",
     "customer_success": "Penny Perks"
+  },
+  "legacy_production_url": "https://acme-notes-phi.vercel.app",
+  "seeded_edit": {
+    "trigger": "Open second entry > click Edit4times quickly",
+    "event": "$rageclick",
+    "selector": "#edit-note",
+    "minimum_correlated_attempts": 3,
+    "editor_outcome_window_seconds": 5,
+    "fingerprint": "edit-button-unresponsive",
+    "requires_feedback": false,
+    "repair": "index.html: button data-action edit-note-pending -> edit-note",
+    "branch": "demo/edit-note",
+    "full_repair_rehearsal_completed": false
+  },
+  "domain": {
+    "hostname": "bird.composal.com",
+    "dns_pr": "https://github.com/ComposalAI/vex/pull/4168",
+    "dns_merge_sha": "0aa1a6be421929bec2eea9beae156a2fef559c14",
+    "dns_cname": "c2427c058274f096.vercel-dns-016.com",
+    "https_verified": true,
+    "dns_checks_passed": 6
   }
 }

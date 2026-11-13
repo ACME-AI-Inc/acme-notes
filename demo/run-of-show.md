@@ -1,6 +1,6 @@
-# Acme Notes: tonight's operating script
+# Fieldnotes: tonight's operating script
 
-Production: https://acme-notes-phi.vercel.app
+Production: https://bird.composal.com
 Customer: **info@pandelis.me**. Any password works; this is a browser-local demo account.
 Sender: **Acme Notes <support@demo.composal.ai>**, PostHog EU project **347307**.
 
@@ -9,7 +9,7 @@ The team: **Sherlock Logs** monitors product signals; **Patch McFix** writes cod
 
 ## Open these tabs
 
-- [Acme Notes](https://acme-notes-phi.vercel.app)
+- [Fieldnotes](https://bird.composal.com)
 - [Sherlock Logs](https://composal.com/acme/agent/acme-signal-scout)
 - [Patch McFix](https://composal.com/acme/agent/e2e-github-discovery-20261112)
 - [Captain Nitpick](https://composal.com/acme/agent/acme-release-reviewer)
@@ -18,10 +18,10 @@ The team: **Sherlock Logs** monitors product signals; **Patch McFix** writes cod
 - [GitHub PRs](https://github.com/ACME-AI-Inc/acme-notes/pulls), [Vercel](https://vercel.com/composal/acme-notes), and the customer's inbox.
 
 Hard-refresh production after the latest deployment. Sign in as info@pandelis.me
-and open Meeting notes. Keep the same browser profile throughout the demo so the
+and open At the water’s edge. Keep the same browser profile throughout the demo so the
 app UUID, session, feedback and email identity stay linked.
 
-The final onstage baseline must have **no Edit button**, and **Delete returns500 with the crash screen**. Export works.
+The final onstage baseline must have **a visible Edit button that does nothing**, and **Delete returns500 with the crash screen**. Export works.
 During rehearsal, check the current source/release before expecting either bug. Both working behaviors
 are prepared; each incident needs a tiny source fix. Native PostHog webhooks drive the monitor; minute polling is disabled.
 Its durable gate remains `armed=false` until the operator arms it.
@@ -30,7 +30,7 @@ Its durable gate remains `armed=false` until the operator arms it.
 
 Send this to **Sherlock Logs** only when ready for the real repair:
 
-> ARM DEMO acme-meetup-20261112. Set the durable armed timestamp to now. Monitor only fresh non-QA evidence for info@pandelis.me in EU PostHog project 347307 and composal/acme-notes. Resolve the customer's current non-QA production session. Handle missing Edit feedback and note_delete_failed with operation note_delete, actual http_status500 and fingerprint note-delete-reference-error as distinct incidents. Allow both sequential scenes for45minutes, auto_disarm_after_admission=false, baseline_sha=null so the approved first fix does not block the second scene. Patch McFix may make the minimal patch, request independent exact-SHA review, open a PR, merge after approval and successful checks, and verify the matching production deployment. Penny Perks may use the approved editing-support workflows only for the editing case after its identity and resolution gates pass. Never process historical QA or preflight evidence.
+> ARM DEMO acme-meetup-20261112 for45minutes. Clear the preparation hold and set armed=true with armed_at=now. Resolve info@pandelis.me’s current non-QA production session on https://bird.composal.com; do not reuse the old Vercel-origin person/session. Enable edit-button-unresponsive and note-delete-reference-error, auto_disarm_after_admission=false, baseline_sha=null. Diagnose Edit only from actual native $rageclick on #edit-note, at least3 correlated Edit attempts and zero editor-open outcomes through source+5seconds; no survey required. Patch McFix may reproduce, make the minimal binding or Delete repair, obtain Captain Nitpick’s exact-head review, create/merge the PR after approval/checks, then verify matching production. Sherlock owns hosted acceptance. Penny may use the approved editing-support emails for verified Edit admission/resolution only. Delete emails/credits remain off. Ignore historical, QA and preflight signals. Confirm the armed state and expiry before I click.
 
 Do not arm while preparing or before the audience should see the broken baseline.
 
@@ -39,37 +39,40 @@ Do not arm while preparing or before the audience should see the broken baseline
 “This is Acme Notes. Four agents operate it: one watches the product, one writes
 code, one reviews releases, and one looks after customers. I'll be the customer.”
 
-## Scene 1: I cannot edit my notes
+## Scene 1: the Edit button does nothing
 
-1. In Meeting notes, double-click the text two or three times. Look for Edit.
-   Say: “I made a note, but now I can't change it.”
-2. Click **Feedback** beside **Share** in the top bar, select **I need help**, then **Next**.
-   Enter **“I can't edit my notes. There's no Edit button. Can you add one?”**
-   and **Send feedback**. Complete both questions; the first answer alone is not a case.
-3. Show Scout receiving the webhook and correlating the response with the UUID,
-   session, attempted-edit event, application log and recording. There is no minute poll.
-4. Show native handoffs to Engineer and Penny Perks. The inbox receives one
-   PostHog acknowledgment; that does not mean the fix has shipped.
-5. Engineer adds only this control to the note header:
+1. Open **At the water’s edge** (the second field-journal entry). Click **Edit**
+   **four times quickly in the same spot**, roughly within one second. Nothing opens.
+   Say: “I’m trying to edit this note. The button looks fine, but it does nothing.”
+2. Do not submit feedback. Show the actual PostHog **$rageclick** and the four
+   **note_edit_attempted** events; there is no **note_editor_opened** outcome.
+3. Sherlock verifies the exact control, customer, session and release. It waits for
+   the five-second outcome window, then concludes **“Edit button is unresponsive”**
+   from repeated attempts with no editor. This is a scoped customer diagnosis,
+   not a claimed population anomaly or Replay Vision result.
+4. Show handoffs to Patch McFix and Penny Perks. Penny sends a proactive acknowledgment:
+   **“We noticed an issue with editing your notes and are investigating.”**
+5. Patch reproduces the behavior and fixes only the existing button’s action:
 
-   ```html
-   <button class="btn" data-action="edit-note">Edit</button>
+   ```diff
+   - data-action="edit-note-pending"
+   + data-action="edit-note"
    ```
 
-6. Reviewer reads the diff and tests and approves the exact head SHA. Engineer
-   opens/merges the PR after that decision and checks. GitHub main deploys to Vercel.
-7. Show the deployed SHA. Refresh, reopen Meeting notes, **Edit**, change title
-   and content, **Save changes**, then reload and reopen the same note.
-8. Scout records hosted acceptance; only then may Penny Perks request the
-   resolution email. A synthetic $20 demo credit may be recorded in its ledger.
-   It is not real money, a billing discount or an entitlement shown in this app.
+6. Captain Nitpick reviews that exact head and actual-source test evidence. Patch
+   opens/merges the PR after approval/checks. GitHub main deploys to Vercel.
+7. Show the matching deployment, refresh bird.composal.com, reopen the same entry,
+   **Edit → change title/content → Save changes → Reload**. The edits persist.
+8. Sherlock records hosted acceptance. Penny then requests one verified resolution
+   email. An explicitly authorized synthetic demo credit is ledger-only, not money.
 
-Narration: “The monitor supplies evidence. The engineer writes the patch. A
-separate agent reviews what ships. Then we retry the customer's original action.”
+Optional feedback still works through the permanent Feedback button beside Share.
+A completed “The Edit button does nothing” response corroborates this same Edit
+incident and never starts a duplicate repair/email. It is not required for detection.
 
 ## Scene 2: an error fixed before I complain
 
-1. Keep the demo armed. Open **Meeting notes → … → Delete**.
+1. Keep the demo armed. Open **At the water’s edge → … → Delete**.
 2. The actual server request fails with **HTTP500**. The entire app changes to a
    large red500 and **“The shredder shredded itself.”** Your note remains safe.
    Say: “This time I won't file feedback. The product reports the crash itself.”
@@ -82,7 +85,7 @@ separate agent reviews what ships. Then we retry the customer's original action.
 5. Engineer changes **`deleteRequest` → `deletionRequest`** in
    `api/notes/delete.js`, on `demo/fix-delete`. Reviewer approves that exact SHA;
    Engineer opens/merges its PR after review/checks and verifies the matching deployment.
-6. Refresh and retry **Meeting notes → … → Delete**. The actual API must return200,
+6. Refresh and retry **At the water’s edge → … → Delete**. The actual API must return200,
    the note moves to **Trash**, and it stays there after reload. Show Trash.
 7. Scout records hosted acceptance of Delete → Trash → Reload. Delete emails and
    credits are off until separate accurate copy is configured; editing-support copy

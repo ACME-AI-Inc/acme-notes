@@ -43,37 +43,40 @@ and source configuration are never served. The ingestion token is public by desi
 The intended Vercel project is <https://vercel.com/composal/acme-notes>, linked to
 `ACME-AI-Inc/acme-notes` on `main`. This checkout is linked to that team project.
 
-## Meetup baseline: the missing Edit button
+## Meetup baseline: the Edit button does nothing
 
-The complaint is: **"I can't edit my notes. There's no Edit button."**
-The editor, Save/Cancel, validation, account-scoped browser persistence, and
-editing telemetry are already implemented. The baseline intentionally omits the
-button that opens the editor. The live engineer's source patch is one header control:
+Production: **https://bird.composal.com** (Fieldnotes, the Acme Notes demo).
+Click the visible **Edit** button four times quickly. It does nothing; the SDK
+captures an actual native `$rageclick` and each `note_edit_attempted`.
+Sherlock Logs correlates at least three attempts on `#edit-note` with no
+`note_editor_opened` outcome through five seconds, then diagnoses unresponsive editing.
+No feedback submission is required. Penny Perks handles the support email.
 
-```html
-<button class="btn" data-action="edit-note">Edit</button>
+The prebuilt editor, Save/Cancel, validation and browser persistence already work.
+Patch McFix’s live source repair changes only the existing button binding:
+
+```diff
+- data-action="edit-note-pending"
++ data-action="edit-note"
 ```
 
-The existing delegated click handler opens the editor. No additional event
-listener, persistence implementation, or feature flag is needed. A successful
-repair means editing a note, saving, and reloading to verify the changes persist.
-See [the run of show](demo/run-of-show.md) and [agent instructions](demo/agents/chief-engineer.md).
-
-Preparation check for this intentionally incomplete baseline:
+Captain Nitpick reviews the exact head before merge. Sherlock verifies the actual
+hosted Edit → Save → Reload journey after the matching deployment. See
+[the operating script](demo/run-of-show.md) for the ARM prompt and both scenes.
 
 ```bash
-npm run demo:check -- https://acme-notes-phi.vercel.app --prepare
+# Actual seeded control and native SDK rageclick; no injected repair:
+npm run demo:check -- https://bird.composal.com --expect-unresponsive
+# Isolated DOM preparation proves the prebuilt editor only:
+npm run demo:check -- https://bird.composal.com --prepare
+# After the agent's source fix; no preparation flags:
+npm run demo:check -- https://bird.composal.com
 ```
 
-After the agent adds the button, verify the real deployed control with:
-
-```bash
-npm run demo:check -- https://acme-notes-phi.vercel.app
-```
-
-The check uses Playwright CLI through npm and an isolated synthetic demo account.
-Preparation mode inserts the future button only into the test browser's DOM.
-Release acceptance requires the real source button and never injects a control.
+These use isolated QA accounts excluded from live intake. The second seeded case
+is **… → Delete**: a real500 and full-page paper-jam crash, preserving the note.
+Local app and API: `npm run build`, then `npm run demo:serve -- --port 8792`.
+Canonical DNS is Terraform-managed in [Vex PR #4168](https://github.com/ComposalAI/vex/pull/4168).
 
 The verified PostHog sender for project 347307 is
 **Acme Notes <support@demo.composal.ai>**. DNS is Terraform-managed in

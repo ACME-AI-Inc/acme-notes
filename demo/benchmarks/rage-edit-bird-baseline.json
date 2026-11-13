@@ -1,0 +1,112 @@
+{
+  "scenario": "edit-button-unresponsive",
+  "production_url": "https://bird.composal.com",
+  "baseline_sha": "ec5b4da071cd0edea066c15aeb89c615fd0c922c",
+  "deployment": "dpl_2XJ7hHEMGvsSBzgh6cjy4A69BHbA",
+  "native_event": "$rageclick",
+  "selector": "#edit-note",
+  "repair": "index.html: existing button data-action edit-note-pending -> edit-note",
+  "local_qa_diagnostic": {
+    "source_event_uuid": "01a1d255-bd1a-7fda-ba6c-9c269138093f",
+    "actual_scout_provider_queries_succeeded": true,
+    "matching_attempt_count": 4,
+    "editor_opened_count": 0,
+    "diagnosis": "Edit button is unresponsive",
+    "source_excluded_qa": true,
+    "incident_admitted": false
+  },
+  "hosted_qa": {
+    "visibleEditUnresponsive": true,
+    "actualNativeRageclick": true,
+    "attemptCount": 4,
+    "sourceUuid": "01a1d25b-87eb-7fb7-ab2b-49a44474ad8d",
+    "nativeProperties": {
+      "elText": "Edit",
+      "chain": "button.btn:attr__class=\"btn\"attr__data-action=\"edit-note-pending\"attr__data-note-id=\"meeting\"attr__id=\"edit-note\"attr_id=\"edit-note\"nth-child=\"3\"nth-of-type=\"2\"text=\"Edit\";header.header:attr__class=\"header\"nth-child=\"1\"nth-of-type=\"1\";main.main:attr__class=\"main\"nth-child=\"2\"nth-of-type=\"1\";div.app:attr__class=\"app\"nth-child=\"1\"nth-of-type=\"1\";div:attr__id=\"root\"attr_id=\"root\"nth-child=\"1\"nth-of-type=\"1\";body:nth-child=\"2\"nth-of-type=\"1\"",
+      "sessionId": "01a1d25b-7df4-7b7c-94d1-38815c1abeb9"
+    },
+    "distinctId": "574aedab-9cb2-4044-9eb6-10b8a6d06578",
+    "sourceButtonVerified": true,
+    "injectedRepair": false
+  },
+  "prearm_normal_customer_transport": {
+    "before": {
+      "email": "info@pandelis.me",
+      "distinctId": "17a85a9c-d380-44aa-9d86-f22a1eca02bb",
+      "sessionId": "01a1d25c-43c0-72ce-8c00-a1f36e88a9f2",
+      "isTest": false
+    },
+    "origin": "https://bird.composal.com",
+    "events": [
+      {
+        "event": "note_edit_attempted",
+        "uuid": "01a1d25c-8a3c-748a-b6d7-6b81684e3b9f"
+      },
+      {
+        "event": "note_edit_attempted",
+        "uuid": "01a1d25c-8a8f-785e-a623-aceaa67d72a3"
+      },
+      {
+        "event": "$rageclick",
+        "uuid": "01a1d25c-8ae6-7430-b4bc-ecaac5f85bca"
+      },
+      {
+        "event": "note_edit_attempted",
+        "uuid": "01a1d25c-8aea-7f0d-89ca-0128e5a9e6e4"
+      },
+      {
+        "event": "note_edit_attempted",
+        "uuid": "01a1d25c-8b4a-7f89-88e5-86b5ffa00e5f"
+      }
+    ],
+    "editorVisible": 0,
+    "overflow": false
+  },
+  "destination_receipt": {
+    "completed_at": "2026-11-13T00:44:08.664Z",
+    "execution_ms": 550,
+    "source_timestamp": "2026-11-13T00:44:02.786Z",
+    "source_event_uuid": "01a1d25c-8ae6-7430-b4bc-ecaac5f85bca",
+    "source_to_destination_completed_seconds": 5.878,
+    "intake_armed": false
+  },
+  "destination_mocked_tests": {
+    "edit_rageclick_delivered": true,
+    "qa_ignored": true,
+    "unrelated_rage_target_ignored": true
+  },
+  "prebuilt_editor_preparation": {
+    "save_reload_cancel_passed": true,
+    "isolated_dom_repair": true,
+    "release_acceptance": false
+  },
+  "workflow_digest": "55a576b0b0f9f12eeee5d753daf07012c3dac9f4edd0e390094cd605b079f4ec",
+  "workflow_active_no_stale_binding": true,
+  "full_rage_edit_repair_rehearsal_completed": false,
+  "dns": {
+    "pr": "https://github.com/ComposalAI/vex/pull/4168",
+    "merge_sha": "0aa1a6be421929bec2eea9beae156a2fef559c14",
+    "apply": {
+      "added": 1,
+      "changed": 0,
+      "destroyed": 0
+    },
+    "public_checks_passed": 6,
+    "https_status": 200,
+    "tls_verified": true,
+    "http_redirect_status": 308
+  },
+  "support_acknowledgment": {
+    "copy": "We noticed an issue with editing your notes and are investigating.",
+    "workflow": "01a1d177-4980-0000-bf67-e2d6fa7d923c",
+    "copy_only_draft_tested_with_mocked_sends": true,
+    "published": true,
+    "new_customer_email_sent_during_preparation": false
+  },
+  "stored_replay": {
+    "session_id": "01a1d25c-43c0-72ce-8c00-a1f36e88a9f2",
+    "metadata_verified": true,
+    "url": "https://eu.posthog.com/project/347307/replay/01a1d25c-43c0-72ce-8c00-a1f36e88a9f2",
+    "rage_frame_reviewed": false
+  }
+}

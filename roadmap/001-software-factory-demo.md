@@ -5,7 +5,7 @@
 **Owner:** Pandelis and Codex
 **Created:** 2026-11-12
 **Updated:** 2026-11-12
-**Related:** https://github.com/ACME-AI-Inc/acme-notes ; https://acme-notes-phi.vercel.app ; https://eu.posthog.com/project/347307
+**Related:** https://github.com/ACME-AI-Inc/acme-notes ; https://bird.composal.com ; https://eu.posthog.com/project/347307
 
 ---
 
@@ -422,3 +422,38 @@ Acceptance:
   PostHog browser failure, server exception, acme-notes-api log and genuine Vercel
   serverless500 log. Normal customer pre-arm Delete also reached the native
   destination successfully; no repair requested. See demo/benchmarks/delete-500-baseline.json.
+
+### Native rage-click Edit scene and bird.composal.com (2026-11-12 Pacific)
+
+- User replaced the missing-button scenario with a visible but unresponsive Edit
+  button. Stable id edit-note, per-click note_edit_attempted, explicit SDK
+  rageclicktrue. The real repair changes only the button action attribute
+  edit-note-pending → edit-note; no fabricated rage event or JavaScript exception.
+- Local actual-source baseline: four real clicks emitted native $rageclick, four
+  edit attempts and zero editor-open outcomes for5.5seconds. Isolated prebuilt
+  editor Save/Reload/Cancel preparation passed; never counted as release acceptance.
+- Sherlock provider-tested the actual stored QA source/correlation: four matching
+  attempts and zero openings. It independently concluded Edit is unresponsive,
+  explicitly excluded QA and left HOLD/disarmed with no case/handoffs/customer sends.
+- Native destination adds real $rageclick/Edit candidates, with exact selector and
+  outcome verification in Scout. Existing Delete500 and completed survey routes
+  remain; optional feedback deduplicates into edit-button-unresponsive. Staged
+  mocked tests passed valid delivery and rejection of QA/unrelated targets.
+- Active acknowledgment copy now truthfully says “We noticed an issue with editing
+  your notes and are investigating.” It no longer claims a feedback submission.
+  Tested all3 nodes with mocked sends; published with zero in-flight runs and no
+  recipient/trigger changes or actual new email. Resolution copy already fits.
+- Concurrent upstream PR3 bird-journal work was preserved by ordinary merge
+  ec5b4da; smoke tests use stable meeting note ID. No reset or force-push.
+- Canonical https://bird.composal.com attached to Vercel production; Terraform
+  PR4168 merged0aa1a6be421929bec2eea9beae156a2fef559c14, apply1create/0change/0destroy,
+  postapply no-op. DNS6/6; ordinary HTTPS200/TLSvalid, HTTP308. Parent curl also200.
+  PostHog survey URL, role settings and operator script moved to bird; next ARM
+  resolves its fresh-origin identity/session and clears preparation hold explicitly.
+
+- Hosted bird baseline passed actual visible no-op Edit and native rage event,4
+  attempts/no editor, source SHAec5b4da. New-origin normal info@ pre-arm signal
+  reached native destination in5.878seconds; source UUID
+  01a1d25c-8ae6-7430-b4bc-ecaac5f85bca, stored recording metadata verified.
+  Hosted isolated prebuilt Edit/Save/Reload/Cancel preparation also passed.
+  See demo/benchmarks/rage-edit-bird-baseline.json; no full live repair timing claimed.
