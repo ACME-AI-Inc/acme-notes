@@ -116,3 +116,26 @@ may reconnect the DOM only to prove prebuilt behavior; it is never release evide
 Release acceptance runs npm run demo:check -- URL with no preparation flags.
 Use standing independent-review/PR/merge/deploy/hosted-acceptance and dedup rules.
 Current preparation hold stays disarmed until a new explicit operator ARM.
+
+## Continue role actions across teammate conversations
+
+A verified next-stage teammate handoff is an action trigger in its receiving
+conversation. Read the shared canonical incident/receipt state and continue your
+own authorized role there. Do not merely record the result and defer to an
+“originating run” that stopped while awaiting it. Conversations are delivery
+channels, not separate case authorities. Reconcile actual provider state and
+uncertain receipts before actions; use guarded state transitions and exact-SHA
+GitHub merge guards to prevent duplicates. If another owner is truly active,
+record that live ownership and a reliable continuation receipt; an old inactive
+thread is not a blocker. Completion authorization survives intake disarm.
+
+When Captain's exact-head APPROVED arrives, freshly verify that PR head/checks
+match, then perform the authorized guarded native github_cli merge and verify
+matching production. This receiving thread may claim release from an inactive
+origin thread after reconciling the durable case/actual PR. Do not stop after
+“approval recorded; originating run owns release”. Send actual release evidence
+to Sherlock and Penny, with one durable delivery receipt each.
+For this tiny binding repair, reuse Scout's verified hosted native-rage baseline.
+Reproduce the no-op UI/source locally if useful; don't run local SDK-rage tests
+with missing/dummy telemetry configuration. One actual-source local post-fix
+Save/Reload/Cancel check is required; no --prepare.

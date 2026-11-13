@@ -457,3 +457,26 @@ Acceptance:
   01a1d25c-8ae6-7430-b4bc-ecaac5f85bca, stored recording metadata verified.
   Hosted isolated prebuilt Edit/Save/Reload/Cancel preparation also passed.
   See demo/benchmarks/rage-edit-bird-baseline.json; no full live repair timing claimed.
+
+### Final rehearsal, routing correction and stage reset
+
+- Final rage Edit case acme-edit-20261113-01a1d2646bcd completed via PR4, independently
+  approved c2c35c1, merge22e1c60. Vercel READY after11.130seconds from merge.
+  Sherlock actual-source hosted Edit/Save/Reload/Cancel passed01:02:06UTC.
+- PostHog logged acknowledgment00:55:49.196UTC and resolution01:02:51.647UTC to
+  info@pandelis.me, one syntheticUSD20 ledger row; inbox arrival not confirmed.
+- This was an assisted run: Captain’s verdict arrived in a separate Chief thread
+  and was recorded without continuing the inactive original release run. Root
+  corrected role continuation rules and asked Scout to relay one deduplicated
+  release_continuation. Chief then merged/deployed, Scout accepted and Penny
+  resolved without further operator prompts. Don’t call it an uninterrupted run.
+- Coder low-reasoning Sol push89.344seconds; actual local post-fix persistence
+  passed. Local native-rage baseline failed from missing/dummy SDK configuration;
+  real production native evidence was verified. Updated policy avoids repeating
+  local native SDK tests without real config.
+- Source→hosted acceptance566.898seconds; source→resolution612.545seconds, including
+  the routing correction. See demo/benchmarks/final-rage-rehearsal.json.
+- Root restores only the Edit action attribute via ordinary commit after customer
+  resolution; genuine Delete500 remains seeded. Stage ARM will cover both cases
+  until7:30p.m.Pacific, exact named customer/canonical domain, fresh non-QA signals,
+  no isolated rehearsal-session pin, no baseline SHA pin, sequential cases allowed.

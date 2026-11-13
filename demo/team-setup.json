@@ -81,6 +81,18 @@
       "synthetic_credit_count": 1,
       "acknowledgment_inbox_confirmed": true,
       "resolution_inbox_confirmed": false
+    },
+    "rage_edit_final": {
+      "status": "completed_with_operator_routing_correction",
+      "pull_request": "https://github.com/ACME-AI-Inc/acme-notes/pull/4",
+      "merge_sha": "22e1c60c80eb5911ceb7c87a309f03fcd717cab0",
+      "hosted_acceptance": true,
+      "acknowledgment_sent": true,
+      "resolution_sent": true,
+      "inbox_delivery_confirmed": false,
+      "synthetic_credit_count": 1,
+      "source_to_hosted_acceptance_seconds": 566.898,
+      "source_to_resolution_sent_seconds": 612.545
     }
   },
   "seeded_delete": {
@@ -113,7 +125,7 @@
     "requires_feedback": false,
     "repair": "index.html: button data-action edit-note-pending -> edit-note",
     "branch": "demo/edit-note",
-    "full_repair_rehearsal_completed": false
+    "full_repair_rehearsal_completed": true
   },
   "domain": {
     "hostname": "bird.composal.com",

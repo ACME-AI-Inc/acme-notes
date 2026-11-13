@@ -382,7 +382,7 @@
             <header class="header">
               <h1 id="title">${esc(note.title)}</h1>
               <button class="btn" id="theme-toggle" aria-label="Toggle theme">${state.theme === 'dark' ? 'Light mode' : 'Dark mode'}</button>
-              ${state.view === 'notes' && !state.editor ? `<button class="btn" id="edit-note" data-action="edit-note" data-note-id="${note.id}">Edit</button>` : ''}
+              ${state.view === 'notes' && !state.editor ? `<button class="btn" id="edit-note" data-action="edit-note-pending" data-note-id="${note.id}">Edit</button>` : ''}
               <button class="btn" id="share-open">Share</button>
               <button class="btn" id="feedback-open">Feedback</button>
               <button class="btn" id="menu" aria-label="Note menu" ${state.deleting ? 'disabled' : ''}>${state.deleting ? 'Deleting…' : '&#8943;'}</button>

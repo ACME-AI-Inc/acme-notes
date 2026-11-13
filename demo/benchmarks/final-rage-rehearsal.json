@@ -1,0 +1,80 @@
+{
+  "run_id": "acme-final-rage-rehearsal-20261112",
+  "incident_id": "acme-edit-20261113-01a1d2646bcd",
+  "status": "completed_with_operator_routing_correction",
+  "uninterrupted_autonomous_run": false,
+  "production_url": "https://bird.composal.com",
+  "source_event": "01a1d264-6bcd-7cf9-9ac6-2dfa8d369bf6",
+  "source_timestamp": "2026-11-13T00:52:39.102Z",
+  "native_destination_completed_at": "2026-11-13T00:52:44.382Z",
+  "workflow": "clawder_workflow_run_oxzN46gGbZG8t2DxMn3kaWKq",
+  "workflow_started_at": "2026-11-13T00:53:00Z",
+  "workflow_step_started_at": "2026-11-13T00:53:45Z",
+  "admission_completed_at": "2026-11-13T00:55:02Z",
+  "workflow_spent_tokens": 430472,
+  "verified_evidence": {
+    "actual_native_rageclick": true,
+    "edit_attempts": 4,
+    "editor_opened": 0
+  },
+  "coder": {
+    "model": "openai/gpt-6.1-sol",
+    "effective_reasoning": "low",
+    "ultrafast_requested": true,
+    "effective_fastmode_exposed": false,
+    "started_at": "2026-11-13T00:55:35.656Z",
+    "pushed_at": "2026-11-13T00:57:05Z",
+    "start_to_push_seconds": 89.344,
+    "local_postfix_acceptance": true,
+    "local_native_rage_baseline": false,
+    "local_baseline_limitation": "Missing local PostHog config, then dummy config did not emit native rageclick. Real production baseline independently verified by Scout."
+  },
+  "pr": "https://github.com/ACME-AI-Inc/acme-notes/pull/4",
+  "approved_head": "c2c35c103676afa52a51a2a86cee16ad94213213",
+  "independent_review_approved": true,
+  "merge_sha": "22e1c60c80eb5911ceb7c87a309f03fcd717cab0",
+  "merged_at": "2026-11-13T01:00:59Z",
+  "routing_correction": {
+    "problem": "Reviewer approval arrived in a separate Chief conversation, was recorded, and deferred to an inactive originating run.",
+    "fix": "All role settings now continue authorized stages in the receiving conversation; Scout forwards one deduplicated release_continuation into the existing repair channel.",
+    "operator_assistance": true,
+    "continuation_accepted_at": "2026-11-13T01:00:40Z",
+    "downstream_continuations_verified": true
+  },
+  "deployment": {
+    "id": "dpl_AGzxvamcKSBJWUTcRMuXHTMR3cSU",
+    "sha": "22e1c60c80eb5911ceb7c87a309f03fcd717cab0",
+    "ready_at": "2026-11-13T01:01:10.130Z",
+    "creation_to_ready_seconds": 8.547,
+    "building_to_ready_seconds": 7.702,
+    "merge_to_ready_seconds": 11.13
+  },
+  "hosted_acceptance": {
+    "owner": "Sherlock Logs",
+    "command": "npm run demo:check -- https://bird.composal.com",
+    "started_at": "2026-11-13T01:02:01Z",
+    "finished_at": "2026-11-13T01:02:06Z",
+    "exit_code": 0,
+    "actual_source": true,
+    "prepare": false,
+    "save_reload_cancel": true,
+    "noncustomer_qa": true
+  },
+  "email": {
+    "recipient": "info@pandelis.me",
+    "acknowledgment_invocation": "01a1d267-50cc-0000-a9ec-f611d7671453",
+    "acknowledgment_sent_at": "2026-11-13T00:55:49.196Z",
+    "resolution_invocation": "01a1d26d-c303-0000-05eb-27bba787552c",
+    "resolution_sent_at": "2026-11-13T01:02:51.647Z",
+    "inbox_delivery_confirmed": false,
+    "synthetic_credit_count": 1,
+    "synthetic_credit_usd": 20,
+    "real_billing_action": false
+  },
+  "elapsed": {
+    "source_to_admission_seconds": 142.898,
+    "source_to_hosted_acceptance_seconds": 566.898,
+    "source_to_resolution_sent_seconds": 612.545
+  },
+  "delete500_preserved": true
+}

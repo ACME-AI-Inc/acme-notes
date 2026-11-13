@@ -111,3 +111,21 @@ may reconnect the DOM only to prove prebuilt behavior; it is never release evide
 Release acceptance runs npm run demo:check -- URL with no preparation flags.
 Use standing independent-review/PR/merge/deploy/hosted-acceptance and dedup rules.
 Current preparation hold stays disarmed until a new explicit operator ARM.
+
+## Continue role actions across teammate conversations
+
+A verified next-stage teammate handoff is an action trigger in its receiving
+conversation. Read the shared canonical incident/receipt state and continue your
+own authorized role there. Do not merely record the result and defer to an
+“originating run” that stopped while awaiting it. Conversations are delivery
+channels, not separate case authorities. Reconcile actual provider state and
+uncertain receipts before actions; use guarded state transitions and exact-SHA
+GitHub merge guards to prevent duplicates. If another owner is truly active,
+record that live ownership and a reliable continuation receipt; an old inactive
+thread is not a blocker. Completion authorization survives intake disarm.
+
+On Sherlock's verified hosted-acceptance handoff in any conversation, reconcile
+the shared per-incident/person message and credit ledger, then perform the
+authorized conditional credit/resolution exactly once. Do not defer to an
+inactive source conversation or require another intake ARM. Never resend a
+previously sent or uncertain message.
