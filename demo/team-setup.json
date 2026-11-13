@@ -25,7 +25,7 @@
     "kind": "event",
     "subscription": "webhook-9146fa10e4c4410dc30a22165e3e061c",
     "native_webhook": "webhook_19d0119fdd890304b81a3948f23de015",
-    "enabled": true,
+    "enabled": false,
     "daily_limit": 100,
     "run_budget_tokens": 150000,
     "run_budget_seconds": 300,
@@ -36,7 +36,9 @@
       "note-delete-reference-error"
     ],
     "intake_mode": "fast_demo_webhook_signal",
-    "independent_intake_evidence_queries": false
+    "independent_intake_evidence_queries": false,
+    "paused": true,
+    "armed": false
   },
   "posthog": {
     "feedback_survey": "01a1d173-8f97-0000-50e6-7169f2bdd37f",
@@ -48,19 +50,22 @@
     "support_emails_enabled": true,
     "customer_emails_sent_during_setup": false,
     "legacy_relay_destination": "01a1d17f-6a18-0000-2510-ae0a699dbe85",
-    "legacy_relay_enabled": false
+    "legacy_relay_enabled": false,
+    "webhook_destination_enabled": false,
+    "support_email_requests_paused": true,
+    "support_email_disable_limitation": "Workflow disable tool not enabled on connection and browser control unavailable; no trigger edits or permission bypass attempted."
   },
   "webhook_credential_expires_at": null,
   "full_live_repair_rehearsal_completed": true,
   "legacy_relay_credential_expires_at": "2026-11-13T20:40:23Z",
   "model": {
-    "implementation": "openai/gpt-6.1-sol",
+    "implementation": "openai/gpt-6-luna",
     "reasoning": "low",
-    "speed": "ultrafast",
+    "speed": "off",
     "pr_publication": "Chief native github_cli, not helper shell gh",
-    "native_team_sessions_ultrafast_confirmed": 13,
+    "native_team_sessions_ultrafast_confirmed": 0,
     "workflow_step_fast_mode": "Runner forwards model/thinking only; ultrafast unverified",
-    "workflow_requested": "openai/gpt-6.1-terra",
+    "workflow_requested": "openai/gpt-6-luna",
     "workflow_reasoning": "low",
     "workflow_actual_inference_model_independently_verified": false
   },
@@ -139,5 +144,6 @@
     "dns_cname": "c2427c058274f096.vercel-dns-016.com",
     "https_verified": true,
     "dns_checks_passed": 6
-  }
+  },
+  "demo_status": "ended; autonomous work paused until explicit user resume"
 }

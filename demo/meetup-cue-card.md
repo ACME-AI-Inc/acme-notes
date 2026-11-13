@@ -1,5 +1,7 @@
 # Fieldnotes live demo cue card
 
+**Demo ended. Automations and intake are paused; explicit user resume is required.**
+
 Open https://bird.composal.com and sign in as **info@pandelis.me**; any password works.
 Final stage ARM is intended to last through **7:30 p.m. Pacific**. No new ARM prompt
 is needed once the operator confirms it is armed.

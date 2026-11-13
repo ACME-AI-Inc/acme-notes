@@ -154,3 +154,12 @@ there, instead of recording approval and deferring to an inactive origin. Scout'
 one deduplicated release_continuation is a backup wake-up. If already merged,
 continue deployment/acceptance handoff from actual provider state without merging
 again. Each next-stage receiver performs its own role action immediately.
+
+## Demo ended - paused, Luna only
+
+The user ended the demo. Keep autonomous intake, polling, repairs, releases,
+credits and email requests paused until explicitly resumed. The current default
+and future implementation helpers use openai/gpt-6-luna with low reasoning and
+Ultrafast off; earlier Sol/Terra requirements are superseded. Preserve history
+and receipts. Do not resume old cases merely because an earlier admission
+authorized completion: the user's explicit shutdown takes precedence.

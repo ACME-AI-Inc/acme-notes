@@ -497,3 +497,18 @@ Acceptance:
 - No exposed immediate native webhook delivery switch was found. Platform sweep
   and isolated workflow startup overhead remain; no runtime deployment was made.
   Faster total duration has not been measured by another live repair.
+
+### Post-demo shutdown
+
+User ended the demo and requested Luna and paused automation. Four agent defaults
+set to openai/gpt-6-luna low, saved conversation overrides switched via /model,
+Ultrafast disabled via /fast off. Finished helper histories remain historical.
+Native event trigger paused, PostHog outbound webhook disabled, durable intake
+disarmed/held and saved monitor changed to Luna/no-op without reactivating its
+trigger. No polling inventory remains active. All role instructions now forbid
+autonomous repairs/releases/email requests until explicit resume.
+
+PostHog support-email workflow toggles remain enabled: dedicated disable tool is
+not enabled on this connection, and native browser control is unavailable. Their
+requesting agent is held; no new send requests are authorized. Definitions and
+receipts are preserved; no unsupported trigger edits or access bypass attempted.
