@@ -480,3 +480,20 @@ Acceptance:
   resolution; genuine Delete500 remains seeded. Stage ARM will cover both cases
   until7:30p.m.Pacific, exact named customer/canonical domain, fresh non-QA signals,
   no isolated rehearsal-session pin, no baseline SHA pin, sequential cases allowed.
+
+### Live fast-demo simplification
+
+- User waived intake evidence verification. Minimal monitor now reads the compact
+  gate once, checks delivered native envelope/payload scope/time/non-QA/dedup,
+  persists admission once, and returns for immediate teammate dispatch. No intake
+  SQL, correlation, replay/log enrichment or baseline reproduction. Claims are
+  labeled demo webhook signals rather than independently verified observations.
+- Digest b0c1bbb6252d998232caa4ea75982ff3e1619dbbbeb3e5f018605a24169746d7,
+  same trigger rebound active/stale_atnull. Stage ARM window and both cases retained.
+- Chief receiving an exact-head approval performs release directly; Scout sends
+  one deduplicated continuation backup. No deferral to an inactive originating run.
+  Independent review, guarded merge, existing post-fix test and hosted acceptance
+  remain. Missing person metadata may be resolved by Penny in parallel.
+- No exposed immediate native webhook delivery switch was found. Platform sweep
+  and isolated workflow startup overhead remain; no runtime deployment was made.
+  Faster total duration has not been measured by another live repair.

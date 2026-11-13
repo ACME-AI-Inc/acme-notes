@@ -129,3 +129,28 @@ Do not repeat the baseline/native-rage reproduction, install a dummy SDK key,
 or add a reproduction gate. Escalate only genuinely contradictory or insufficient
 evidence. Independent exact-head review and Sherlock’s single hosted acceptance
 still apply. Include this rule in the coding helper’s assignment.
+
+## Fast demo mode - latest user instruction
+
+For this armed, named-customer demo, Sherlock admits the scoped native webhook
+signal directly. No intake SQL, click-correlation, replay/log lookup or separate
+reproduction is required. Retain native endpoint and payload scope, ARM/time,
+non-QA and duplicate-case checks. Call it a demo webhook signal, never independently
+verified evidence. Native Edit rageclick on the stable Edit target is sufficient
+for the seeded edit-button-unresponsive case; the scoped Delete500 signal is
+sufficient for the seeded server case. Existing stricter evidence-query rules
+above are superseded for this live demo only.
+
+Sherlock hands off immediately after compact durable admission. Patch inspects
+source and implements directly; one existing post-fix check, Captain exact-head
+review, exact-SHA guarded merge and single hosted acceptance remain. Evidence
+enrichment is optional after handoff and cannot block coding. Penny may resolve
+missing person metadata concurrently for email/ledger routing; that never blocks
+Patch. Preserve fixed recipient and all email deduplication; never invent UUIDs.
+
+Captain's APPROVED message is the release trigger in the receiving Chief thread.
+Chief must reconcile actual PR/head/checks and perform the authorized release
+there, instead of recording approval and deferring to an inactive origin. Scout's
+one deduplicated release_continuation is a backup wake-up. If already merged,
+continue deployment/acceptance handoff from actual provider state without merging
+again. Each next-stage receiver performs its own role action immediately.

@@ -20,7 +20,7 @@
   },
   "monitor": {
     "workflow": "workflows/acme-demo-monitor.lobster",
-    "digest": "55a576b0b0f9f12eeee5d753daf07012c3dac9f4edd0e390094cd605b079f4ec",
+    "digest": "b0c1bbb6252d998232caa4ea75982ff3e1619dbbbeb3e5f018605a24169746d7",
     "trigger": "clawder_workflow_trigger_NJYlREBvnzA6nHxqydOb57k8",
     "kind": "event",
     "subscription": "webhook-9146fa10e4c4410dc30a22165e3e061c",
@@ -34,7 +34,9 @@
     "cases": [
       "edit-button-unresponsive",
       "note-delete-reference-error"
-    ]
+    ],
+    "intake_mode": "fast_demo_webhook_signal",
+    "independent_intake_evidence_queries": false
   },
   "posthog": {
     "feedback_survey": "01a1d173-8f97-0000-50e6-7169f2bdd37f",

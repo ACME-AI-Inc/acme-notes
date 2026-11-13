@@ -12,8 +12,8 @@ Vercel and the customer inbox in adjacent tabs.
    and Penny looks after the customer. I’m the customer.”
 2. **Rage-click Edit four times quickly in the same spot.**
    “The button looks fine, but nothing happens. I’m not submitting a ticket.”
-3. **Show Sherlock.** It receives the PostHog webhook, checks repeated Edit attempts
-   with no editor opening, and diagnoses an unresponsive button. Show the session
+3. **Show Sherlock.** It receives the scoped PostHog rageclick webhook and immediately routes the
+   seeded unresponsive-button demo case, without extra evidence queries. Show the session
    and native $rageclick in PostHog; allow roughly one minute for native dispatch.
 4. **Show the team.** Patch receives the evidence and fixes the button binding.
    Captain independently reviews that exact commit. Penny sends one proactive email.
@@ -40,3 +40,8 @@ matching Vercel release, hosted editing persistence and both PostHog emails pass
 It took about10minutes including a corrected cross-conversation release stall.
 Build publication took11seconds after merge. Don’t promise an instant full repair;
 start with Edit and use the waiting time to show the evidence and agent handoffs.
+
+Fast demo mode is now active: intake provider queries and Patch reproduction are
+skipped. Captain’s approval directly resumes the receiving Chief thread; Scout
+forwards one backup continuation. Remaining platform scheduling/startup overhead
+has not been removed. The revised end-to-end duration has not been remeasured.
