@@ -360,6 +360,7 @@
             <header class="header">
               <h1 id="title">${esc(note.title)}</h1>
               <button class="btn" id="theme-toggle" aria-label="Toggle theme">${state.theme === 'dark' ? 'Light mode' : 'Dark mode'}</button>
+              ${state.view === 'notes' && !state.editor ? `<button class="btn" id="edit-note" data-action="edit-note-pending" data-note-id="${note.id}">Edit</button>` : ''}
               <button class="btn" id="share-open">Share</button>
               <button class="btn" id="feedback-open">Feedback</button>
               <button class="btn" id="menu" aria-label="Note menu" ${state.deleting ? 'disabled' : ''}>${state.deleting ? 'Deleting…' : '&#8943;'}</button>
@@ -454,6 +455,8 @@
         document.body.appendChild(r); setTimeout(() => r.remove(), 600)
       }, true)
       document.getElementById('root').addEventListener('click', (event) => {
+        const editButton = event.target.closest('#edit-note')
+        if (editButton) track('note_edit_attempted', { operation: 'note_edit', control_id: 'edit-note', note_id: editButton.dataset.noteId, edit_button_present: true })
         if (event.target.closest('[data-action="edit-note"]')) startEditing()
       })
       window.__acme = { state, navigate, BUILD, startEditing }

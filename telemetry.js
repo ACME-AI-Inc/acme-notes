@@ -66,6 +66,7 @@ if (enabled) {
       // This demo is also exercised by browser agents; keep their sessions visible.
       opt_out_useragent_filter: true,
       autocapture: true,
+      rageclick: true,
       capture_pageview: true,
       capture_pageleave: true,
       capture_performance: true,

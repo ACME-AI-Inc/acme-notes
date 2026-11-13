@@ -2,6 +2,7 @@ import { spawnSync } from 'node:child_process'
 
 const target = process.argv.find((arg) => /^https?:\/\//.test(arg)) || 'http://127.0.0.1:8080'
 const prepare = process.argv.includes('--prepare')
+const expectUnresponsive = process.argv.includes('--expect-unresponsive')
 const session = `acme-editor-check-${process.pid}`
 
 function cli(...args) {
@@ -14,10 +15,11 @@ function cli(...args) {
   return output
 }
 
-// Preparation may insert the future button into this isolated browser's DOM.
+// Preparation may reconnect the existing button only in this isolated browser's DOM.
 // Acceptance runs must use the actual source button from the deployed app.
 const browserCheck = `async page => {
   const prepare = ${JSON.stringify(prepare)};
+  const expectUnresponsive = ${JSON.stringify(expectUnresponsive)};
   const login = async () => {
     await page.getByRole('textbox', { name: 'Email', exact: true }).fill('editor-smoke-check@acme.example');
     await page.getByRole('textbox', { name: 'Password', exact: true }).fill('acme-demo');
@@ -26,14 +28,42 @@ const browserCheck = `async page => {
   };
   const openEditor = async () => {
     if (prepare) {
-      if (await page.getByRole('button', { name: 'Edit', exact: true }).count()) throw new Error('Preparation baseline already has an Edit button');
-      await page.evaluate(() => document.querySelector('.header').insertAdjacentHTML('beforeend', '<button class="btn" data-action="edit-note">Edit</button>'));
+      await page.evaluate(() => {
+        const button = document.getElementById('edit-note');
+        if (!button || button.dataset.action !== 'edit-note-pending') throw new Error('Expected the unresponsive source Edit button');
+        button.dataset.action = 'edit-note';
+      });
     }
     if (!await page.getByRole('button', { name: 'Edit', exact: true }).count()) throw new Error('Missing Edit button in the deployed source');
     await page.getByRole('button', { name: 'Edit', exact: true }).click();
   };
   await login();
   await page.getByRole('button', { name: 'Meeting notes', exact: true }).click();
+  if (expectUnresponsive) {
+    if (prepare) throw new Error('Baseline check cannot inject a repair');
+    await page.evaluate(() => {
+      window.__editCheckEvents = [];
+      window.posthog.set_config({ before_send: event => {
+        if (['$rageclick','note_edit_attempted','note_editor_opened'].includes(event.event)) window.__editCheckEvents.push({ event: event.event, uuid: event.uuid, properties: event.properties });
+        return event;
+      }});
+    });
+    const edit = page.getByRole('button', { name: 'Edit', exact: true });
+    await edit.waitFor({ state: 'visible' });
+    for (let i = 0; i < 4; i++) await edit.click({ delay: 40 });
+    await page.waitForFunction(() => window.__editCheckEvents.some(e => e.event === '$rageclick'), null, { timeout: 10000 });
+    await page.waitForTimeout(5500);
+    if (await page.getByRole('form', { name: 'Edit note', exact: true }).count()) throw new Error('Seeded Edit unexpectedly opened an editor');
+    return await page.evaluate(() => {
+      const events = window.__editCheckEvents;
+      const rage = events.find(e => e.event === '$rageclick');
+      const attempts = events.filter(e => e.event === 'note_edit_attempted');
+      if (events.some(e => e.event === 'note_editor_opened') || attempts.length < 3) throw new Error('Expected repeated attempts with no editor-open event');
+      return { visibleEditUnresponsive: true, actualNativeRageclick: true, attemptCount: attempts.length,
+        sourceUuid: rage.uuid, nativeProperties: { elText: rage.properties.$el_text, elements: rage.properties.$elements, chain: rage.properties.$elements_chain, sessionId: rage.properties.$session_id },
+        distinctId: window.posthog.get_distinct_id(), sourceButtonVerified: true, injectedRepair: false };
+    });
+  }
   await openEditor();
   await page.getByRole('textbox', { name: 'Title', exact: true }).fill('Edited meeting smoke check');
   await page.getByRole('textbox', { name: 'Note content', exact: true }).fill('The saved note survives a reload.');
@@ -52,7 +82,7 @@ try {
   cli('open', target)
   const result = cli('run-code', browserCheck)
   console.log(result)
-  console.log(prepare ? 'Preparation passed. The source Edit button is still intentionally absent.' : 'Hosted Edit → Save → Reload acceptance passed.')
+  console.log(expectUnresponsive ? 'Visible unresponsive Edit and actual native rageclick baseline passed.' : prepare ? 'Preparation passed. The source Edit button is still intentionally unresponsive.' : 'Hosted Edit → Save → Reload acceptance passed.')
 } catch (error) {
   console.error(error.message)
   process.exitCode = 1
