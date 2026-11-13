@@ -19,7 +19,8 @@ const check = `async page => {
     const original=window.acmeTelemetry.error;
     window.acmeTelemetry.error=(error,context)=>{window.__exportErrors.push({message:error.message,name:error.name,context});original(error,context)};
   });
-  await page.getByRole('button',{name:'Meeting notes',exact:true}).click();
+  await page.locator('[data-note="meeting"]').click();
+  const expectedMarkdown=await page.evaluate(()=>{ const note=NOTES.find(note=>note.id==='meeting'); return '# '+note.title+'\\n\\n'+noteText(note)+'\\n'; });
   const openMenu=()=>page.locator('#menu').click();
   if (${JSON.stringify(prepare)}) {
     await openMenu(); await page.locator('#export').click();
@@ -34,7 +35,7 @@ const check = `async page => {
   const download=await downloaded;
   const stream=await download.createReadStream();const chunks=[];for await(const chunk of stream)chunks.push(chunk);
   const markdown=Buffer.concat(chunks).toString('utf8');
-  if(download.suggestedFilename()!=='meeting.md' || !markdown.startsWith('# Meeting notes') || !markdown.includes('Weekly sync, Tuesday.') || !markdown.includes('- Owner: Priya'))throw new Error('Download did not contain the selected note as Markdown');
+  if(download.suggestedFilename()!=='meeting.md' || markdown!==expectedMarkdown || !markdown.startsWith('# At the water’s edge\\n\\n') || !markdown.includes('Mallards are dabbling ducks') || !markdown.includes('- Date & time: __________'))throw new Error('Download did not contain the selected note as Markdown');
   if((await page.evaluate(()=>window.__exportErrors)).length)throw new Error('Successful export logged an exception');
   return {markdownDownloaded:true,filename:download.suggestedFilename(),sourceFixVerified:${JSON.stringify(!prepare)},preparationOnly:${JSON.stringify(prepare)}};
 }`

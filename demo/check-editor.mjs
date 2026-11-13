@@ -33,7 +33,7 @@ const browserCheck = `async page => {
     await page.getByRole('button', { name: 'Edit', exact: true }).click();
   };
   await login();
-  await page.getByRole('button', { name: 'Meeting notes', exact: true }).click();
+  await page.locator('[data-note="meeting"]').click();
   await openEditor();
   await page.getByRole('textbox', { name: 'Title', exact: true }).fill('Edited meeting smoke check');
   await page.getByRole('textbox', { name: 'Note content', exact: true }).fill('The saved note survives a reload.');
