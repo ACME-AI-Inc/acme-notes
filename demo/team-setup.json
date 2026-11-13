@@ -20,7 +20,7 @@
   },
   "monitor": {
     "workflow": "workflows/acme-demo-monitor.lobster",
-    "digest": "b0c1bbb6252d998232caa4ea75982ff3e1619dbbbeb3e5f018605a24169746d7",
+    "digest": "a3c9b45e71684a26ceb87a783f49690d2c76923bcc681be3d66cb12b87fa4408",
     "trigger": "clawder_workflow_trigger_NJYlREBvnzA6nHxqydOb57k8",
     "kind": "event",
     "subscription": "webhook-9146fa10e4c4410dc30a22165e3e061c",
@@ -59,7 +59,10 @@
     "speed": "ultrafast",
     "pr_publication": "Chief native github_cli, not helper shell gh",
     "native_team_sessions_ultrafast_confirmed": 13,
-    "workflow_step_fast_mode": "Runner forwards model/thinking only; ultrafast unverified"
+    "workflow_step_fast_mode": "Runner forwards model/thinking only; ultrafast unverified",
+    "workflow_requested": "openai/gpt-6.1-terra",
+    "workflow_reasoning": "low",
+    "workflow_actual_inference_model_independently_verified": false
   },
   "rehearsals": {
     "export_assisted": {

@@ -1,0 +1,21 @@
+{
+  "test": "QA noop comparison, identical minimal workflow prompt/payload; no admission or customer actions",
+  "terra_configured": {
+    "run": "clawder_workflow_run_1waWZvnzemv7S3LnBrkYxX2j",
+    "started_at": "2026-11-13T01:29:07Z",
+    "finished_at": "2026-11-13T01:29:33Z",
+    "seconds": 26
+  },
+  "sol_configured": {
+    "run": "clawder_workflow_run_72RjWL9GMvE4sxL5b3goNkYX",
+    "started_at": "2026-11-13T01:30:30Z",
+    "finished_at": "2026-11-13T01:30:46Z",
+    "seconds": 16
+  },
+  "actual_per_inference_model_proof": false,
+  "limitation": "Workflow model labels are configured values; public conversation reports its default. Native history reads denied; no bypass attempted. Timings do not establish a model speed comparison.",
+  "final_requested_model": "openai/gpt-6.1-terra",
+  "reasoning": "low",
+  "arm_preserved": true,
+  "trigger_active_not_stale": true
+}
